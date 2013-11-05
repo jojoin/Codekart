@@ -16,7 +16,7 @@
     <!body!>
 
     <script type="text/javascript">
-      global =  [%=global%]; //前端全局数据
+      global =  [%=global%];
     </script>
 
     <!src_script!><!--js文件-->
