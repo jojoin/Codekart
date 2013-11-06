@@ -15,6 +15,14 @@ global.require_core = function(name){
 };
 
 
+/**
+ * 加载程序模块
+ */
+global.require_model = function(name){
+    return require(config.path.model+'/'+ name+'.js');
+};
+
+
 
 /**
  * 加载库

@@ -56,21 +56,11 @@ exports.match = function(urlpath,met){
  * 搜索文件查找路由处理程序
  */
 function searchDeal(pathname,met){
-    var arg = pathname.split("/"); //格式 /api/user/get
-    if(met=='api'){
-        var ctrl = arg[2]
-            , func = arg[3];
-        if(ctrl&&func){
-            return {
-                controller: ctrl,
-                action: func
-            };
-        }else{
-            return false
-        }
-    }else if(met=='binary'){
-        var ctrl = arg[2]
-            , func = arg[3];
+    //pathname 格式 /api/user/get
+    var arg = pathname.split("/")
+        , ctrl = path.dirname(pathname).replace('/api','')
+        , func = arg[arg.length-1];
+    if(met=='api' || met=='binary'){
         if(ctrl&&func){
             return {
                 controller: ctrl,

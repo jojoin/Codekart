@@ -1,6 +1,8 @@
 
 _note/
 .idea/
+static/js
+static/css
 
-/.htaccess
-/.gitignore
+.htaccess
+.gitignore

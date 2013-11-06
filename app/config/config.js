@@ -52,7 +52,8 @@ exports = global.config = {
         app: b+'/app', //程序目录
         framework: b+'/framework', //框架核心目录
 
-        api: b+'/app/api', //程序目录
+        api: b+'/app/api', //api
+        model: b+'/app/model', //
 
         js: b+'/app/stuff/js', //前端js文件
         less: b+'/app/stuff/less', //前端less文件
