@@ -1,4 +1,4 @@
-![codetank](http://jojoin.com:81/cssimg/codetanklogo.png)
+![codetank](http://jojoin.com:81/img/codetanklogo.png)
 
 一个基于Node.js的前后端一体化网站开发框架。
 
