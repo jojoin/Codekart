@@ -42,17 +42,23 @@ exports.ready = function(mop,callback){
  * 读取tpl备用文件并合并
  */
 function mergerTpl(mop,callback){
-    var leg = mop.tpls.length
+    var leg = mop.tpl_pre.length
         , name = []
+        , path = []
         , pre_tpl = [];
-    for(var i=0;i<leg;i++){ //文件名数组
-        name.push(config.path.tpl+'/'+mop.tpls[i].file+'.tpl');
-    }
-    file.readFileList(name,false,function(err,data){
-        for(var k=0;k<leg;k++){
-            pre_tpl.push(mop.tpls[k].name+":'"+compress(data[k])+"'");
+    for(var k in mop.tpl_pre){ //文件名数组
+        var one = mop.tpl_pre[k];
+        for(var x in one){
+            name.push(x);
+            path.push(config.path.tpl+'/'+one[x]+'.tpl');
+            break;
         }
-        pre_tpl = 'Tpls={'+pre_tpl.join(',')+'};';
+    }
+    file.readFileList(path,false,function(err,data){
+        for(var k=0;k<leg;k++){
+            pre_tpl.push(name[k]+":'"+compress(data[k])+"'");
+        }
+        pre_tpl = 'tpls={'+pre_tpl.join(',')+'};'; //前端js全局变量tpls
         callback(pre_tpl);
     });
 }

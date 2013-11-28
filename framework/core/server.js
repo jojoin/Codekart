@@ -105,9 +105,9 @@ function dealwithRequest(request, response, met){
  *  请求服务路由，静态文件服务，数据接口服务，web接口
  */
 function route(request,response,met){
+    //console.log(met);
     if(met=='static') server_static.render(request,response);
-    else if(met=='api') server_api.render(request,response);
-    else if(met=='binary') server_binary.render(request,response);
+    else if(met=='api'||met=='binary') server_api.render(request,response);
     else if(met=='view') server_view.render(request,response);
 }
 

@@ -58,7 +58,7 @@ exports.match = function(urlpath,met){
 function searchDeal(pathname,met){
     //pathname 格式 /api/user/get
     var arg = pathname.split("/")
-        , ctrl = path.dirname(pathname).replace('/api','')
+        , ctrl = path.dirname(pathname) //.replace('/api','').replace('/binary','')
         , func = arg[arg.length-1];
     if(met=='api' || met=='binary'){
         if(ctrl&&func){

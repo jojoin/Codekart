@@ -17,10 +17,10 @@ exports = global.config = {
     },
 
     version: '10221', //程序版本号 用于更新改版后的 js css 客户端缓存
-    route: true,  //是否开启默认路由匹配（在未定义的情况下，搜索文件查找处理程序）
+    route: true,  //是否开启默认路由匹配（在未定义url处理程序的情况下，搜索文件位置查找处理程序）
     cluster: false,  //是否开启多核及守护进程
-    compiled: true,  //是否总是编译html、js、css等页面文件（debug使用）
-    compress: false,   //是否压缩js、css文件（比较耗时，debug推荐关闭）
+    compiled: true,  //是否总是编译html、js、css等页面文件（比较耗时，debug时使用）
+    compress: false,   //是否压缩js、css文件（比较耗时，debug时关闭）
     expires: 60*60*24,  //静态文件缓存时间
 
     //mysql数据库配置（需要安装node-mysql模块）
@@ -33,11 +33,11 @@ exports = global.config = {
 
     //站点配置
     site: {
-        name: '君鉴',
-        motto: '打破常规 透彻本质',
-        intro:'一个优质文章阅读、写作与分享社区。',
-        domain: 'jojoin.com',
-        url: 'http://jojoin.com/',
+        name: 'CodeTank',  //你的网站名称，将被显示成默认网页标题
+        motto: '写得更少 做的更多',
+        intro:'Node.js 前后端一体化 MVC 框架',
+        domain: 'jojoin.com:81',
+        url: 'http://jojoin.com/:81',
         info: ''
     },
 

@@ -84,18 +84,8 @@ global.require_tool = function(name){
 /**
  * 加载api处理程序
  */
-global.require_api = function(name){
-    return require(config.path.app+'/api/'+name+'.js');
-};
-
-
-
-/**
- * 加载二进制处理程序（不对post数据做任何处理）
- * 用户上传文件等等操作
- */
-global.require_binary = function(name){
-    return require(config.path.app+'/binary/'+name+'.js');
+global.require_app = function(name){
+    return require(config.path.app+'/'+name+'.js');
 };
 
 
@@ -106,6 +96,21 @@ global.require_binary = function(name){
 global.require_view = function(name){
     return require(config.path.app+'/view/'+name+'.js');
 };
+
+
+
+/**
+ * 加载配置文件
+ */
+global.require_config = function(name){
+    if(!name) name = 'config'; //默认文件
+    return require(config.path.app+'/config/'+name+'.js');
+};
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 

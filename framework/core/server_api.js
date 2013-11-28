@@ -13,7 +13,7 @@ exports.render = function(request,response){
     if(msg){ //匹配到处理程序，加载
         var conThis = new This(request, response); //本地服务对象
         try{
-            require_api(msg.controller)[msg.action].call(conThis); //加载并调用方法
+            require_app(msg.controller)[msg.action].call(conThis); //加载并调用方法
         }catch (e){
             response.end('{"code":500,"msg":"程序内部错误"}');
         }

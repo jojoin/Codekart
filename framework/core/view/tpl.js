@@ -31,57 +31,75 @@ exports.ready = function(mop,callback){
         return ;
     }
     //console.log(mop.tpl);
-    var leg = mop.tpl.length
-        , file_list = [];
-    for(var i=0;i<leg;i++){ //文件名数组
-        file_list.push(config.path.tpl+'/'+mop.tpl[i].file+'.tpl');
+    var tplAry = {}
+        , file_path_list = [];
+    for(var k in mop.tpl){
+        var one = mop.tpl[k];
+        //console.log(one)
+        for(var x in one){
+            tplAry[x]=''; //
+            file_path_list.push(config.path.tpl+'/'+one[x]+'.tpl');  //添加文件路径
+            break; //仅第一个属性
+        }
     }
 
     //读取多个文件，不合并
+    //console.log(tplAry);
+    //console.log(file_path_list);
 
-    //console.log(file);
-
-    file.readFileList(file_list,{merger:false},function(err,data){
+    file.readFileList(file_path_list,{merger:false},function(err,data){
         //console.log('tpl'+data);
-        var tplEx = addReferenceFile(mop,data);
-        merger(name,tplEx,callback);
+        addReferenceFile(mop,tplAry);
+        //组合tpl
+        //console.log(data);
+        merger(name,tplAry,data,callback);
     });
 };
 
 
 //扩展js和css文件的引用
-function addReferenceFile(mop,data){
-    var tplEx = {}
-        , leg = mop.tpl.length;
-    for(var k=0;k<leg;k++){
-        var id = mop.tpl[k].id || k;
-        tplEx[id] = data[k] || '';
-    }
+function addReferenceFile(mop,tplAry){
     //添加js和css引用
-    tplEx['src_style'] = '<link rel="stylesheet" type="text/css" href="'+mop.cssname+'" />';
-    var script = '';
-    for(var js in mop.jslib){
-        script += '<script type="text/javascript" src="/jslib/'+mop.jslib[js]+'.js"></script>';
+    tplAry['src_style'] = '';
+    tplAry['src_script'] = '';
+    var one = '';
+    //css
+    for(var css in mop.csslib){
+        one = mop.csslib[css];
+        if(one.indexOf('http')!==0){ //判断是否为外部css库
+            one = '/csslib/'+one+'.css';  //本地
+        }
+        tplAry['src_style'] += '<link rel="stylesheet" type="text/css" href="'+one+'" />';
     }
-    script += '<script type="text/javascript" src="'+mop.jsname+'" ></script>';
-    tplEx['src_script'] = script;
-    return tplEx;
+    tplAry['src_style'] = '<link rel="stylesheet" type="text/css" href="'+mop.cssname+'" />';
+    //js
+    for(var js in mop.jslib){
+        one = mop.jslib[js];
+        if(one.indexOf('http')!==0){ //判断是否为外部js库
+            one = '/jslib/'+one+'.js'; //本地
+        }
+        tplAry['src_script'] += '<script type="text/javascript" src="'+one+'"></script>';
+    }
+    tplAry['src_script'] += '<script type="text/javascript" src="'+mop.jsname+'" ></script>';
 }
 
 
 
 //正则替换合并
-function merger(name,tplEx,callback){
-    var  content = '';
-    for(var k in tplEx){
-        var one = tplEx[k];
-        if(k=='0'){ /*html根节点*/
+function merger(name,tplAry,data,callback){
+    var content = ''
+        , n = 0
+        , leg = data.length;
+    for(var k in tplAry){
+        var one = n<leg?data[n]:tplAry[k]; //src_style,src_script
+        if(k=='html'){ /*html根节点*/
             content += one;
         }else{
             var Tstr = wrapLeft+k+wrapRight
                 , rex = new RegExp(Tstr);
             content = content.replace(rex,one+Tstr);
         }
+        n++;
     }
     if(config.compress){ /* 压缩文件 */
         content = compress(content);

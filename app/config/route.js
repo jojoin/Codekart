@@ -14,7 +14,7 @@ var route = require_core('route');
  * （可以将 view 路由到一个默认返回空的处理程序上，达到屏蔽 view 的目的）
  */
 
-route.view({url:'/', name:'home'});  //定义主页
+route.view({url:'/', name:'home'});  //定义主页(必须)
 route.view({url:'/404', name:'404'}); //可以不定义，将自动路由
 route.view({url:'/error', name:'404'}); //重定向error页面到404
 

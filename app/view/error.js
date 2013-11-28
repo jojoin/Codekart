@@ -8,7 +8,7 @@ mop.name.push('error');  //本页面名称赋值，用于递归调用 data() 函
 
 //tpl模板文件 id的值 必须在父级tpl内 有 <!body!> 格式的标签，在 app/stuff/tpl 目录下
 mop.tpl.push(
-    {id:'body',file:'error'}
+    {body:'error'}
 );
 
 //less样式文件，自动编译并组合成less文件，在 app/stuff/less 目录下
