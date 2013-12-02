@@ -102,7 +102,7 @@ var map = exports.map = function(dict,met){
 };
 
 /**
- * 注册gost服务器路由
+ * 注册api服务器路由
  */
 exports.api = function(dict){
     var arg = dict.url.split("/");
