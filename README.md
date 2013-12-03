@@ -1,6 +1,6 @@
-![codetank](http://jojoin.com:81/img/codetanklogo.png)
+![codetank](http://codetank.jojoin.com/img/codetanklogo.png)
 
-[CodeTank](http://jojoin.com:81) 是一个基于 Node.js 的前后端一体化网站开发框架，架构设计部分借鉴了 PHP 框架 [codeigniter](http://codeigniter.org.cn/)，精简、方便、高性能而不失强大。
+[CodeTank](http://codetank.jojoin.com/) 是一个基于 Node.js 的前后端一体化网站开发框架，架构设计部分借鉴了 PHP 框架 [codeigniter](http://codeigniter.org.cn/)，精简、方便、高性能而不失强大。
 
 ```
 • CodeTank 是一个轻量级但功能强大的 Node.js 框架， 
@@ -35,8 +35,8 @@ http://github.com/myworld4059/CodeTank/wiki
 
 ****
 
-####示例站点 
-http://jojoin.com:81
+####CodeTank主页
+http://codetank.jojoin.com/
 
 ****
 
@@ -46,8 +46,9 @@ http://jojoin.com:81
 * 这是一个开源框架，你可以任意修改和使用它（包括但不限于技术研究与分享、开源项目或者商业产品）。
 * 本框架最初来自 君鉴网(http://jojoin.com) 的开发实战和积累，如今你可以在下面的地址找到它并下载和学习使用：
 * ┌─────────────────────────────────────────────────────────────┐
-* │    项目地址：https://github.com/myworld4059/CodeTank
-* │    wiki 地址：https://github.com/myworld4059/CodeTank/wiki
+* │    框架主页：http://codetank.jojoin.com
+* │    托管地址：https://github.com/myworld4059/CodeTank
+* │    wiki地址：https://github.com/myworld4059/CodeTank/wiki
 * └─────────────────────────────────────────────────────────────┘
 * 也欢迎你联系本框架的作者，提出建议或者bug，进行技术交流：
 * ┌─────────────────────────────────────────────────────────────┐

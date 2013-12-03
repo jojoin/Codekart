@@ -46,7 +46,7 @@ require('./app/config/route.js'); //加载url路由
 
 
 //取消下面的注释，则修改默认端口配置
-config.port.http = 81;
+//config.port.http = 81;
 //config.port.websocket = 81;
 
 

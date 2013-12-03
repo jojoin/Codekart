@@ -4,7 +4,7 @@
  */
 
 var path = require('path');
-//向上返回两层
+//向上返回两层，到达框架跟目录
 var b = path.dirname(path.dirname(__dirname)); //codetank文件夹路径
 
 //配置对象（全局）
@@ -12,39 +12,31 @@ exports = global.config = {
 
     //端口监听
     port: {
-        http: 80,
-        websocket: 83
+        http: 90,
+        websocket: 91
     },
 
-    version: '10221', //程序版本号 用于更新改版后的 js css 客户端缓存
+    version: '12031', //程序版本号 用于更新改版后的 js css 客户端缓存
     route: true,  //是否开启默认路由匹配（在未定义url处理程序的情况下，搜索文件位置查找处理程序）
     cluster: false,  //是否开启多核及守护进程
     compiled: true,  //是否总是编译html、js、css等页面文件（比较耗时，debug时使用）
     compress: false,   //是否压缩js、css文件（比较耗时，debug时关闭）
     expires: 60*60*24,  //静态文件缓存时间
 
-    //mysql数据库配置（需要安装node-mysql模块）
-    mysql: {
-        host:'127.0.0.1',
-        database:'jojoin',
-        user:'jojoin',
-        password:'jojoinpass'
-    },
-
     //站点配置
     site: {
-        name: 'CodeTank',  //你的网站名称，将被显示成默认网页标题
-        motto: '写得更少 做的更多',
-        intro:'Node.js 前后端一体化 MVC 框架',
-        domain: 'jojoin.com:81',
-        url: 'http://jojoin.com/:81',
+        name: 'CodeTank',                                                  //你的网站名称，将被显示成默认网页标题
+        motto: '写得更少 做的更多',                                   //网站口号
+        intro:'Node.js 前后端一体化 MVC 框架',              //网站简介
+        domain: 'codetank.jojoin.com',                              //域名
+        url: 'http://codetank.jojoin.com',                              //url
         info: ''
     },
 
 
-    /***************************************************************************\
-     请勿修改下面的配置
-    \***************************************************************************/
+
+
+    /* 如无必要请勿修改下面的配置  */
 
     //路径配置
     path: {
