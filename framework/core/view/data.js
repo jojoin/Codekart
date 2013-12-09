@@ -2,6 +2,8 @@
 
 var object = require_tool('object');
 var json = require_tool('json');
+var config =  require_config();
+var cpath =  require_config('!path');
 
 /**
  * 获取模板页面数据
@@ -10,11 +12,11 @@ var json = require_tool('json');
 exports.ready = function(mop,request,response,callback){
     var dataAry = []
         , step = 0
-        , leg = mop.name.length;
+        , leg = mop.name.length
+        , preData = {};
     for(var i=0;i<leg;i++){ //文件名数组
         var name = mop.name[i]
-            , pageData = require_view(name).data
-            , preData = {};
+            , pageData = require_view(name).data;
         merger(i,pageData);
     }
     //获取单一数据

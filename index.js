@@ -23,37 +23,71 @@
 
 
 
-/**
- * 加载全局配置
- */
-require('./app/config/config.js'); //配置
-
-
 
 /**
  * 加载全局函数
  */
-require('./framework/core/function.js'); //加载全局函数
+require('./framework/function.js');
 
 
 
 /**
- * 加载url路由
+ * 加载url路由规则
  */
-require('./app/config/route.js'); //加载url路由
+require_config('route');
 
 
 
 
-//取消下面的注释，则修改默认端口配置
+//取消下面的注释，可以修改默认端口配置
 //config.port.http = 81;
-//config.port.websocket = 81;
+//config.port.websocket = 82;
 
 
 /**
  * 启动web服务器
  */
 require_core('server').run(); //
+
+
+
+
+/*
+
+
+//////测试
+
+var mysql = require_core('db/mysql');
+var redis = require_core('db/redis');
+
+
+var client = redis.getClient();
+
+//client.select(0);
+//client.set('foo','阿斯达克感觉阿哥');
+//client.set('bar','sdafasdg');
+//client.expire('foo',5);
+
+var result = client.get('foo', function (err, reply) {
+    if(err) console.log(err);
+    console.log(reply);
+    client.save();
+});
+
+
+mysql.query('SELECT * FROM user WHERE id=1 LIMIT 1',function(err,rows){
+    if(err) console.log(err);
+    //console.log(rows);
+});
+
+*/
+
+
+
+
+
+
+
 
 
 

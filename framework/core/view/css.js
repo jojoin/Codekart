@@ -1,8 +1,10 @@
 
 
 var fs = require('fs');
-var less  = require_lib('less');
-var file = require_tool('file');
+var less  = require_lib('!less');
+var file = require_tool('!file');
+var config =  require_config();
+var cpath =  require_config('!path');
 
 var imgPath = '/img/'; //图片文件路径
 var cssImgPath = '/cssimg/'; //css图片文件路径
@@ -18,7 +20,7 @@ var cssFileNameCache = {};
  * @param callback
  */
 exports.ready = function(mop,callback){
-    var cssFileName = config.path.static+mop.cssname;
+    var cssFileName = cpath.static+mop.cssname;
     if(cssFileNameCache[cssFileName] && !config.compiled){
         //console.log('css文件缓存');
         callback(true); /*检查读取缓存*/
@@ -47,17 +49,16 @@ exports.ready = function(mop,callback){
  */
 function merger(mop,callback){
     var leg = mop.less.length
-        , name = [];
+        , filecontent = '';
     for(var i=0;i<leg;i++){ //文件名数组
-        name.push(config.path.less+'/'+mop.less[i]+'.less');
+        filecontent += load.resource('less/'+mop.less[i]+'.less');
     }
-    file.readFileList(name,function(err,data){
-        less.render(data, function (e, css) {//生成css
-            if(config.compress){ //压缩css
-                css = compress(css);
-            }
-            callback(pretreatment(css)); //预编译
-        });
+
+    less.render(filecontent, function (e, css) {//生成css
+        if(config.compress){ //压缩css
+            css = compress(css);
+        }
+        callback(pretreatment(css)); //预编译
     });
 }
 

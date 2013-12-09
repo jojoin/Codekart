@@ -1,8 +1,10 @@
 
+.gitignore
+.htaccess
+
 _note/
 .idea/
 static/js
 static/css
+node_modules/
 
-.htaccess
-.gitignore

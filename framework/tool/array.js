@@ -44,11 +44,12 @@ exports.seque = function (array,ary,name) {
 
 
 //获取一个数组之中某项的某个属性为多少的项
-exports.matchItem = function(ary,name,value){
+exports.matchItem = function(ary,key,value,del){
     var leg = ary.length;
     for(var i=0;i<leg;i++){
-        if(value == ary[i][name]){
-            return ary[i];
+        if(value == ary[i][key]){
+            if(del) return ary.splice(i,1);
+            else return ary[i];
         }
     }
     return null;
@@ -56,11 +57,11 @@ exports.matchItem = function(ary,name,value){
 
 
 // 取得数组中元素的某个属性 单独返回数组元素
-exports.listem = function (ary,name) {
+exports.listem = function (ary,key) {
     var reary = []
         , leg = ary.length;
     for(var i=0; i<leg; i++){
-        var d = ary[i][name];
+        var d = ary[i][key];
         d?reary.push(d):0;
     }
     return reary;

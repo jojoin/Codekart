@@ -1,5 +1,5 @@
 
-var array  = require_tool('array');
+var array  = require('./array.js');
 
 /**
 * 深层合并两个对象，override表示是否覆盖前面的属性值

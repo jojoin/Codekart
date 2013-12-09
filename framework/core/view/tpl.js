@@ -13,6 +13,8 @@
 
 var file = require_tool('file');
 var json = require_tool('json');
+var config =  require_config();
+var cpath =  require_config('!path');
 
 
 //tpl模块出插入的位置  如果有正则字符要转义
@@ -32,28 +34,22 @@ exports.ready = function(mop,callback){
     }
     //console.log(mop.tpl);
     var tplAry = {}
-        , file_path_list = [];
+        , filecontent = [];
     for(var k in mop.tpl){
         var one = mop.tpl[k];
         //console.log(one)
         for(var x in one){
-            tplAry[x]=''; //
-            file_path_list.push(config.path.tpl+'/'+one[x]+'.tpl');  //添加文件路径
+            tplAry[x]=x; //
+            filecontent.push(load.resource('tpl/'+one[x]+'.tpl'));
             break; //仅第一个属性
         }
     }
 
-    //读取多个文件，不合并
-    //console.log(tplAry);
-    //console.log(file_path_list);
+    //添加js和css文件的引用
+    addReferenceFile(mop,tplAry);
+    //组合tpl
+    merger(name,tplAry,filecontent,callback);
 
-    file.readFileList(file_path_list,{merger:false},function(err,data){
-        //console.log('tpl'+data);
-        addReferenceFile(mop,tplAry);
-        //组合tpl
-        //console.log(data);
-        merger(name,tplAry,data,callback);
-    });
 };
 
 
@@ -92,7 +88,7 @@ function merger(name,tplAry,data,callback){
         , leg = data.length;
     for(var k in tplAry){
         var one = n<leg?data[n]:tplAry[k]; //src_style,src_script
-        if(k=='html'){ /*html根节点*/
+        if(n==0){ /*html根节点*/
             content += one;
         }else{
             var Tstr = wrapLeft+k+wrapRight

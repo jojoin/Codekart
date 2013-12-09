@@ -1,8 +1,13 @@
 
 
 var fs = require('fs');
-var UglifyJS = require_lib("uglify-js");
-var file = require_tool('file');
+var UglifyJS = require_lib("!uglify-js");
+var file = require_tool('!file');
+var config =  require_config();
+var cpath =  require_config('!path');
+
+
+
 /*js缓存文件是否存在的缓存*/
 var jsFileNameCache = {};
 
@@ -12,7 +17,7 @@ var jsFileNameCache = {};
  * @param callback
  */
 exports.ready = function(mop,callback){
-    var jsFileName = config.path.static+mop.jsname;
+    var jsFileName = cpath.static+mop.jsname;
     if(jsFileNameCache[jsFileName] && !config.compiled){
         //console.log('js文件缓存');
         callback(true); /*检查读取缓存*/
@@ -50,7 +55,7 @@ function mergerTpl(mop,callback){
         var one = mop.tpl_pre[k];
         for(var x in one){
             name.push(x);
-            path.push(config.path.tpl+'/'+one[x]+'.tpl');
+            path.push(cpath.tpl+'/'+one[x]+'.tpl');
             break;
         }
     }
@@ -58,7 +63,7 @@ function mergerTpl(mop,callback){
         for(var k=0;k<leg;k++){
             pre_tpl.push(name[k]+":'"+compress(data[k])+"'");
         }
-        pre_tpl = 'tpls={'+pre_tpl.join(',')+'};'; //前端js全局变量tpls
+        pre_tpl = 'tpl={'+pre_tpl.join(',')+'};'; //前端js全局变量tpls
         callback(pre_tpl);
     });
 }
@@ -80,14 +85,12 @@ function compress(tpl){
  */
 function merger(mop,callback){
     var leg = mop.js.length
-        , name = [];
+        , filecontent = '';
     for(var i=0;i<leg;i++){ //文件名数组
-        name.push(config.path.js+'/'+mop.js[i]+'.js');
+        filecontent += load.resource('js/'+mop.js[i]+'.js');
     }
-    file.readFileList(name,function(err,data){
-        if(config.compress){
-            data = UglifyJS(data); //压缩js
-        }
-        callback(data);
-    });
+    if(config.compress){
+        filecontent = UglifyJS(filecontent); //压缩js
+    }
+    callback(filecontent);
 }

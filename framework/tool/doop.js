@@ -4,7 +4,7 @@
  */
 
 
-var object  = requireSup('object');
+var object  = require_tool('object');
 
 
 
