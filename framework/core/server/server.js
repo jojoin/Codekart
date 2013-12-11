@@ -58,7 +58,7 @@ function createClusterServer(){
             workers.push(cluster.fork());
         }
         cluster.on('fork', function(worker) {
-            console.log('worker ' + worker.process.pid + ' starting...');
+            console.log('server worker ' + worker.process.pid + ' running on port '+config.port.http+' !');
         });
         cluster.on('exit', function(worker) {
             console.log('worker ' + worker.process.pid + ' died.');
@@ -106,7 +106,7 @@ function createServer(){
         });
     }).listen(config.port.http);
 
-    console.log('port '+config.port.http+' have been listening !');
+    console.log('server running on port '+config.port.http+' !');
 }
 
 

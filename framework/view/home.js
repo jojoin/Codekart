@@ -36,6 +36,6 @@ exports.mop = mop;
 exports.data = function(callback){
     callback({
         title: '' +
-            'CodeTank  欢迎使用Node.js前后端一体化开发框架 ！'
+            'Codekart - Node.js 开发框架'
     });
 };

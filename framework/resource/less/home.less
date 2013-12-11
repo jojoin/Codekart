@@ -2,46 +2,99 @@
 /**
  *  主页面样式
  */
-.page{
-  width: 100%; max-width: 600px; min-height: 360px;
-  margin: 0 auto;
-  background: #eee;
 
-  h1{
-    width: 100%; height: 130px;
-    text-align: center;
-    font-size: 36px; font-weight: 900;
-    background: url(<%cssimg%>codetanklogo.png) center;
+.forkme{
+  position: absolute; top: 0; right: 0px;
+  display: block; width: 149px; height: 149px;
+  background: url("<%cssimg%>codekart/forkme.png") center;
+}
+
+
+.wrap{
+  width: 100%; max-width: 800px;
+  margin: auto;
+}
+
+.header{
+  width: 100%;
+  border-top: 6px solid #46483e;
+  .wrap{
+    padding: 10px 0;
   }
+}
 
-  .intro{
-    font-size: 14px; line-height: 24px;
-    padding: 16px; margin: 16px;
-    background: #ddd;
-    border: #aaa solid 1px;
-    border-radius: 10px;
-    text-shadow: 0 1px 0 #fff;
+.intro{
+  background: #f6f6f6; color: #666; text-shadow: 0 1px 0 #fff;
+  border-radius: 10px;
+  p{
+    padding: 16px 25px; font-size: 14px;
     b{
-      font-size: 20px; font-weight: 900;
+      font-weight: bold;
     }
   }
+}
 
+.nav{
+  padding: 10px 0;
+  a{
+    display: inline-block; min-width: 220px; margin: 18px;
+    font-size: 12px; line-height: 17px;
+    img{
+      float: left; margin-right: 10px;
+    }
+    b{
+      color: #666;font-weight: bold;
+    }
+    p{
+      color: #999;
+    }
+  }
+  a *{ cursor: pointer; }
+  a:hover{
+    b{
+      color: #000;
+    }
+    p{
+      color: #555;
+    }
+  }
+}
+
+
+.paper{
+  background: #f0f0f0; color: #666; text-shadow: 0 1px 0 #fff;
+  border-radius: 10px;
+  p{
+    padding: 0 30px; font-size: 13px; text-indent: 26px;
+  }
   .ready{
     padding: 25px; list-style: none;
     h3{
-      font-size: 12px; font-weight: 900; color: #555;
+      font-size: 15px; font-weight: 900; color: #555;
     }
     li{
-      font-size: 12px; margin: 10px 0 10px 16px;
+      font-size: 13px; margin: 10px 0 10px 16px;
     }
   }
+}
 
-  pre{
-    font-size: 12px; padding: 0 25px;
-    white-space: pre-line !important;
-    a{
-      color: #4cb801;
-    }
+.thx{
+  a{
+    display: inline-block; margin: 18px;
   }
+  a *{ cursor: pointer; }
+}
 
+
+.info{
+  background: #f0f0f0; color: #666; text-shadow: 0 1px 0 #fff;
+  border-radius: 10px;  font-size: 13px;
+  p{
+    margin: 0 25px;
+    a{ color: #78b43c; }
+    a:hover{ text-decoration: underline; }
+  }
+  .li{
+    font-size: 12px;
+  }
 }
