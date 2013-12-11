@@ -4,7 +4,7 @@
 
 _note/
 .idea/
-static/js
-static/css
+#static/js
+#static/css
 node_modules/
 

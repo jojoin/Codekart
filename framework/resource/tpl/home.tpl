@@ -71,10 +71,10 @@
 
 
 <div class="wrap thx">
-  <a href="https://github.com/myworld4059/codekart">
+  <a target="_blank" href="https://github.com/myworld4059/codekart">
     <img src="/cssimg/codekart/github.png"/>
   </a>
-  <a href="https://github.com/myworld4059/codekart">
+  <a target="_blank" href="http://www.oschina.net/p/codetank-node-js">
     <img src="/cssimg/codekart/oschina.png"/>
   </a>
 </div>
