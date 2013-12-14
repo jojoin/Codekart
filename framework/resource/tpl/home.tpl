@@ -71,7 +71,7 @@
 
 
 <div class="wrap thx">
-  <a target="_blank" href="https://github.com/myworld4059/codekart">
+  <a target="_blank" href="https://github.com/myworld4059/Codekart">
     <img src="/cssimg/codekart/github.png"/>
   </a>
   <a target="_blank" href="http://www.oschina.net/p/codetank-node-js">
