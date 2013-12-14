@@ -6,17 +6,17 @@
 var mop = inheritView('html'); //继承父级页面
 mop.name.push('error');  //本页面名称赋值，用于递归调用 data() 函数
 
-//tpl模板文件 id的值 必须在父级tpl内 有 <!body!> 格式的标签，在 app/stuff/tpl 目录下
+//tpl模板文件 id的值 必须在父级tpl内 有 <!body!> 格式的标签，在 app/resource/tpl 目录下
 mop.tpl.push(
     {body:'error'}
 );
 
-//less样式文件，自动编译并组合成less文件，在 app/stuff/less 目录下
+//less样式文件，自动编译并组合成less文件，在 app/resource/less 目录下
 mop.less.push(
     'error'
 );
 
-//js文件，在 app/stuff/js 目录下
+//js文件，在 app/resource/js 目录下
 mop.js.push(
     //'error'
 );
