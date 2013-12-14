@@ -9,11 +9,11 @@ module.exports = {
 
     //端口监听
     port: {
-        http: 100,
-        websocket: 91
+        http: 82,
+        websocket: 92
     },
 
-    version: '12091',            //程序版本号 用于更新改版后的 js css 客户端缓存
+    version: '12141',            //程序版本号 用于更新改版后的 js css 客户端缓存
     route: true,                      //是否开启默认路由匹配（在未定义url处理程序的情况下，搜索文件位置查找处理程序）
     cluster: false,                    //是否开启多核支持、守护进程
     worker: 1,                        //开启的worker工作者线程的数量，需要开启上面的cluster才生效，当值为0则与CPU核心数量相同
