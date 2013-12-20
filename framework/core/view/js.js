@@ -13,11 +13,11 @@ var jsFileNameCache = {};
 
 /**
  * 合并js模块，生成js缓存文件
- * @param mop
+ * @param stuff
  * @param callback
  */
-exports.ready = function(mop,callback){
-    var jsFileName = cpath.static+mop.jsname;
+exports.ready = function(stuff,callback){
+    var jsFileName = cpath.static+stuff.jsname;
     if(jsFileNameCache[jsFileName] && !config.compiled){
         //console.log('js文件缓存');
         callback(true); /*检查读取缓存*/
@@ -25,8 +25,8 @@ exports.ready = function(mop,callback){
     }
     fs.exists(jsFileName,function(have){
         if(config.compiled || have==false){ //编译文件
-            merger(mop,function(js){
-                mergerTpl(mop,function(tpl){
+            merger(stuff,function(js){
+                mergerTpl(stuff,function(tpl){
                     fs.writeFile(jsFileName,tpl+js, function (err) { //创建缓存文件
                         //文件写入错误
                         if(err) console.log(err);
@@ -46,13 +46,13 @@ exports.ready = function(mop,callback){
 /**
  * 读取tpl备用文件并合并
  */
-function mergerTpl(mop,callback){
-    var leg = mop.tpl_pre.length
+function mergerTpl(stuff,callback){
+    var leg = stuff.tpl_pre.length
         , name = []
         , path = []
         , pre_tpl = [];
-    for(var k in mop.tpl_pre){ //文件名数组
-        var one = mop.tpl_pre[k];
+    for(var k in stuff.tpl_pre){ //文件名数组
+        var one = stuff.tpl_pre[k];
         for(var x in one){
             name.push(x);
             path.push(cpath.tpl+'/'+one[x]+'.tpl');
@@ -83,11 +83,11 @@ function compress(tpl){
 /**
  * 读取js文件并合并
  */
-function merger(mop,callback){
-    var leg = mop.js.length
+function merger(stuff,callback){
+    var leg = stuff.js.length
         , filecontent = '';
     for(var i=0;i<leg;i++){ //文件名数组
-        filecontent += load.resource('js/'+mop.js[i]+'.js');
+        filecontent += load.resource('js/'+stuff.js[i]+'.js');
     }
     if(config.compress){
         filecontent = UglifyJS(filecontent); //压缩js

@@ -150,11 +150,29 @@ function preload(base,name,ext,opt){
 /**
  * 继承页面
  */
-global.inheritView = function(name){
+global.inheritView = function(parent,stuff){
 
-    var parent = require_view(name); //父级页面
-    return  object.clone(parent.mop); //拷贝文件设置
+    var current = object.clone(require_view(parent).stuff) //拷贝父级页面配置
+        , mod = ['tpl','pre_tpl','js','jslib','less','csslib'];
+    for(var nk in mod){
+        var n = mod[nk];
+        if(stuff[n]){
+            if(!current[n])
+                current[n] = [];
+            if(typeof current[n]=='string')
+                current[n] = [current[n]];//转化为数组
+            //继承连接
+            current[n] = current[n].concat(stuff[n]);
+        }
+    }
+    if(!current.inherit){
+        current.inherit = [];
+        //current.name = [current.name]; //转化为数组
+    }
+    current.inherit.push(parent); //祖先页面名称链
 
+    //current.name.push(stuff.name); //页面名称
+    return current;
 };
 
 
@@ -170,12 +188,13 @@ global.time = function(ms){
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+
 /**
  * 同步或异步加载资源
  */
-function load_resource(filename,opt,callback){
+function load(dir,filename,opt,callback){
 
-    var resource = '/resource/'
+    var resource = '/'+dir+'/'
         , p1 = c_path.app+resource
         , p2 = c_path.framework+resource;
     //如果模块第一个字符为!感叹号，则默认先加载框架资源，否则先加载用户资源
@@ -190,29 +209,50 @@ function load_resource(filename,opt,callback){
     if(callback&&typeof callback=='function'){ //异步读取加载
         file.validPath([p1,p2],function(pathone){
             if(!pathone){
-                throw 'File does not exist: resource/'+filename;
+                var err =  'File does not exist: resource/'+filename;
+                callback(err,null);
+            }else{
+                fs.readFile(pathone, 'utf8',function(err, data){
+                    callback(err,data);
+                });
             }
-            fs.readFile(pathone, 'utf8',function(err, data){
-                if( err ) throw err;
-                callback(err,data);
-            });
         });
     }else{ //同步加载读取
         var pathone = file.validPath([p1,p2]);
         if(!pathone){
-            throw 'File does not exist: resource/'+filename;
+            var err =  'File does not exist: resource/'+filename;
+            return null; //不存在文件
         }
         return fs.readFileSync(pathone);
     }
     return true;
 }
 
+/**
+ * 同步或异步加载资源
+ */
+function load_resource(filename,opt,callback){
+    return load('resource',filename,opt,callback);
+}
+
+/**
+ * 同步或异步加载资源
+ */
+function load_config(filename,opt,callback){
+    return load('config',filename,opt,callback);
+}
+
+
+
+
 
 /**
  * 外部接口
  */
 global.load = {
-    resource : load_resource
+    ex: load,
+    resource : load_resource,
+    config : load_config
 };
 
 

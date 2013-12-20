@@ -16,7 +16,7 @@
     <!body!>
 
     <script type="text/javascript">
-      global =  [#=global#];
+      global =  [#=json_str#];
     </script>
 
     <!src_script!><!--js文件-->

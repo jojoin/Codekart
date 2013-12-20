@@ -14,6 +14,8 @@ var config =  require_config();
 
 var tmpl_render_cache = {}; //页面解析缓存
 
+var statistics_html = ''; //统计代码缓存
+
 
 //向客户端输出html
 exports.view = function(request,response,msg){
@@ -27,22 +29,22 @@ exports.view = function(request,response,msg){
 
 
     var name = msg.name
-        , mop = view.mop
+        , stuff = view.stuff
         , step = 0
         , stepTotal = 4
         , tpl_html = ''
         , tpl_data = false;
 
-    mop.jsname = '/js/'+name+'.'+config.version+'.js';
-    mop.cssname = '/css/'+name+'.'+config.version+'.css';
-    css.ready(mop,ready); /*编译css文件*/
-    js.ready(mop,ready); /*编译js文件*/
-    tpl.ready(mop,function(tpl){ /*编译tpl文件*/
+    stuff.jsname = '/js/'+name+'.'+config.version+'.js';
+    stuff.cssname = '/css/'+name+'.'+config.version+'.css';
+    css.ready(stuff,ready); /*编译css文件*/
+    js.ready(stuff,ready); /*编译js文件*/
+    tpl.ready(stuff,function(tpl){ /*编译tpl文件*/
         tpl_html = tpl;
         //console.log('tpl_html'+tpl);
         ready(tpl,'tpl');
     });
-    data.ready(mop,request,response,function(data,preData){ /*获取页面数据*/
+    data.ready(stuff,name,request,response,function(data){ /*获取页面数据*/
         tpl_data = data;
         //console.log('tpl_data'+data);
         //console.log(data);
@@ -84,6 +86,12 @@ exports.view = function(request,response,msg){
             }
             //console.log('数据解析完成，返回数据');
             //console.log(html);
+            if(!statistics_html){
+                statistics_html +=  load.config('additional.html') //追加的html代码
+                                          + '</body></html>';
+            }
+            //加上统计代码
+            html += statistics_html;
             if(html) render.text(request,response,html); //
         }
     }

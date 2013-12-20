@@ -9,28 +9,16 @@ module.exports = {
     //默认mysql数据库
     default:{
         host:'127.0.0.1',
-        database:'jojoin',
-        user:'jojoin',
-        password:'jojoin'
+        database:'',
+        user:'',
+        password:''
     },
-    //其他mysql数据库，可定义多个数据库
-    other1:{
+    //其他的mysql数据库，可设置多个
+    online:{
         host:'127.0.0.1',
-        database:'jojoin',
-        user:'jojoin',
-        password:'jojoin'
-    },
-    other2:{
-        host:'127.0.0.1',
-        database:'jojoin',
-        user:'jojoin',
-        password:'jojoin'
-    },
-    other3:{
-        host:'127.0.0.1',
-        database:'jojoin',
-        user:'jojoin',
-        password:'jojoin'
+        database:'',
+        user:'',
+        password:''
     }
     //此处添加数据库配置
 };

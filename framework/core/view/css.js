@@ -16,11 +16,11 @@ var cssFileNameCache = {};
 
 /**
  * 合并css模块，生成css缓存文件
- * @param mop
+ * @param stuff
  * @param callback
  */
-exports.ready = function(mop,callback){
-    var cssFileName = cpath.static+mop.cssname;
+exports.ready = function(stuff,callback){
+    var cssFileName = cpath.static+stuff.cssname;
     if(cssFileNameCache[cssFileName] && !config.compiled){
         //console.log('css文件缓存');
         callback(true); /*检查读取缓存*/
@@ -28,7 +28,7 @@ exports.ready = function(mop,callback){
     }
     fs.exists(cssFileName,function(have){
         if(config.compiled || have==false){ //编译文件
-            merger(mop,function(css){
+            merger(stuff,function(css){
                 fs.writeFile(cssFileName,css, function (err) { //创建缓存文件
                     //文件写入错误
                     if(err) console.log(err);
@@ -47,11 +47,11 @@ exports.ready = function(mop,callback){
 /**
  * 生成css文件内容
  */
-function merger(mop,callback){
-    var leg = mop.less.length
+function merger(stuff,callback){
+    var leg = stuff.less.length
         , filecontent = '';
     for(var i=0;i<leg;i++){ //文件名数组
-        filecontent += load.resource('less/'+mop.less[i]+'.less');
+        filecontent += load.resource('less/'+stuff.less[i]+'.less');
     }
 
     less.render(filecontent, function (e, css) {//生成css

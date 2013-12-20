@@ -2,28 +2,17 @@
  *  主页
  */
 
+//当前页面增加的配置
 
-var mop = inheritView('html'); //继承父级页面
-mop.name.push('home');  //本页面名称赋值，用于递归调用 data() 函数
-
-//tpl模板文件 id的值 必须在父级tpl内 有 <!body!> 格式的标签，在 app/resource/tpl 目录下
-mop.tpl.push(
-    {body:'home'}
-);
-
-//less样式文件，自动编译并组合成less文件，在 app/resource/less 目录下
-mop.less.push(
-    '/home'
-);
-
-//js文件，在 app/resource/js 目录下
-mop.js.push(
-    //'home'
-);
+var stuff = {
+    tpl: {body:'home'},
+    less:'home'
+};
 
 
-//必须给本模块加上对外接口，以便其他页面继承
-exports.mop = mop;
+//【继承关键代码】
+//继承父级页面 和 必须给本模块加上对外接口，以便其他页面继承
+exports.stuff = inheritView('html',stuff);  //继承至view/html.js
 
 
 /**
@@ -35,7 +24,6 @@ exports.mop = mop;
  */
 exports.data = function(callback){
     callback({
-        title: '' +
-            'Codekart - Node.js 开发框架'
+        title: 'CodeTank  欢迎使用Node.js前后端一体化开发框架 ！'
     });
 };

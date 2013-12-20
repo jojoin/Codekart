@@ -51,8 +51,10 @@ function valid_path(path,callback){ //异步
     }
     //下一个路径
     function next(){
-        if(i<leg) return path[i];
-        else return null;
+        var pat = null;
+        if(i<leg) pat = path[i];
+        i++;
+        return pat;
     }
     //开始查找
     if(str){

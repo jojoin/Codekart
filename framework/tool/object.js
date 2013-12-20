@@ -5,6 +5,8 @@ var array  = require('./array.js');
 * 深层合并两个对象，override表示是否覆盖前面的属性值
 * */
 exports.extend = function(tObj,sObj,override){
+    if(!tObj || !sObj || typeof sObj!=='object') return;
+    if(typeof sObj!=='object') tObj = {};
     for(var i in sObj){
         if(typeof sObj[i] !== "object"){
             if(override || !tObj[i]) tObj[i] = sObj[i];
