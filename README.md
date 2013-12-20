@@ -31,7 +31,7 @@
 ****
 
 ####快速使用手册：
-http://github.com/myworld4059/Codekart/wiki
+http://docs.codekart.jojoin.com/
 
 ****
 
