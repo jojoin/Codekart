@@ -31,11 +31,11 @@
 ****
 
 ####快速使用手册：
-http://github.com/myworld4059/Codekart/wiki
+http://docs.codekart.jojoin.com/
 
 ****
 
-####CodeTank主页
+####Codekart主页
 http://codekart.jojoin.com/
 
 ****
