@@ -77,6 +77,9 @@
   <a target="_blank" href="http://www.oschina.net/p/codetank-node-js">
     <img src="/cssimg/codekart/oschina.png"/>
   </a>
+  <a target="_blank" href="http://jojoin.com">
+    <img src="/cssimg/codekart/jojoin.png"/>
+  </a>
 </div>
 
 

@@ -39,7 +39,7 @@ exports.view = function(request,response,msg){
     stuff.cssname = '/css/'+name+'.'+config.version+'.css';
     css.ready(stuff,ready); /*编译css文件*/
     js.ready(stuff,ready); /*编译js文件*/
-    tpl.ready(stuff,function(tpl){ /*编译tpl文件*/
+    tpl.ready(stuff,name,function(tpl){ /*编译tpl文件*/
         tpl_html = tpl;
         //console.log('tpl_html'+tpl);
         ready(tpl,'tpl');

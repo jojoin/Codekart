@@ -146,7 +146,6 @@ function preload(base,name,ext,opt){
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
 /**
  * 继承页面
  */
@@ -154,12 +153,13 @@ global.inheritView = function(parent,stuff){
 
     var current = object.clone(require_view(parent).stuff) //拷贝父级页面配置
         , mod = ['tpl','pre_tpl','js','jslib','less','csslib'];
+    //console.log(current);
     for(var nk in mod){
         var n = mod[nk];
         if(stuff[n]){
             if(!current[n])
                 current[n] = [];
-            if(typeof current[n]=='string')
+            if(!array.isArray(current[n]))
                 current[n] = [current[n]];//转化为数组
             //继承连接
             current[n] = current[n].concat(stuff[n]);

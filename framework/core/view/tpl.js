@@ -24,12 +24,11 @@ var wrapLeft = '<!'
 
 
 
-exports.ready = function(stuff,callback){
+exports.ready = function(stuff,curname,callback){
     //console.log(theTplCache);
-    var name = stuff.name[stuff.name.length-1];
-    if(theTplCache[name] && !config.compiled){ /*有缓存则读取缓存*/
-        //console.log('tpl缓存');
-        callback(theTplCache[name]);
+    if(theTplCache[curname] && !config.compiled){ /*有缓存则读取缓存*/
+        console.log('tpl缓存');
+        callback(theTplCache[curname]);
         return ;
     }
     //console.log(stuff.tpl);
@@ -48,7 +47,7 @@ exports.ready = function(stuff,callback){
     //添加js和css文件的引用
     addReferenceFile(stuff,tplAry);
     //组合tpl
-    merger(name,tplAry,filecontent,callback);
+    merger(curname,tplAry,filecontent,callback);
 
 };
 

@@ -4,8 +4,8 @@
 
 _note/
 .idea/
-static/js/!readme.txt
-static/css!/readme.txt
+static/js
+static/css
 #static/psd
 node_modules/
 
