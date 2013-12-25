@@ -30,12 +30,12 @@
 
 ****
 
-####快速使用手册：
+###快速使用手册：
 http://docs.codekart.jojoin.com/
 
 ****
 
-####Codekart主页
+###Codekart主页
 http://codekart.jojoin.com/
 
 ****
@@ -46,9 +46,8 @@ http://codekart.jojoin.com/
 * 这是一个开源框架，你可以任意修改和使用它（包括但不限于技术研究与分享、开源项目或者商业产品）。
 * 本框架最初来自 君鉴网(http://jojoin.com) 的开发实战和积累，如今你可以在下面的地址找到它并下载和学习使用：
 * ┌─────────────────────────────────────────────────────────────┐
-* │    框架主页：http://codcodekartetank.jojoin.com
-* │    托管地址：https://github.com/myworld4059/codekart
-* │    wiki地址：https://github.com/myworld4059/codekart/wiki
+* │    框架主页：http://codekart.jojoin.com
+* │    托管地址：https://github.com/myworld4059/Codekart
 * └─────────────────────────────────────────────────────────────┘
 * 也欢迎你联系本框架的作者，提出建议或者bug，进行技术交流：
 * ┌─────────────────────────────────────────────────────────────┐
