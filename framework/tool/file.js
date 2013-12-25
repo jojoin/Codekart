@@ -20,12 +20,16 @@ exports.validPath = function(path,callback){
     }
 };
 function valid_path_sync(path){ //同步版本
-    if(typeof path=='string') return  fs.existsSync(path);
+    if(typeof path=='string'){
+        var is = fs.existsSync(path);
+        return is?path:null;
+    }
     for(var k in path){
         if(fs.existsSync(path[k])){
             return path[k];
         }
     }
+    return null;
 }
 function valid_path(path,callback){ //异步
     var str = typeof path=='string'

@@ -4,7 +4,7 @@
  */
 
 
-var object  = require_tool('object');
+var object  = require_tool('!object');
 
 
 
@@ -13,10 +13,13 @@ var object  = require_tool('object');
  */
 
 
+var DOOP = {};  //定时器
+
+
 /*
  * 外部接口
  */
-exports.doop = function(option,callback){
+exports.set = function(option,callback){
     var opt = {
         time: '',                        //执行时间 24小时制   10:10:10   默认为当前
         loop: 0,                       //执行次数  0表示执行无数次
@@ -26,20 +29,29 @@ exports.doop = function(option,callback){
     };
     object.extend(opt,option,true);  //合并属性
 
+    //标识符
+    var key = 'doop_'+new Date().getTime();
+    DOOP[key] = {
+        timeout:false,
+        option: opt
+    };
+
     var first = getFirstDoTimeout(opt)
         , interval = getInterval(opt)
         , num = 0;
     //开始执行
-    setTimeout(readydo,first);
+    DOOP[key].timeout = setTimeout(readydo,first);
     function readydo(){
         callback();
         num++;
         if(!opt.loop || opt.loop>num){ //是否还要执行
-            setTimeout(readydo,interval);
+            DOOP[key].timeout = setTimeout(readydo,interval);
         }
     }
     //预先执行一次
     if(opt.prior) callback();
+
+    return key;
 };
 
 
@@ -87,6 +99,20 @@ function getInterval(opt){
     return time*1000;
 }
 
+
+exports.get = function(key){
+    return DOOP[key];
+};
+
+
+exports.clear = function(key){
+    if(DOOP[key]){
+        clearTimeout(DOOP[key].timeout);
+        delete DOOP[key];
+        return true;
+    }
+    return false;
+};
 
 
 
