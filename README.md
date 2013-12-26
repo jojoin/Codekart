@@ -27,6 +27,49 @@
 7. 精简而强大的前端 js 插件和常用方法库
 8. 更多强大特征
 
+****
+
+使用Codekart，你可以十分方便的进行web页面模块化配置，例如: framework/view/html.js 内容如下：
+
+```javascript
+//web页面顶级页面定义
+exports.stuff = {
+    tpl:{html:'html'},  //页面的tpl模板文件列表
+    tpl_pre:[],  //待用的tpl文件列表 会被加入js文件里面待用  保存在app/view/tpl文件夹 格式{note_list:'abc/abc'}
+    less:'html',  //页面的css模板文件列表
+    csslib:[],  //css库文件，在static/csslib目录下
+    js:[
+        'functions',
+        'json',
+        'cookie',
+        'jq-extend',
+        'tmpl',
+        'pro'
+    ], //页面的js模板文件列表
+    jslib: 'jquery-2.0.3.min'  //js库文件列表，在static/jslib目录下
+};
+ 
+ 
+var website = require_config('website');
+ 
+/**
+ * tpl模板数据获取函数
+ * @param callback 返回模板数据
+ */
+exports.data = function(callback){
+    var that = this
+        , req = this.request;  //原生的request请求对象
+    callback({
+        title: website.name,
+        time: req.time,
+        website: website
+    },{
+        website: website
+    });
+};
+```
+
+exports.stuff 对象及为web页面的配置，exports.data函数为页面模板数据的获取函数。你也可以方便的进行页面的继承。
 
 ****
 
