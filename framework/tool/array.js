@@ -1,5 +1,4 @@
 
-
 //数组
 
 /*
@@ -19,50 +18,18 @@ exports.unique = function(ary)
     return r;
 };
 */
-
+//这样更高效
 exports.unique = function(arr){
-    var isEqual=function(obj1,obj2){
-       //两个对象地址相等，必相等
-        if(obj1===obj2){
-            return true;
+    var len = arr.length,
+        i = 0,
+        ret = [];
+        
+    for(;i<len;i++){
+        if(arr.indexOf(arr[i]) === i){
+            ret.push(arr[i]);
         }
-        if(typeof(obj1)==typeof(obj2)){
-            if(typeof(obj1)=="object"&&typeof(obj2)=="object"){
-                var pcount=0;
-                for(var p in obj1){
-                    pcount++;
-                    if(!isEqual(obj1[p],obj2[p])){
-                        return false;
-                    }
-                }
-                for(var p in obj2){
-                    pcount--;
-                }
-                return pcount==0;
-            }else if(typeof(obj1)=="function"&&typeof(obj2)=="function"){
-                if(obj1.toString()!=obj2.toString()){
-                    return false;
-                }
-            }else {
-                if(obj1!=obj2){
-                    return false;
-                }
-            }
-        }else{
-            return false;
-        }
-        return true;
+        return ret;
     }
-    var temp=arr.slice(0);//数组复制一份到temp
-    for(var i=0;i<temp.length;i++){
-        for(j=i+1;j<temp.length;j++){
-            if(isEqual(temp[j],temp[i])){
-                temp.splice(j,1);//删除该元素
-                j--;
-            }
-        }
-    }
-    return temp;
 }
 
 
