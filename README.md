@@ -1,4 +1,4 @@
-![codetank](http://codekart.jojoin.com/cssimg/codekart/logo.png)
+![codetank](http://codekart.jojoin.com/cssimg/codekart/logo__big.png)
 
 [Codekart](http://codekart.jojoin.com/) 是一个基于 Node.js 的前后端一体化网站开发框架，架构设计部分借鉴了 PHP 框架 [codeigniter](http://codeigniter.org.cn/)，精简、方便、高性能而不失强大。
 
@@ -27,6 +27,50 @@
 7. 精简而强大的前端 js 插件和常用方法库
 8. 更多强大特征
 
+****
+
+使用Codekart，你可以十分方便的进行web页面模块化配置，例如: framework/view/html.js 内容如下：
+
+```javascript
+//web页面顶级页面定义
+exports.stuff = {
+    tpl:{html:'html'},  //页面的tpl模板文件列表，保存在 app/resource/tpl 目录下
+    tpl_pre:[],  //待用的tpl文件列表 会被加入js文件里面待用，保存在 app/resource/tpl 目录下
+                 //保存在app/view/tpl文件夹 格式{note_list:'abc/abc'}
+    less:'html',  //页面的css模板文件列表，保存在 app/resource/less 目录下
+    csslib:[],  //css库文件，在static/csslib目录下
+    js:[
+        'functions',
+        'json',
+        'cookie',
+        'jq-extend',
+        'tmpl',
+        'pro'
+    ], //页面的js模板文件列表，保存在 app/resource/js 目录下
+    jslib: 'jquery-2.0.3.min'  //js库文件列表，在static/jslib目录下
+};
+ 
+ 
+var website = require_config('website');
+ 
+/**
+ * tpl模板数据获取函数
+ * @param callback 返回模板数据
+ */
+exports.data = function(callback){
+    var that = this
+        , req = this.request;  //原生的request请求对象
+    callback({
+        title: website.name,
+        time: req.time,
+        website: website
+    },{
+        website: website
+    });
+};
+```
+
+exports.stuff 对象及为web页面的配置，exports.data函数为页面模板数据的获取函数。你也可以方便的进行页面的继承。
 
 ****
 
