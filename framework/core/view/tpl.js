@@ -109,10 +109,11 @@ function merger(name,tplAry,data,callback){
 
 //压缩tpl
 function compress(tpl){
-    return tpl.replace(/\s+|\n/g, " ") //压缩空格和换行
-                 .replace(/\s*<\s*/g, "<") //去掉< >// 括号两旁的空格
-                 .replace(/\s*>\s*/g, ">") //去掉< >// 括号两旁的空格
-                 .replace(/<\!--(\n|.)*?-->/g, ""); //去掉<!---   --->注释;
+    return tpl.replace(/\n/g, "") //压缩换行
+        .replace(/\s+/g, " ") //压缩空格
+        .replace(/\s*<\s*/g, "<") //去掉< >// 括号两旁的空格
+        .replace(/\s*>\s*/g, ">") //去掉< >// 括号两旁的空格
+        .replace(/<\!--(\n|.)*?-->/g, ""); //去掉<!---   --->注释;
 }
 
 

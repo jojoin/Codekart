@@ -52,39 +52,6 @@ require_core('server').run(); //
 
 
 
-/*
-
-
-//////测试
-
-var mysql = require_core('db/mysql');
-var redis = require_core('db/redis');
-
-
-var client = redis.getClient();
-
-//client.select(0);
-//client.set('foo','阿斯达克感觉阿哥');
-//client.set('bar','sdafasdg');
-//client.expire('foo',5);
-
-var result = client.get('foo', function (err, reply) {
-    if(err) console.log(err);
-    console.log(reply);
-    client.save();
-});
-
-
-mysql.query('SELECT * FROM user WHERE id=1 LIMIT 1',function(err,rows){
-    if(err) console.log(err);
-    //console.log(rows);
-});
-
-*/
-
-
-
-
 
 
 
