@@ -9,23 +9,23 @@ module.exports = {
     //默认mysql数据库
     default:{
         host:'127.0.0.1',
-        database:'jojoin',
-        user:'jojoin',
-        password:'jojoin'
+        database:'',
+        user:'',
+        password:''
     },
     //向上数据库
     online:{
         host:'127.0.0.1',
-        database:'jojoin',
-        user:'jojoin',
-        password:'jojoinpass'
+        database:'',
+        user:'',
+        password:''
     },
     //本地调试数据库
     local:{
         host:'127.0.0.1',
-        database:'jojoin',
-        user:'jojoin',
-        password:'jojoin'
+        database:'',
+        user:'',
+        password:''
     }
     //此处添加数据库配置
 };
