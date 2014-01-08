@@ -12,7 +12,7 @@ module.exports = {
         port: 25, // port for secure SMTP
         auth: {
             user: "talk@jojoin.com",
-            pass: "yangjie4059shi03"
+            pass: ""
         }
     }
 };
