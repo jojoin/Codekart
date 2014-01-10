@@ -2,6 +2,16 @@
 
 [Codekart](http://codekart.jojoin.com/) 是一个基于 Node.js 的前后端一体化网站开发框架，架构设计部分借鉴了 PHP 框架 [codeigniter](http://codeigniter.org.cn/)，精简、方便、高性能而不失强大。
 
+****
+
+**Codekart主页：http://codekart.jojoin.com/**
+
+**API文档/使用手册：http://docs.codekart.jojoin.com/**
+
+本框架来自[君鉴网](http://jojoin.com/)的开发实战积累。
+
+****
+
 ```
 • Codekart 是一个轻量级但功能强大的 Node.js 框架， 
   让你在高性能 javascript 引擎 V8 下， 如同 PHP 一样简单而且快速地建立 web 站点。
@@ -74,15 +84,8 @@ exports.stuff 对象及为web页面的配置，exports.data函数为页面模板
 
 ****
 
-###快速使用手册：
-http://docs.codekart.jojoin.com/
-
-****
-
-###Codekart主页
-http://codekart.jojoin.com/
-
-****
+如果要支持本框架的开发，欢迎提交新的代码，或者点击我的支付宝链接：
+https://me.alipay.com/myworld4059
 
 ##关于
 
