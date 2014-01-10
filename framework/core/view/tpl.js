@@ -27,7 +27,7 @@ var wrapLeft = '<!'
 exports.ready = function(stuff,curname,callback){
     //console.log(theTplCache);
     if(theTplCache[curname] && !config.compiled){ /*有缓存则读取缓存*/
-        console.log('tpl缓存');
+        //console.log('tpl缓存');
         callback(theTplCache[curname]);
         return ;
     }
