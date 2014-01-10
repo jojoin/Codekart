@@ -3,18 +3,16 @@
  *
  */
 
-var route = require_core('server/route');
-var view = require_core('view');
+var route = load.core('server/route');
+var view = load.core('view/view');
 
-exports.render = function(request,response){
+module.exports = function(request,response){
 
     /*路由页面处理程序*/
 
-    var msg = route.match(request.url,'view');
-    request.msg = msg = msg || {name:'404'}; //未匹配url 则返回404页面
-    //console.log(msg);
-    //开始处理页面
-    view.view(request,response,msg);
+    var viewname =  request.route.view;
+
+    view.render(request,response,viewname);
 
 };
 

@@ -8,16 +8,16 @@
 module.exports = {
     //默认 redis 数据库
     default:{
-        host:'127.0.0.7',
+        host:'127.0.0.1',
         port:'6379',
-        select:0, //默认选择的库
+        select:1, //默认选择的库
         options:{
             auth_pass: ''
         }
     },
     //其他 redis 数据库，可定义多个数据库，自定义名称
     other:{
-        host:'127.0.0.7',
+        host:'127.0.0.1',
         port:'6379',
         select:0, //默认选择的库
         options:{

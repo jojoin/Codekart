@@ -51,7 +51,7 @@ exports.stuff = {
 };
  
  
-var website = require_config('website');
+var website = load.config('website');
  
 /**
  * tpl模板数据获取函数

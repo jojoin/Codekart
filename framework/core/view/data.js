@@ -1,9 +1,10 @@
 
 
-var object = require_tool('!object');
-var json = require_tool('!json');
-var config =  require_config();
-var cpath =  require_config('!path');
+var callthis = load.core('server/callthis');
+var object = load.tool('!object');
+var json = load.tool('!json');
+var config =  load.config();
+var cpath =  load.config('!path');
 
 /**
  * 获取模板页面数据
@@ -16,7 +17,7 @@ exports.ready = function(stuff,cur,request,response,callback){
         , leg = stuff.inherit.length + 1;
     for(var i=0;i<leg;i++){ //文件名数组
         var name = (i==leg-1)?cur:stuff.inherit[i]
-            , view = require_view(name);
+            , view = load.view(name);
         if(view==null){  //页面配置文件不存在
             throw 'the view site page is not found !';
         }
@@ -25,7 +26,7 @@ exports.ready = function(stuff,cur,request,response,callback){
     //获取单一数据
     function merger(index,dataFunc){
         if(dataFunc){
-            var This = new pageDataThis(request,response);
+            var This = new callthis(request,response);
             dataFunc.call(This,function(data,jsonData){
                 ready(index,data,jsonData);
             });
@@ -74,8 +75,8 @@ function pageDataThis(request,response){
         this.render('<script type="text/javascript">window.location.href="'+url+'"</script>');
     };
     //重定向视图
-    this.view =  function(name){
-        view.view(this.request,this.response,{name:name});
+    this.view =  function(path){
+        view.render(this.request,this.response,path);
     };
 
 }

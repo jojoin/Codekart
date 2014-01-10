@@ -17,6 +17,7 @@ module.exports = function (str, data) {
     //将模板解析成函数
     fn.$ = fn.$ || $ + ".push('"
         + str.replace(/\\/g, "\\\\")
+        .replace(/'/g, "")  //添加这一行防止单括号错误
         .replace(/[\r\t\n]/g, " ")
         .split("[#").join("\t")
         .replace(/((^|#])[^\t]*)'/g, "$1\r")

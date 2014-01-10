@@ -1,0 +1,42 @@
+{
+  "name": "codekart",
+  "version": "0.0.1",
+  "description": "a Node.js MVC Framework",
+  "main": "index.js",
+  "dependencies": {
+    "mysql":"2.0.0-rc1",
+    "redis":"0.10.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/myworld4059/Codekart.git"
+  },
+  "keywords": [
+  	"codekart",
+    "framework",
+    "MVC",
+  	"sinatra",
+  	"web",
+  	"rest",
+  	"restful",
+  	"router",
+  	"app",
+  	"api"
+  ],
+  "author": {
+    "name": "Ñî½Ý",
+    "email": "myworld4059@163.com",
+    "url": "http://jojoin.com/user/1/"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/myworld4059/Codekart/issues"
+  }
+}

@@ -2,8 +2,8 @@
  * 数据接口服务器
  */
 
-var route = require_core('route');
-var json = require_tool('json');
+var route = load.core('route');
+var json = load.tool('json');
 
 
 exports.render = function(request,response){
@@ -12,7 +12,7 @@ exports.render = function(request,response){
     if(msg){ //匹配到处理程序，加载
         var conThis = new This(request,response); //本地服务对象
         try{
-            require_binary(msg.controller)[msg.action].call(conThis); //加载并调用方法
+            load.binary(msg.controller)[msg.action].call(conThis); //加载并调用方法
         }catch (e){
             response.end('error: Internal program error !');
         }

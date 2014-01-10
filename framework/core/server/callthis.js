@@ -1,41 +1,11 @@
+
+
+var view = load.core('view/view');
+
 /**
- * 数据接口服务器
+ * this本地对象
  */
-
-var route = require_core('server/route');
-var json = require_tool('json');
-var config = require_config();
-
-
-exports.render = function(request,response){
-
-    /*路由 api 处理程序*/
-    var msg = route.match(request.url,'api');
-    if(msg){ //匹配到处理程序，加载
-        var conThis = new This(request, response); //本地服务对象
-        //如果为调试模式则不屏蔽错误
-        if(config.debug)
-            return require_app(msg.controller)[msg.action].call(conThis);
-        try{
-            require_app(msg.controller)[msg.action].call(conThis); //加载并调用方法
-        }catch (e){
-            var data = {
-                code:500,
-                msg: e
-            };
-            response.end(json.stringify(data));
-        }
-    }else{
-        var data = {
-            code:404,
-            msg: 'controller ['+msg.controller+'] or action ['+msg.action+'] not found'
-        };
-        response.end(json.stringify(data));
-    }
-};
-
-//gost默认本地对象
-function This(request, response){
+module.exports = function(request, response){
     this.request = request;
     this.response = response;
     //返回内容
@@ -64,6 +34,16 @@ function This(request, response){
         url = url || this.request.url.query.back_url  || false;
         if(url) this.render('<script type="text/javascript">window.location.href="'+url+'"</script>');
         else this.render('must have url get parameter: [back_url]');
+    };
+    this.render302 = function(url){
+        var output = context+'';
+        this.response.writeHead(302, { 'Content-Type': 'text/html', 'Content-Encoding':'UTF-8',
+            Location:url});
+        this.response.end(output);
+    };
+    //重定向视图处理程序
+    this.view =  function(path){
+        view.render(this.request,this.response,path);
     };
 
     /*
@@ -99,6 +79,8 @@ function This(request, response){
         }
         this.cookieArr.push(cookieStr);
         //console.log('push');
+        //自动设置
+        this.response.setHeader("Set-Cookie", this.cookieArr);
         return true;
     };
 
@@ -122,5 +104,5 @@ function This(request, response){
     };
 
 
-}
+};
 

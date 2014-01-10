@@ -1,10 +1,10 @@
 
 
 var fs = require('fs');
-var less  = require_lib('!less');
-var file = require_tool('!file');
-var config =  require_config();
-var cpath =  require_config('!path');
+var less  = load.lib('!less');
+var file = load.tool('!file');
+var config =  load.config();
+var cpath =  load.config('!path');
 
 var imgPath = '/img/'; //图片文件路径
 var cssImgPath = '/cssimg/'; //css图片文件路径
@@ -51,7 +51,7 @@ function merger(stuff,callback){
     var leg = stuff.less.length
         , filecontent = '';
     for(var i=0;i<leg;i++){ //文件名数组
-        filecontent += load.resource('less/'+stuff.less[i]+'.less');
+        filecontent += read.resource('less/'+stuff.less[i]+'.less');
     }
 
     less.render(filecontent, function (e, css) {//生成css

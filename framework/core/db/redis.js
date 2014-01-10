@@ -7,8 +7,8 @@
 
 var redis = require('redis');
 
-var config = require_config('db/redis');
-var conf = require_config();
+var config = load.config('db/redis');
+var conf = load.config();
 
 
 /**

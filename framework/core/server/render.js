@@ -1,7 +1,7 @@
 
 //返回数据统一处理器
 
-var json = require_tool('json');
+var json = load.tool('json');
 
 exports.text = function(req, res, context){
     var output = context+'';

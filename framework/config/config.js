@@ -20,6 +20,13 @@ module.exports = {
     debug: true,                  //是否为调试模式  调试会将错误抛出终止进程
     compiled: true,               //是否总是编译html、js、css等页面文件（比较耗时，debug时使用）
     compress: false,            //是否压缩js、css文件（比较耗时，debug时关闭）
-    expires: 60*60*24        //静态文件客户端缓存时间，单位为秒
+    expires: 60*60*24,        //静态文件客户端缓存时间，单位为秒
+
+    //url划分
+    url_divide:{
+        api:'api',
+        binary:'binary',
+        view:''
+    }
 
 };

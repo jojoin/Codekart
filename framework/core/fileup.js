@@ -2,8 +2,8 @@
 //文件上传模块
 
 var formidable = require('formidable');
-var config = require_config();
-var path = require_config('!path');
+var config = load.config();
+var path = load.config('!path');
 
 
 

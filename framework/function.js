@@ -13,69 +13,6 @@ var object = require('./tool/object.js');
 var model_name_cache = [];
 
 
-/**
- * 加载核心模块
- */
-global.require_core = function(name,ext){
-    return preload('core',name,ext);
-};
-
-
-/**
- * 加载程序模块
- */
-global.require_model = function(name,ext){
-    ext = suffix(ext);
-    return require(c_path.model+'/'+ name+ext);
-};
-
-
-
-/**
- * 加载库
- */
-global.require_lib = function(name,ext){
-    return preload('lib',name,ext);
-};
-
-
-
-/**
- * 加载工具
- */
-global.require_tool = function(name,ext){
-    return preload('tool',name,ext);
-};
-
-
-
-/**
- * 加载app下处理程序
- */
-global.require_app = function(name,ext){
-    ext = suffix(ext);
-    return require(c_path.app+'/'+name+ext);
-};
-
-
-
-/**
- * 加载页面处理程序
- */
-global.require_view = function(name,ext){
-    return preload('view',name,ext,{noerror:true});
-};
-
-
-
-/**
- * 加载配置文件
- */
-global.require_config = function(name,ext){
-    if(!name) name = 'config'; //默认文件
-    return preload('config',name,ext);
-};
-
 
 
 /**
@@ -96,7 +33,7 @@ function suffix(ext){
  * @param name 文件名或路径
  */
 
-function preload(base,name,ext,opt){
+function proload(base,name,ext,opt){
     var bname = base+'/'+name;
     //console.log(bname);
     //检查缓存，加载过路径则马上返回
@@ -107,7 +44,9 @@ function preload(base,name,ext,opt){
     var p1 = c_path.app+'/'+base+'/'
         , p2 = c_path.framework+'/'+base+'/';
     //如果模块第一个字符为!感叹号，则默认先加载框架模块，否则加载用户模块
-    if('!'===name.charAt(0)){
+
+    name = ''+name;
+    if('!'==name.charAt(0)){
         var p = p1;
         p1 = p2;
         p2 = p; //交换顺序
@@ -143,6 +82,52 @@ function preload(base,name,ext,opt){
 }
 
 
+/**
+ * 全局模块
+ * @type load
+ */
+global.load = {
+    /* 加载核心模块 */
+    core: function(name,ext){
+        return proload('core',name,ext);
+    },
+    /* 加载数据库模块 */
+    db: function(name,ext){
+        return proload('core/db',name,ext);
+    },
+    /* 加载库 */
+    lib: function(name,ext){
+        return proload('lib',name,ext);
+    },
+    /* 加载工具 */
+    tool: function(name,ext){
+        return proload('tool',name,ext);
+    },
+    /* 加载页面处理程序 */
+    view: function(name,ext){
+        return proload('view',name,ext,{noerror:true});
+    },
+    /* 加载配置文件 */
+    config: function(name,ext){
+        if(!name) name = 'config'; //默认文件
+        return proload('config',name,ext);
+    },
+    /* 加载程序模块 */
+    model: function(name,ext){
+        ext = suffix(ext);
+        return require(c_path.model+'/'+ name+ext);
+    },
+    /* 加载app下处理程序 */
+    app: function(name,ext){
+        ext = suffix(ext);
+        return require(c_path.app+'/'+name+ext);
+    }
+};
+
+
+
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -151,28 +136,20 @@ function preload(base,name,ext,opt){
  */
 global.inheritView = function(parent,stuff){
 
-    var current = object.clone(require_view(parent).stuff) //拷贝父级页面配置
-        , mod = ['tpl','pre_tpl','js','jslib','less','csslib'];
-    //console.log(current);
+    var child = object.clone(load.view(parent).stuff) //拷贝父级页面配置
+        , mod = ['tpl','tplpre','js','jslib','less','csslib'];
     for(var nk in mod){
         var n = mod[nk];
         if(stuff[n]){
-            if(!current[n])
-                current[n] = [];
-            if(!array.isArray(current[n]))
-                current[n] = [current[n]];//转化为数组
+            if(!child[n]) child[n] = [];
             //继承连接
-            current[n] = current[n].concat(stuff[n]);
+            child[n] = child[n].concat(stuff[n]);
         }
     }
-    if(!current.inherit){
-        current.inherit = [];
-        //current.name = [current.name]; //转化为数组
-    }
-    current.inherit.push(parent); //祖先页面名称链
+    if(!child.inherit) child.inherit = [];
+    child.inherit.push(parent); //祖先页面名称链
 
-    //current.name.push(stuff.name); //页面名称
-    return current;
+    return child;
 };
 
 
@@ -192,9 +169,9 @@ global.time = function(ms){
 /**
  * 同步或异步加载资源
  */
-function load(dir,filename,opt,callback){
+function proread(dir,filename,opt,callback){
 
-    var resource = '/'+dir+'/'
+    var resource = dir?'/'+dir+'/':'/'
         , p1 = c_path.app+resource
         , p2 = c_path.framework+resource;
     //如果模块第一个字符为!感叹号，则默认先加载框架资源，否则先加载用户资源
@@ -228,31 +205,22 @@ function load(dir,filename,opt,callback){
     return true;
 }
 
-/**
- * 同步或异步加载资源
- */
-function load_resource(filename,opt,callback){
-    return load('resource',filename,opt,callback);
-}
-
-/**
- * 同步或异步加载资源
- */
-function load_config(filename,opt,callback){
-    return load('config',filename,opt,callback);
-}
-
-
-
 
 
 /**
  * 外部接口
  */
-global.load = {
-    ex: load,
-    resource : load_resource,
-    config : load_config
+global.read = {
+    ex: proread, //终极
+    resource: function(filename,opt,callback){
+        return proread('resource',filename,opt,callback);
+    },
+    config: function(filename,opt,callback){
+        return proread('config',filename,opt,callback);
+    },
+    app: function(filename,opt,callback){
+        return proread('',filename,opt,callback);
+    }
 };
 
 

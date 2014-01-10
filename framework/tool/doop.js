@@ -4,7 +4,7 @@
  */
 
 
-var object  = require_tool('!object');
+var object  = load.tool('!object');
 
 
 

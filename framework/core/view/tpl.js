@@ -11,10 +11,10 @@
  *
  * */
 
-var file = require_tool('file');
-var json = require_tool('json');
-var config =  require_config();
-var cpath =  require_config('!path');
+var file = load.tool('file');
+var json = load.tool('json');
+var config =  load.config();
+var cpath =  load.config('!path');
 
 
 //tpl模块出插入的位置  如果有正则字符要转义
@@ -39,7 +39,7 @@ exports.ready = function(stuff,curname,callback){
         //console.log(one)
         for(var x in one){
             tplAry[x]=x; //
-            filecontent.push(load.resource('tpl/'+one[x]+'.tpl'));
+            filecontent.push(read.resource('tpl/'+one[x]+'.tpl'));
             break; //仅第一个属性
         }
     }

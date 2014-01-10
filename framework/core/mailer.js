@@ -2,8 +2,8 @@
 //加载nodemailer Module
 
 var nodemailer = require("nodemailer");
-var website = require_config('website');
-var email = require_config('email');
+var website = load.config('website');
+var email = load.config('email');
 
 
 var smtpTransport = nodemailer.createTransport("SMTP",email.SMTP);

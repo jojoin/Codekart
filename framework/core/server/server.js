@@ -8,12 +8,15 @@ var path = require('path');
 var cluster = require('cluster');
 var numCPUs = require('os').cpus().length; //cpu核心数
 var querystring = require('querystring');
-var server_static = require_core('!server/static');
-var server_api = require_core('!server/api');
-var server_view = require_core('!server/view');
-var config = require_config();
-var cpath = require_config('!path');
-var array = require_tool('!array');
+var server_static = load.core('!server/static');
+var server_controller = load.core('!server/controller');
+var server_view = load.core('!server/view');
+var route = load.core('!server/route');
+var config = load.config();
+var cpath = load.config('!path');
+var array = load.tool('!array');
+
+
 
 //工作者进程
 var workers = [];
@@ -38,7 +41,7 @@ exports.run = function(){
     if(config.cluster){
         return createClusterServer();
     }else{
-        return createServer(); //暂时不开启多核
+        return createServer(); //不开启多核
 
     }
 
@@ -83,83 +86,106 @@ function createServer(){
 
     //console.log();
     http.createServer(function(request, response){
-        //处理url参数
-        request.time_ms = new Date().getTime(); //请求进入时间 ms 毫秒
-        request.time = parseInt(request.time_ms/1000); //请求进入时间戳
+        //解析url
         request.url = url.parse(request.url,true);
-        request.get = request.url.query;
-        //获取路由
-        var met = requestSort(request);
-        //是否提交二进制数据！！！！！！
-        if (met=='binary'&& request.method.toLowerCase() == 'post') {
-            return dealwithRequest(request,response,met);
+        //请求类型
+        var method = request.method.toLowerCase()
+            , sort = getRequestSort(request, true);
+        if(sort!='static'){  //静态文件请求，不做request扩展处理
+            expandRequest(request);
         }
-        request.postData = '';
+        //判断是否为get或二进制/文件post请求，直接响应
+        if(method == 'get'
+            || request.headers['content-type'] == 'multipart/form-data'){
+            return routeRequest(request,response,sort);
+        }
+        var postData = '';
         request.on('data',function(chunk){
-            request.postData += chunk;
-            // console.log('event post on');
+            postData += chunk;
         });
         request.on('end', function(){
-            //数据全部到达，开始处理程序
-            dealwithRequest(request, response,met);
-            //console.log('event post end');
+            //处理post数据
+            request.post = querystring.parse(postData);
+            routeRequest(request,response,sort);
         });
+
     }).listen(config.port.http);
 
-    console.log('port '+config.port.http+' have been listening !');
+    console.log('listening port '+config.port.http+' successfully !');
 }
+
+
+
 
 
 /**
- * 所有的请求都由此函数统一处理
+ * 扩展 request 对象
  */
-function dealwithRequest(request, response, met){
-    //console.log(request.url);
-    //console.log(met);
-    if(met!='static'){
-        //处理cookie参数
-        request.cookie = {};
-        request.headers.cookie && request.headers.cookie.split(';').forEach(function( Cookie ) {
-            var parts = Cookie.split('=');
-            //console.log(parts);
-            request.cookie[ parts[0].trim() ] = ( parts[1] || '' ).trim();
-        });
-        //处理post数据
-        if(request.postData) request.post = querystring.parse(request.postData);
-    }
-    //传递给路由规则处理
-    route(request,response,met);
+function expandRequest(request){
+    request.time_ms = new Date().getTime(); //请求进入时间 ms 毫秒
+    request.time = parseInt(request.time_ms/1000); //请求进入时间戳
+    request.get = request.url.query;
+    //处理cookie参数
+    request.cookie = {};
+    request.headers.cookie && request.headers.cookie.split(';').forEach(function( Cookie ) {
+        var parts = Cookie.split('=');
+        //console.log(parts);
+        request.cookie[ parts[0].trim() ] = ( parts[1] || '' ).trim();
+    });
 }
+
+
 
 
 /**
  *  路由处理服务器
  *  请求服务路由，静态文件服务，数据接口服务，web接口
  */
-function route(request,response,met){
+function routeRequest(request,response,sort){
     //console.log(met);
-    if(met=='static') server_static.render(request,response);
-    else if(met=='api'||met=='binary') server_api.render(request,response);
-    else if(met=='view') server_view.render(request,response);
+    if(sort=='static')
+        server_static(request,response);
+    else if(sort=='controller')
+        server_controller(request,response);
+    else if(sort=='view')
+        server_view(request,response);
 }
 
 
 
 /**
  * 获取或者验证请求类型，静态、数据服务、二进制数据提交
+ * exp 表示是否扩展request
  */
-function requestSort(request,sort){
-    var sorts = ['api','binary']
-        , leg = sorts.length
-        , pathname = request.url.pathname
-        , re =  'view'; //默认为页面服务
-    for(var i=0;i<leg;i++){
-        if(pathname.indexOf('/'+sorts[i]+'/')==0){
-            re = sorts[i];
+function getRequestSort(request,exp){
+
+    var pathname = request.url.pathname;
+
+    //是否为注册的controller请求
+    var isCtrl = route.match(pathname,'controller');
+    if(isCtrl){
+        if(exp){//扩展request
+            request.url.param = isCtrl.param;
+            request.route = isCtrl.route;
         }
+        return 'controller';
     }
+
+    //是否为页面请求
+    var isView = route.match(pathname,'view');
+    if(isView){
+        if(exp){//扩展request
+            request.url.param = isView.param;
+            request.route = isView.route;
+        }
+        return 'view';
+    }
+
+    //是否为静态文件请求
     var type = path.extname(pathname).replace('.','');  //获取文件扩展名
-    if(type) re = 'static'; //静态文件服务
-    return sort?sort==re:re;
+    if(type) return 'static'; //静态文件服务
+
+
+    return 'controller'; //默认交由controller处理
 }
 

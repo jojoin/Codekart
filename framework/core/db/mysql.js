@@ -7,7 +7,7 @@
 
 var mysql = require('mysql');
 
-var config = require_config('db/mysql');
+var config = load.config('db/mysql');
 
 
 /**
@@ -77,16 +77,6 @@ exports.escape = function (str) {
     return str.replace(/\\/g, '\\\\')
         .replace(/"/g, '\\"')
         .replace(/'/g, "\\'") ;
-};
-
-
-
-
-
-//转义
-exports.escape = function (str) {
-    return str.replace(/\\/g, '\\\\')
-        .replace(/"/g, '\\"') ;
 };
 
 

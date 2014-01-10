@@ -34,7 +34,7 @@ require('./framework/function.js');
 /**
  * 加载url路由规则
  */
-require_config('route');
+load.config('route');
 
 
 
@@ -47,17 +47,29 @@ require_config('route');
 /**
  * 启动web服务器
  */
-require_core('server').run(); //
+load.core('server').run(); //
 
 
 
 
 
+/*
+ var path = '/'.split('/');
+ console.log(path);
 
 
 
 
+var tmpl = load.tool('tmpl');
 
+var render = tmpl('<div>  " "  [#=abc#]</div>');
+
+console.log(render);
+
+console.log(render({abc:123}));
+
+
+ */
 
 
 

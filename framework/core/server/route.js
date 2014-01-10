@@ -5,135 +5,77 @@
 
 var url = require('url');
 var path = require('path');
-var object = require_tool('object');
-var file = require_tool('file');
-var config =  require_config();
+var object = load.tool('object');
+var file = load.tool('file');
+var config =  load.config();
 
-//根据http请求的method来分别保存route规则
 
-//路由缓存
-var routes = exports.routes = {view:[], api:[], binary:[]};
+//路由注册数组
+var routes = exports.routes = {
+    view:[],
+    controller:[]
+};
 
 
 /**
- * 匹配url
+ * 匹配url类型，返回url的key参数
  */
-exports.match = function(urlpath,met){
+exports.match = function(pathname,sort){
 
-    //开始匹配 app/config/route.js 里面定义的路径
-    var re = {},
-    // url: /blog/index?page=1 ,则pathname为: /blog/index
-        pathname = url.parse(urlpath).pathname;
-    var m_routes = routes[met]
-        , leg = m_routes.length;
+    var route = routes[sort]  //已注册的url
+        , leg = route.length;
     for(var k=0;k<leg;k++){
-        //正则匹配
-        var keys = []
-            , rex = pathRegexp(m_routes[k].url,keys);
+        //依次匹配路由
+        var rou = route[k]
+            , urlkeyname = []
+            , rex = pathRegexp(rou.url,urlkeyname);
         var args = rex.exec(pathname); //正则匹配
 
         if(args){ /*匹配完成*/
-            re = m_routes[k];
+            var param = {};
             args.shift(); //第一个值为匹配到的整个url，后面才是匹配的的值
-            var leng = keys.length;
+            var leng = urlkeyname.length;
             for(var n=0;n<leng;n++){
-                re.key[keys[n]] = args[n]; //url内的参数 如 :uid
+                param[urlkeyname[n]] = args[n]; //url内的参数 如 :uid
             }
-            return re; //匹配路径 返回
+            return {param:param,route:rou}; //匹配路径 返回
         }
     }
 
-    //搜索文件匹配处理程序
-    if(config.route){
-        return searchDeal(pathname,met);
-    }else{
-        return false;  //没找到匹配的url
-    }
+    //未匹配到
+    return null;
+
 };
-
-
-/**
- * 搜索文件查找路由处理程序
- */
-function searchDeal(pathname,met){
-    //pathname 格式 /api/user/get
-    var arg = pathname.split("/")
-        , ctrl = path.dirname(pathname) //.replace('/api','').replace('/binary','')
-        , func = arg[arg.length-1];
-    if(met=='api' || met=='binary'){
-        if(ctrl&&func){
-            return {
-                controller: ctrl,
-                action: func
-            };
-        }else{
-            return false
-        }
-    }else if(met=='view'){
-        var page = arg[1] || 'html';
-        return {name:page};
-    }else{
-        return false;
-    }
-
-}
-
 
 
 
 /**
- * 注册路由规则
+ * 添加注册路由规则
  */
-var map = exports.map = function(dict,met){
-    if(dict && dict.url && dict.controller){
-        var d = { //默认值
-            url : '/',
-            path : '/view', //路径
-            controller : 'view', // 处理类
-            action : 'view', //处理函数
-            option : {}, //附带参数
-            key:{},//url路径参数
-            login : false //是否需要登录
 
-        };
-        object.extend(d,dict,true);
-        routes[met].push(d); //添加规则
-    }
+var add = exports.add = function(url,sort,ext){
+    var def = { //默认值
+        url : url,                //原始url
+        sort: sort
+    };
+    object.extend(def,ext,true);
+    routes[sort].push(def); //添加规则
 };
 
-/**
- * 注册api服务器路由
- */
-exports.api = function(dict){
-    var arg = dict.url.split("/");
-    dict.controller = dict.controller || arg[1];
-    dict.action = dict.action || arg[2];
-    dict.url = '/api/' + dict.url; //自动加上
-    dict.path = '/api';
-    map(dict,'api');
+exports.view = function(url,view){
+    add(url,'view',{view:view});
 };
 
-/**
- * 提交二进制数据处理
- */
-exports.binary = function(dict){
-    var arg = dict.url.split("/");
-    dict.controller = arg[1];
-    dict.action = arg[2];
-    dict.url = '/binary/' + dict.url;
-    dict.path = '/binary';
-    map(dict,'binary');
+exports.ctrl = function(url,ctrl,action){
+    add(url,'controller',{
+        controller:ctrl,  //控制器
+        action:action || 'index'   //处理函数
+    });
 };
 
-/**
- * 注册web页面服务器路由
- */
-exports.view = function(dict){
-    dict.path = '/view';
-    dict.action = 'view';
-    dict.controller = 'view';
-    map(dict,'view');
-};
+
+
+
 
 
 /**
@@ -175,4 +117,6 @@ var pathRegexp = exports.pathRegexp = function(path, keys, sensitive, strict) {
         .replace(/\*/g, '(.*)');
     return new RegExp('^' + path + '$', sensitive ? '' : 'i');
 };
+
+
 

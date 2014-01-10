@@ -1,10 +1,10 @@
 
 
 var fs = require('fs');
-var UglifyJS = require_lib("!uglify-js");
-var file = require_tool('!file');
-var config =  require_config();
-var cpath =  require_config('!path');
+var UglifyJS = load.lib("!uglify-js");
+var file = load.tool('!file');
+var config =  load.config();
+var cpath =  load.config('!path');
 
 
 
@@ -47,12 +47,12 @@ exports.ready = function(stuff,callback){
  * 读取tpl备用文件并合并
  */
 function mergerTpl(stuff,callback){
-    var leg = stuff.tpl_pre.length
+    var leg = stuff.tplpre.length
         , name = []
         , path = []
         , pre_tpl = [];
-    for(var k in stuff.tpl_pre){ //文件名数组
-        var one = stuff.tpl_pre[k];
+    for(var k in stuff.tplpre){ //文件名数组
+        var one = stuff.tplpre[k];
         for(var x in one){
             name.push(x);
             path.push(cpath.tpl+'/'+one[x]+'.tpl');
@@ -87,7 +87,7 @@ function merger(stuff,callback){
     var leg = stuff.js.length
         , filecontent = '';
     for(var i=0;i<leg;i++){ //文件名数组
-        filecontent += load.resource('js/'+stuff.js[i]+'.js');
+        filecontent += read.resource('js/'+stuff.js[i]+'.js');
     }
     if(config.compress){
         filecontent = UglifyJS(filecontent); //压缩js
