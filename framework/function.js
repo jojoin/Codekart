@@ -142,6 +142,10 @@ global.inheritView = function(parent,stuff){
         var n = mod[nk];
         if(stuff[n]){
             if(!child[n]) child[n] = [];
+            if(!array.isArray(child[n])){
+                var stu = child[n]+''; //避免循环引用错误
+                child[n] = [stu];
+            }
             //继承连接
             child[n] = child[n].concat(stuff[n]);
         }
