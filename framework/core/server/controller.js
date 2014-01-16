@@ -20,8 +20,8 @@ module.exports = function(request,response){
     if(request.route){ // 已经注册的控制器路由
         controller = request.route.controller;
         action = request.route.action;
-    }else if(pleg==1){ //                   /action
-            action = pathary[0];
+    }else if(pleg==1){ //                   /controller
+        controller = pathary[0];
     }else if(pleg==2){ //                   /controller/action
         controller = pathary[0];
         action = pathary[1];

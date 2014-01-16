@@ -19,6 +19,6 @@ module.exports = {
     debug: false,                  //是否为调试模式  调试会将错误抛出终止进程
     compiled: false,               //是否总是编译html、js、css等页面文件（比较耗时，debug时使用）
     compress: true,            //是否压缩js、css文件（比较耗时，debug时关闭）
-    expires: 60*60*24        //静态文件客户端缓存时间
+    expires: 100*60*60*24        //静态文件客户端缓存时间
 
 };
