@@ -2,17 +2,15 @@
 
 [Codekart](http://codekart.jojoin.com/) 是一套给 Node.js 开发者使用的应用程序开发框架和工具包。 它提供一套丰富的标准库以及简单的接口和逻辑结构， 其目的是使开发人员更快速地进行项目开发。 框架已经完成了诸如url请求自动路由、静态文件服务器和前后端代码模块化等实用且必须的功能。使用 Codekart 可以减少代码的编写量， 并将你的精力投入到项目的创造性开发上。
 
-****
 
-###安装：
+##安装：
 
 ```
 npm install codekart
 ```
 
-****
 
-###链接：
+##链接：
 
 **Codekart主页：http://codekart.jojoin.com/**
 
@@ -20,9 +18,8 @@ npm install codekart
 
 本框架来自[君鉴网](http://jojoin.com/)的开发实战积累。
 
-****
 
-###详细介绍：
+##详细介绍：
 
 ```
 • Codekart 是一个轻量级但功能强大的 Node.js 框架， 
@@ -49,9 +46,8 @@ npm install codekart
 7. 精简而强大的前端 js 插件和常用方法库
 8. 更多强大特征
 
-****
 
-###使用示例：
+##使用示例：
 
 使用Codekart，你可以十分方便的进行web页面模块化配置，例如: framework/view/html.js 内容如下：
 
@@ -96,14 +92,13 @@ exports.data = function(callback){
 
 exports.stuff 对象及为web页面的配置，exports.data函数为页面模板数据的获取函数。你也可以方便的进行页面的继承。
 
-****
 
-###其它:
+##其它:
 
 如果要支持本框架的开发，欢迎提交新的代码，或者点击我的支付宝链接：
 https://me.alipay.com/myworld4059
 
-###关于
+##关于
 
 ```
 * 这是一个开源框架，你可以任意修改和使用它（包括但不限于技术研究与分享、开源项目或者商业产品）。
