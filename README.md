@@ -12,9 +12,9 @@ npm install codekart
 
 ##链接：
 
-**Codekart主页：http://codekart.jojoin.com/**
+**Codekart主页：http://codekart.jojoin.com**
 
-**API文档/使用手册：http://docs.codekart.jojoin.com/**
+**API文档/使用手册：http://docs.codekart.jojoin.com**
 
 本框架来自[君鉴网](http://jojoin.com/)的开发实战积累。
 
@@ -92,6 +92,7 @@ exports.data = function(callback){
 
 exports.stuff 对象及为web页面的配置，exports.data函数为页面模板数据的获取函数。你也可以方便的进行页面的继承。
 
+其它更多强大的功能，请查阅 [Codekart文档](http://docs.codekart.jojoin.com/)。
 
 ##其它:
 
