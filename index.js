@@ -53,39 +53,3 @@ load.core('server').run(); //
 
 
 
-/*
- var path = '/'.split('/');
- console.log(path);
-
-
-
-
-var tmpl = load.tool('tmpl');
-
-var render = tmpl('<div>  " "  [#=abc#]</div>');
-
-console.log(render);
-
-console.log(render({abc:123}));
-
-
- */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

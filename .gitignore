@@ -1,11 +1,13 @@
 
 .gitignore
 .htaccess
-
 _note/
 .idea/
-static/js
-static/css
+
+text.js
+
+#static/js
+#static/css
 #static/psd
 node_modules/
 
