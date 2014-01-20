@@ -24,6 +24,6 @@ exports.stuff = inheritView('html',stuff);  //继承至view/html.js
  */
 exports.data = function(callback){
     callback({
-        title: 'CodeTank  欢迎使用Node.js前后端一体化开发框架 ！'
+        title: 'Codekart  欢迎使用Node.js前后端一体化开发框架 ！'
     });
 };
