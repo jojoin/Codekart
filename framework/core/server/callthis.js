@@ -1,6 +1,7 @@
 
 
 var view = load.core('view/view');
+var json = load.tool('json');
 
 /**
  * this本地对象

@@ -8,8 +8,9 @@
  *
  * 本框架最初来自 君鉴网(jojoin.com) 的开发实战和积累，如今你可以在下面的地址找到它并下载和学习使用：
  * ┌───────────────────────────┐
- * │项目地址：https://github.com/myworld4059/codekart
- * │wiki 地址：https://github.com/myworld4059/codekart/wiki
+ * │源码地址：https://github.com/myworld4059/codekart
+ * │官方主页：https://codekart.jojoin.com
+ * │文档手册：https://docs.codekart.jojoin.com
  * └───────────────────────────┘
  *
  * 也欢迎你联系本框架的作者，提出建议或者bug，进行技术交流：
@@ -48,8 +49,3 @@ load.config('route');
  * 启动web服务器
  */
 load.core('server').run(); //
-
-
-
-
-
