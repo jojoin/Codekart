@@ -13,6 +13,7 @@
 
 var file = load.tool('file');
 var json = load.tool('json');
+var array = load.tool('array');
 var config =  load.config();
 var cpath =  load.config('!path');
 
@@ -59,21 +60,29 @@ function addReferenceFile(stuff,tplAry){
     tplAry['src_script'] = '';
     var one = '';
     //css
-    for(var css in stuff.csslib){
-        one = stuff.csslib[css];
-        if(one.indexOf('http')!==0){ //判断是否为外部css库
-            one = '/csslib/'+one+'.css';  //本地
+    if(array.isArray(stuff.csslib)){
+        for(var css in stuff.csslib){
+            one = stuff.csslib[css];
+            if(one.indexOf('http')!==0){ //判断是否为外部css库
+                one = '/csslib/'+one+'.css';  //本地
+            }
+            tplAry['src_style'] += '<link rel="stylesheet" type="text/css" href="'+one+'" />';
         }
-        tplAry['src_style'] += '<link rel="stylesheet" type="text/css" href="'+one+'" />';
+    }else{
+        tplAry['src_style'] += '<link rel="stylesheet" type="text/css" href="'+stuff.csslib+'" />';
     }
     tplAry['src_style'] = '<link rel="stylesheet" type="text/css" href="'+stuff.cssname+'" />';
     //js
-    for(var js in stuff.jslib){
-        one = stuff.jslib[js];
-        if(one.indexOf('http')!==0){ //判断是否为外部js库
-            one = '/jslib/'+one+'.js'; //本地
+    if(array.isArray(stuff.jslib)){
+        for(var js in stuff.jslib){
+            one = stuff.jslib[js];
+            if(one.indexOf('http')!==0){ //判断是否为外部js库
+                one = '/jslib/'+one+'.js'; //本地
+            }
+            tplAry['src_script'] += '<script type="text/javascript" src="'+one+'"></script>';
         }
-        tplAry['src_script'] += '<script type="text/javascript" src="'+one+'"></script>';
+    }else{
+        tplAry['src_script'] += '<script type="text/javascript" src="'+stuff.jslib+'"></script>';
     }
     tplAry['src_script'] += '<script type="text/javascript" src="'+stuff.jsname+'" ></script>';
 }
