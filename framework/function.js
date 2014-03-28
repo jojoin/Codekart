@@ -41,12 +41,15 @@ function proload(base,name,ext,opt){
     if(cache&&cache.path) return require(cache.path);
 
     //没有缓存加载新库
-    var p1 = c_path.app+'/'+base+'/'
+    var p0 = ''
+        , p1 = c_path.app+'/'+base+'/'
         , p2 = c_path.framework+'/'+base+'/';
     //如果模块第一个字符为!感叹号，则默认先加载框架模块，否则加载用户模块
 
+    var isi = ('!'==name.charAt(0));
     name = ''+name;
-    if('!'==name.charAt(0)){
+    if(isi){
+        p0 = false; //不进行
         var p = p1;
         p1 = p2;
         p2 = p; //交换顺序
@@ -56,6 +59,7 @@ function proload(base,name,ext,opt){
     p2 += name;
     //后缀
     ext = suffix(ext);
+
     var path_ary = [
         p1+ext,
         p1+'/index'+ext,
@@ -64,7 +68,16 @@ function proload(base,name,ext,opt){
         p2+'/index'+ext,
         p2+'/'+name+ext
     ];
-    //console.log(path_ary);
+
+    //自定义配置文件路径
+    var c_p = global.load.config_path;
+    if(!isi&&base=='config'&&c_p){
+        p0 = c_path.app+'/config/'+c_p;
+        //path_ary.unshift(p0+ext);
+        //path_ary.unshift(p0+'/index'+ext);
+        path_ary.unshift(p0+'/'+name+ext);
+    }
+    //if(p0) console.log(path_ary);
     //查找可用路径
     var pathone = file.validPath(path_ary);
     //console.log(pathone);
@@ -107,6 +120,8 @@ global.load = {
     view: function(name,ext){
         return proload('view',name,ext,{noerror:true});
     },
+    /* 配置文件路径 */
+    config_path : '',
     /* 加载配置文件 */
     config: function(name,ext){
         if(!name) name = 'config'; //默认文件
@@ -143,8 +158,8 @@ global.inheritView = function(parent,stuff){
         if(stuff[n]){
             if(!child[n]) child[n] = [];
             if(!array.isArray(child[n])){
-                var stu = child[n]+''; //避免循环引用错误
-                child[n] = [stu];
+                var stu = child[n]; //避免循环引用错误
+                child[n] = new Array(stu);
             }
             //继承连接
             child[n] = child[n].concat(stuff[n]);
@@ -152,7 +167,7 @@ global.inheritView = function(parent,stuff){
     }
     if(!child.inherit) child.inherit = [];
     child.inherit.push(parent); //祖先页面名称链
-
+    //console.log(child);
     return child;
 };
 

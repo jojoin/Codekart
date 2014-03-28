@@ -31,18 +31,19 @@
 require('./framework/function.js');
 
 
+/**
+ * 配置文件路径
+ * config_path=='' 对应 app/config 配置文件目录
+ * config_path=='development'  对应 app/config/development 配置文件目录
+ */
+load.config_path = '';
+//load.config_path = 'development';
+
 
 /**
  * 加载url路由规则
  */
 load.config('route');
-
-
-
-
-//取消下面的注释，可以修改默认端口配置
-//config.port.http = 81;
-//config.port.websocket = 82;
 
 
 /**

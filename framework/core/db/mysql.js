@@ -7,7 +7,7 @@
 
 var mysql = require('mysql');
 
-var config = load.config('db/mysql');
+var config = load.config('database').mysql;
 
 
 /**

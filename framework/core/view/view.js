@@ -60,7 +60,7 @@ exports.render = function(request,response,view,viewobject){
         if(step==stepTotal){
             var html = '';
             try{
-                //console.log(tmpl);
+                //console.log(tpl_html);
                 //html = tpl_html;
                 if(!config.compiled){  //如果非debug模式
                     if(!tmpl_render_cache[viewname]){  //检测是否存在页面解析缓存
