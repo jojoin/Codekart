@@ -16,6 +16,8 @@ npm install codekart
 
 **API文档/使用手册：http://docs.codekart.jojoin.com**
 
+**官方QQ群：366311819**
+
 本框架来自[君鉴网](http://jojoin.com/)的开发实战积累。
 
 
