@@ -3,14 +3,22 @@
 
 <a class="forkme" target="_blank" href="https://github.com/myworld4059/codekart"></a>
 
-
+<!--
 
 <div class="header">
   <div class="wrap">
     <img class="logo" src="/cssimg/codekart/logo.png"/>
   </div>
 </div>
+-->
 
+<div style="width: 100%;background: #333;padding-top: 12px;">
+  <div class="wrap">
+    <img class="logo" src="/cssimg/codekart/banner.png"/>
+  </div>
+</div>
+
+<br>
 
 <div class="wrap intro">
   <p>

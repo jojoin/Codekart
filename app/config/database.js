@@ -5,7 +5,7 @@
  * 源码地址：https://github.com/felixge/node-mysql
  */
 
-module.exports.nysql = {
+module.exports.mysql = {
     //默认mysql数据库
     default:{
         host:'127.0.0.1',

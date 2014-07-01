@@ -3,6 +3,7 @@
 var fs = require('fs');
 var less  = load.lib('!less');
 var file = load.tool('!file');
+var array = load.tool('!array');
 var config =  load.config();
 var cpath =  load.config('!path');
 
@@ -20,25 +21,29 @@ var cssFileNameCache = {};
  * @param callback
  */
 exports.ready = function(stuff,callback){
-    var cssFileName = cpath.static+stuff.cssname;
+    var cssFileName = cpath.static+stuff.client_name_css;
     if(cssFileNameCache[cssFileName] && !config.compiled){
         //console.log('css文件缓存');
-        callback(true); /*检查读取缓存*/
+        callback(null,true); /*检查读取缓存*/
         return;
     }
     fs.exists(cssFileName,function(have){
         if(config.compiled || have==false){ //编译文件
-            merger(stuff,function(css){
+            merger(stuff,function(err,css){
+                if(err){  //文件写入错误
+                    return callback(err);
+                }
                 fs.writeFile(cssFileName,css, function (err) { //创建缓存文件
-                    //文件写入错误
-                    if(err) console.log(err);
+                    if(err){  //文件写入错误
+                        return callback(err);
+                    }
                     cssFileNameCache[cssFileName] = true; //缓存
-                    callback(css);//处理完毕
+                    callback(null,css);//处理完毕
                 });
             });
         }else{
             cssFileNameCache[cssFileName] = true; //缓存
-            callback(true);//处理完毕
+            callback(null,true);//处理完毕
         }
     });
 };
@@ -55,10 +60,13 @@ function merger(stuff,callback){
     }
 
     less.render(filecontent, function (e, css) {//生成css
+        if(e){ //编译css错误
+            return callback(e);
+        }
         if(config.compress){ //压缩css
             css = compress(css);
         }
-        callback(pretreatment(css)); //预编译
+        callback(null,pretreatment(css)); //预编译
     });
 }
 

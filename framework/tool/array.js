@@ -1,7 +1,7 @@
 
 //数组
 
-/*
+
 
 //数组去重
 exports.unique = function(ary)
@@ -17,20 +17,23 @@ exports.unique = function(ary)
     }
     return r;
 };
-*/
+
+
+/*
 //这样更高效
 exports.unique = function(arr){
     var len = arr.length,
         i = 0,
         ret = [];
-        
     for(;i<len;i++){
         if(arr.indexOf(arr[i]) === i){
             ret.push(arr[i]);
         }
         return ret;
     }
-}
+};
+ */
+
 
 
 

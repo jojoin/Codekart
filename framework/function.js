@@ -150,24 +150,18 @@ global.load = {
  * 继承页面
  */
 global.inheritView = function(parent,stuff){
-
-    var child = object.clone(load.view(parent).stuff) //拷贝父级页面配置
-        , mod = ['tpl','tplpre','js','jslib','less','csslib'];
-    for(var nk in mod){
-        var n = mod[nk];
-        if(stuff[n]){
-            if(!child[n]) child[n] = [];
-            if(!array.isArray(child[n])){
-                var stu = child[n]; //避免循环引用错误
-                child[n] = new Array(stu);
+    var child = object.clone(load.view(parent).stuff); //拷贝父级页面配置
+    for(var c in child){
+        var cn = child[c];
+        if(stuff[c]){ // 增加stuff数据
+            if(array.isArray(stuff[c])){
+                child[c] = child[c].concat(stuff[c]);
+            }else{
+                child[c].push(stuff[c]);
             }
-            //继承连接
-            child[n] = child[n].concat(stuff[n]);
         }
     }
-    if(!child.inherit) child.inherit = [];
     child.inherit.push(parent); //祖先页面名称链
-    //console.log(child);
     return child;
 };
 
@@ -241,6 +235,49 @@ global.read = {
         return proread('',filename,opt,callback);
     }
 };
+
+
+
+/**
+ * 时间格式化
+ */
+Date.prototype.format = function(format){
+
+//使用方法
+//var now = new Date();
+//var nowStr = now.format("yyyy-MM-dd hh:mm:ss");
+//使用方法2:
+//var testDate = new Date();
+//var testStr = testDate.format("YYYY年MM月dd日hh小时mm分ss秒");
+//alert(testStr);
+//示例：
+//alert(new Date().Format("yyyy年MM月dd日"));
+//alert(new Date().Format("MM/dd/yyyy"));
+//alert(new Date().Format("yyyyMMdd"));
+//alert(new Date().Format("yyyy-MM-dd hh:mm:ss"));
+
+    var o = {
+        "M+" : this.getMonth()+1, //month
+        "d+" : this.getDate(), //day
+        "h+" : this.getHours(), //hour
+        "m+" : this.getMinutes(), //minute
+        "s+" : this.getSeconds(), //second
+        "q+" : Math.floor((this.getMonth()+3)/3), //quarter
+        "S" : this.getMilliseconds() //millisecond
+    };
+
+    if(/(y+)/.test(format)) {
+        format = format.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+    }
+
+    for(var k in o) {
+        if(new RegExp("("+ k +")").test(format)) {
+            format = format.replace(RegExp.$1, RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));
+        }
+    }
+    return format;
+};
+
 
 
 

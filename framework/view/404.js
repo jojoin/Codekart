@@ -4,7 +4,6 @@
 
 
 var stuff = {
-    name: '404', //必须
     tpl: {body:'404'},
     less:'404'
 };
@@ -22,9 +21,14 @@ exports.stuff = inheritView('html',stuff); //继承至html
  * @callback 必须调用 ，表示数据获取完成，进行子级页面数据获取
  */
 exports.data = function(callback){
+
+    //404 请求头
+    this.response.writeHead(404,
+        { 'Content-Type': 'text/html', 'Content-Encoding':'UTF-8'});
+
     var msg = this.request.error_msg || '';
     callback({
-        title: ':( 404 页面没找到',
+        title: '404 Not Found',
         error_msg:msg
     });
 };

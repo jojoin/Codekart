@@ -8,6 +8,7 @@ var path = require('path');
 var object = load.tool('object');
 var file = load.tool('file');
 var config =  load.config();
+var route =  load.config('route');
 
 
 //路由注册数组
@@ -15,6 +16,7 @@ var routes = exports.routes = {
     view:[],
     controller:[]
 };
+
 
 
 /**
@@ -117,6 +119,42 @@ var pathRegexp = exports.pathRegexp = function(path, keys, sensitive, strict) {
         .replace(/\*/g, '(.*)');
     return new RegExp('^' + path + '$', sensitive ? '' : 'i');
 };
+
+
+/**
+ * 自动读取配置文件并加载路由配置
+ */
+
+//加载页面配置
+if(route&&route.view){
+    var leg = route.view.length
+        , view = route.view;
+    //倒序添加，覆盖规则
+    while(leg--){
+        var one = view[leg];
+        //通过参数添加页面配置
+        add(one[0],'view',{view:one[1]});
+    }
+}
+
+
+
+//加载控制器配置
+if(route&&route.ctrl){
+    var leg = route.ctrl.length
+        , ctrl = route.ctrl;
+    //倒序添加，覆盖规则
+    //倒序添加，覆盖规则
+    while(leg--){
+        var one = ctrl[leg];
+        //通过参数添加控制器配置
+        add(one[0],'controller',{
+            controller:one[1],  //控制器
+            action:one[2] || 'index'   //处理函数
+        });
+    }
+}
+
 
 
 

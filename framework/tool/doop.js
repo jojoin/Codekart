@@ -3,9 +3,7 @@
  * 定时在指定时间执行代码的工具
  */
 
-
-var object  = load.tool('!object');
-
+var object  = require('./object');
 
 
 /*

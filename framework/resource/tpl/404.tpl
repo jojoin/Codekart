@@ -1,11 +1,10 @@
 
 <div class="paper">
-  <h1>404<strong>页面没找到</strong></h1>
+  <h1>404<strong>Not Found</strong></h1>
   <p>
-    对不起，你访问的页面不存在。<br/>
+    Sorry, the page not found<br/>
     [#if(this.error_msg){#]<span class="msg">[#=error_msg#]</span>[#}#]
-    由此给您带来不便，敬请谅解。<br/>
-    你可以 <a href="[#=website.url#]">访问首页</a> 。<br/>
-    © [#=website.name#] - <a href="[#=website.url#]">[#=website.domain#]</a><br/>
+    <br/>
+    © Codekart <br/>
   </p>
 </div>

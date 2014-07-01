@@ -9,9 +9,9 @@ exports.index = function(){
 };
 
 
-exports.text = function(){
+exports.test = function(){
     var that = this;
 
 
-    that.renderApi(200,'asdfg');
+    that.renderApi(200,'asdfasgdfadsfg');
 };

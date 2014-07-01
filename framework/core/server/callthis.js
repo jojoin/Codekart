@@ -1,7 +1,8 @@
 
-
-var view = load.core('view/view');
+var view = load.core('!view/view');
+var render = load.core('!server/render');
 var json = load.tool('json');
+
 
 /**
  * this本地对象
@@ -10,25 +11,16 @@ module.exports = function(request, response){
     this.request = request;
     this.response = response;
     //返回内容
-    this.render = function(context){
-        var output = context+'';
-        this.response.writeHead(200, { 'Content-Type': 'text/html', 'Content-Encoding':'UTF-8' });
-        this.response.end(output);
+    this.render = function(context,code,head){
+        render.text(this.request,this.response,context,code,head);
     };
     //返回json格式内容
     this.renderJson =  function(data){
-        //this.flushCookie(); //设置cookie
-        var jsonStr = json.stringify(data);
-        this.response.writeHead(200, {'Content-Type': 'application/json','Content-Encoding':'UTF-8'});
-        this.response.end(jsonStr);
+        render.json(this.request,this.response,data);
     };
     //返回gost内容
-    this.renderApi = function(code,msg,data){
-        var renderObj = {};
-        renderObj.code = code || 200;
-        renderObj.msg = msg || '';
-        renderObj.data = data || '';
-        this.renderJson(renderObj);
+    this.renderApi = function(data, msg, code){
+        render.api(this.request, this.response, data, msg, code);
     };
     //返回跳转页面
     this.renderJump =  function(url){

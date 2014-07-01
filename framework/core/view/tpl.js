@@ -11,9 +11,9 @@
  *
  * */
 
-var file = load.tool('file');
-var json = load.tool('json');
-var array = load.tool('array');
+var file = load.tool('!file');
+var json = load.tool('!json');
+var array = load.tool('!array');
 var config =  load.config();
 var cpath =  load.config('!path');
 
@@ -29,8 +29,7 @@ exports.ready = function(stuff,curname,callback){
     //console.log(theTplCache);
     if(theTplCache[curname] && !config.compiled){ /*有缓存则读取缓存*/
         //console.log('tpl缓存');
-        callback(theTplCache[curname]);
-        return ;
+        return callback(null,theTplCache[curname]);
     }
     //console.log(stuff.tpl);
     var tplAry = {}
@@ -44,17 +43,59 @@ exports.ready = function(stuff,curname,callback){
             break; //仅第一个属性
         }
     }
-
-    //添加js和css文件的引用
-    addReferenceFile(stuff,tplAry);
     //组合tpl
-    merger(curname,tplAry,filecontent,callback);
-
+    var content = merger(tplAry,filecontent);
+    //添加css和js引用文件
+    content = addReferenceFile(stuff,content);
+    //缓存模板内容
+    theTplCache[curname] = content;
+    //返回数据
+    callback(null,content);
 };
 
 
 //扩展js和css文件的引用
-function addReferenceFile(stuff,tplAry){
+function addReferenceFile(stuff,filecontent){
+    //添加js和css引用
+    var src_style = '';
+    var src_script = '';
+    var one = '';
+    //css
+    if(array.isArray(stuff.csslib)){
+        for(var css in stuff.csslib){
+            one = stuff.csslib[css];
+            if(one.indexOf('http')!==0){ //判断是否为外部css库
+                one = '/csslib/'+one+'.css';  //本地
+            }
+            src_style += '<link rel="stylesheet" type="text/css" href="'+one+'" />';
+        }
+    }else{
+        src_style += '<link rel="stylesheet" type="text/css" href="'+stuff.csslib+'" />';
+    }
+    src_style = '<link rel="stylesheet" type="text/css" href="'+stuff.client_name_css+'" />';
+    //js
+    if(array.isArray(stuff.jslib)){
+        for(var js in stuff.jslib){
+            one = stuff.jslib[js];
+            if(one.indexOf('http')!==0){ //判断是否为外部js库
+                one = '/jslib/'+one+'.js'; //本地
+            }
+            src_script += '<script type="text/javascript" src="'+one+'"></script>';
+        }
+    }else{
+        src_script += '<script type="text/javascript" src="'+stuff.jslib+'"></script>';
+    }
+    src_script += '<script type="text/javascript" src="'+stuff.client_name_js+'" ></script>';
+
+    //替换
+    return filecontent.replace('</head>',src_style+'</head>')
+        .replace('</body>',src_script+'</body>');
+
+}
+
+
+//扩展js和css文件的引用
+function addReferenceFile_old(stuff,tplAry){
     //添加js和css引用
     tplAry['src_style'] = '';
     tplAry['src_script'] = '';
@@ -71,7 +112,7 @@ function addReferenceFile(stuff,tplAry){
     }else{
         tplAry['src_style'] += '<link rel="stylesheet" type="text/css" href="'+stuff.csslib+'" />';
     }
-    tplAry['src_style'] = '<link rel="stylesheet" type="text/css" href="'+stuff.cssname+'" />';
+    tplAry['src_style'] = '<link rel="stylesheet" type="text/css" href="'+stuff.client_name_css+'" />';
     //js
     if(array.isArray(stuff.jslib)){
         for(var js in stuff.jslib){
@@ -84,13 +125,13 @@ function addReferenceFile(stuff,tplAry){
     }else{
         tplAry['src_script'] += '<script type="text/javascript" src="'+stuff.jslib+'"></script>';
     }
-    tplAry['src_script'] += '<script type="text/javascript" src="'+stuff.jsname+'" ></script>';
+    tplAry['src_script'] += '<script type="text/javascript" src="'+stuff.client_name_js+'" ></script>';
 }
 
 
 
 //正则替换合并
-function merger(name,tplAry,data,callback){
+function merger(tplAry,data){
     var content = ''
         , n = 0
         , leg = data.length;
@@ -109,10 +150,9 @@ function merger(name,tplAry,data,callback){
         content = compress(content);
     }
     //console.log(content);
-    /* 缓存模板内容 */
-    theTplCache[name] = content;
+
     //console.log('tpl文件'+content);
-    callback(content);
+    return content;
 }
 
 

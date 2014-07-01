@@ -1,3 +1,14 @@
+
+[![NPM](https://nodei.co/npm/codekart.png?downloads=true)](https://nodei.co/npm/codekart/)
+
+[![Gitter chat](https://badges.gitter.im/yangjiePro/Codekart.png)](https://gitter.im/yangjiePro/Codekart)
+
+[![Build Status](https://secure.travis-ci.org/Automattic/socket.io-client.png)](http://travis-ci.org/Automattic/socket.io-client)
+[![NPM version](https://badge.fury.io/js/socket.io-client.png)](http://badge.fury.io/js/socket.io-client)
+
+
+
+
 ![codetank](http://codekart.jojoin.com/cssimg/codekart/logo_big.png)
 
 [Codekart](http://codekart.jojoin.com/) 是一套给 Node.js 开发者使用的应用程序开发框架和工具包。 它提供一套丰富的标准库以及简单的接口和逻辑结构， 其目的是使开发人员更快速地进行项目开发。 框架已经完成了诸如url请求自动路由、静态文件服务器和前后端代码模块化等实用且必须的功能。使用 Codekart 可以减少代码的编写量， 并将你的精力投入到项目的创造性开发上。
