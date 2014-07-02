@@ -1,6 +1,6 @@
 {
   "name": "codekart",
-  "version": "0.1.6",
+  "version": "0.1.8",
   "description": "Web application framework for Node.js",
   "main": "index.js",
   "dependencies": {

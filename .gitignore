@@ -6,9 +6,13 @@ _note/
 
 text.js
 
-#static/js
-#static/css
-#static/psd
+static/js
+static/jslib
+static/css
+static/csslib
+static/img
+static/webfont
+static/psd
 data/
 log/
 node_modules/

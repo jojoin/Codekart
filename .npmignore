@@ -2,4 +2,21 @@ support
 test
 examples
 
+.gitignore
+.htaccess
+_note/
+.idea/
+
+text.js
+
+#static/js
+#static/jslib
+#static/css
+#static/csslib
+#static/img
+#static/webfont
 static/psd
+data/
+log/
+node_modules/
+
