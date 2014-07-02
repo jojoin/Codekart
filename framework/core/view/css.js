@@ -24,8 +24,7 @@ exports.ready = function(stuff,callback){
     var cssFileName = cpath.static+stuff.client_name_css;
     if(cssFileNameCache[cssFileName] && !config.compiled){
         //console.log('css文件缓存');
-        callback(null,true); /*检查读取缓存*/
-        return;
+        return callback(null,true); /*检查读取缓存*/
     }
     fs.exists(cssFileName,function(have){
         if(config.compiled || have==false){ //编译文件

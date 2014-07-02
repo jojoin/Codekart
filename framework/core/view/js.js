@@ -44,12 +44,12 @@ exports.ready = function(stuff,callback){
                             return callback(err);
                         }
                         jsFileNameCache[jsFileName] = true; //缓存
-                        callback(null,js);//处理完毕
+                        callback(null,js+'');//处理完毕
                     });
                 });
             });
         }else{
-            callback(null);//处理完毕
+            callback(null,true);//处理完毕
         }
     });
 
