@@ -113,8 +113,7 @@ exports.stuff 对象及为web页面的配置，exports.data函数为页面模板
 
 ##其它:
 
-如果要支持本框架的开发，欢迎提交新的代码，或者点击我的支付宝链接：
-https://me.alipay.com/myworld4059
+如果要支持本框架的开发，欢迎提交新的代码。
 
 ##关于
 
@@ -123,14 +122,14 @@ https://me.alipay.com/myworld4059
 * 本框架最初来自 君鉴网(http://jojoin.com) 的开发实战和积累，如今你可以在下面的地址找到它并下载和学习使用：
 * ┌─────────────────────────────────────────────────────────────┐
 * │    框架主页：http://codekart.jojoin.com
-* │    托管地址：https://github.com/myworld4059/Codekart
+* │    托管地址：https://github.com/yangjiePro/Codekart
 * └─────────────────────────────────────────────────────────────┘
 * 也欢迎你联系本框架的作者，提出建议或者bug，进行技术交流：
 * ┌─────────────────────────────────────────────────────────────┐
 * │    作者：杨捷
-* │    邮箱：myworld4059@163.com
+* │    邮箱：yangjie@jojoin.com
 * │    QQ ：446342398
-* │    Github ：https://github.com/myworld4059
+* │    Github ：https://github.com/yangjiePro
 * └─────────────────────────────────────────────────────────────┘
 ```
 
