@@ -7,8 +7,7 @@ Codekart
 [![Gitter chat](https://badges.gitter.im/yangjiePro/Codekart.png)](https://gitter.im/yangjiePro/Codekart)
 [![Codekart官方群](http://pub.idqqimg.com/wpa/images/group.png)](http://shang.qq.com/wpa/qunwpa?idkey=f1c376034f496a66d144e4cca4ff7beb2e2fd8aed89c5b81b3ba7a435f031e68)
 
-Web application framework for Node.js : 
-[codekart.jojoin.com](http://codekart.jojoin.com/)
+**Web application framework for Node.js : [codekart.jojoin.com](http://codekart.jojoin.com/)**
  
 
 ![Codetank](http://codekart.jojoin.com/cssimg/codekart/banner.png)
@@ -27,12 +26,12 @@ npm install codekart
 
 ##链接：
 
-**Codekart主页：http://codekart.jojoin.com**
+Codekart主页：http://codekart.jojoin.com
 
-**API文档/使用手册：http://docs.codekart.jojoin.com**
+API文档/使用手册：http://docs.codekart.jojoin.com
 此文档程序由codekart框架开发和驱动，托管地址：https://github.com/myworld4059/docs.codekart
 
-**官方QQ群：366311819** (问题解答,bug反馈,功能建议等)
+官方QQ群：366311819 (问题解答,bug反馈,功能建议等)
 
 本框架来自[君鉴网](http://jojoin.com/)的开发实战积累。
 
