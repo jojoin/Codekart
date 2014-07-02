@@ -1,7 +1,7 @@
 {
   "name": "codekart",
   "version": "0.1.5",
-  "description": "a Node.js MVC Framework",
+  "description": "Web application framework for Node.js",
   "main": "index.js",
   "dependencies": {
     "mysql":"2.0.0-rc1",

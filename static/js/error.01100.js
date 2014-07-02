@@ -1,3 +1,1 @@
-window.Tpls={};
-//初始化 域名空间 大写的字母 C
-window.C = window.C || {};
+window.Tpls={};window.C = window.C || {};  C.define = {      wspolling:{          enable:true,          baseurl:"_websocketpolling_",          timeout:2500      }  };          

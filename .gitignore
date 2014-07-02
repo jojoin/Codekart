@@ -9,7 +9,8 @@ text.js
 #static/js
 #static/css
 #static/psd
-#data/
-#log/
+data/
+log/
 node_modules/
+
 
