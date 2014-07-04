@@ -4,7 +4,7 @@
 
 var cluster = require('cluster');
 
-var ws = require('ws');
+var ws;
 
 var config = load.config();
 
@@ -27,6 +27,9 @@ exports.run = function(){
     //console.log('ws_port_inc : '+cluster.worker.process.env.ws_port_inc);
 
     //console.log('I am worker #' + cluster.worker.id);
+
+    //加载模块
+    if(!ws) ws = require('ws');
 
     var WebSocketServer = ws.Server
         , wss = new WebSocketServer({port: port});

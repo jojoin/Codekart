@@ -528,5 +528,31 @@
     };
 
     C.ajax = Ajax;
+    C.ajax.get = function(url,get,callback){
+        C.ajax.send({
+            url: url,
+            type:'GET',
+            data:get,
+            error:function(err,data){
+                callback(err,null);
+            },
+            success:function(data){
+                callback(null,data);
+            }
+        });
+    };
+    C.ajax.post = function(url,post,callback){
+        C.ajax.send({
+            url: url,
+            type:'POST',
+            data:post,
+            error:function(xhr,err){
+                callback(err,null);
+            },
+            success:function(data){
+                callback(null,data);
+            }
+        });
+    };
 
 })();

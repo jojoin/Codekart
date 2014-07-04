@@ -3,6 +3,10 @@ var view = load.core('!view/view');
 var render = load.core('!server/render');
 var json = load.tool('json');
 
+var formidable;
+var form;
+
+
 
 /**
  * this本地对象
@@ -88,6 +92,7 @@ module.exports = function(request, response){
     };
 
     /*
+     *  !!!弃用!!!
      *  说明：header头部发送cookie设置信息
      */
     this.flushCookie = function () {
@@ -95,6 +100,43 @@ module.exports = function(request, response){
         //console.log(this.cookieArr);
         this.response.setHeader("Set-Cookie", this.cookieArr);
     };
+
+    /**
+     * 处理表单数据
+     */
+    this.formdata = function (callback) {
+        if(!formidable){ //加载模块
+            formidable = require('formidable');
+            //开始处理表单
+            form = new formidable.IncomingForm();
+        }
+
+        form.parse(this.request,callback);
+        /*
+        form.parse(this.request, function(err, fields, files) {
+            //res.writeHead(200, {'content-type': 'text/plain'});
+            //res.write('received upload:\n\n');
+            //res.end(util.inspect({fields: fields, files: files}));
+        });
+        */
+        /*
+         {   fields: { title: 'something' },
+             files:
+                 { upload:
+                     { domain: null,
+                     _events: {},
+                     _maxListeners: 10,
+                     size: 307905,
+                     path: 'C:\\Users\\DELL\\AppData\\Local\\Temp\\46212f78b8ce64721d57b83111d3e829',
+                     name: '1.jpg',
+                     type: 'image/jpeg',
+                     hash: null,
+                     lastModifiedDate: Fri Jul 04 2014 15:51:32 GMT+0800 (...),
+                     _writeStream: [Object] } }
+         }
+        */
+
+    }
 
 
 };

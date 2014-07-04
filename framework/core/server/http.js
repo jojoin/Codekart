@@ -32,6 +32,7 @@ exports.run = function(){
     http.createServer(function(request, response){
         //console.log(request.url);
         //console.log('I am worker #' + cluster.worker.id);
+        request.setEncoding("utf8");
         //是否为 WebSocket 兼容处理请求
         if(request.url.indexOf('/'+define.ws_polling_baseurl+'/')>-1){
             return websocket.polling(request, response);
@@ -45,8 +46,7 @@ exports.run = function(){
             expandRequest(request);
         }
         //判断是否为get或二进制/文件post请求，直接响应
-        if(method == 'get'
-            || request.headers['content-type'] == 'multipart/form-data'){
+        if(method=='get' || isForm(request)){
             return routeRequest(request,response,sort);
         }
         var postData = '';
@@ -64,6 +64,20 @@ exports.run = function(){
     console.log('port ['+port+'] running server http');
 };
 
+
+/**
+ * 判断是否为表单上传请求
+ */
+function isForm(req){
+    var h = req.headers;
+    if(h['content-type']){
+        var type = h['content-type'];
+        if(type.indexOf('application/x-www-form-urlencoded')>-1
+            || type.indexOf('multipart/form-data')>-1) {
+            return true;
+        }
+    }
+}
 
 
 

@@ -6,7 +6,8 @@
   "dependencies": {
     "mysql":"2.0.0-rc1",
     "redis":"0.10.0",
-    "ws":"0.4.31"
+    "ws":"0.4.31",
+    "formidable":"1.0.15"
   },
   "devDependencies": {},
   "scripts": {

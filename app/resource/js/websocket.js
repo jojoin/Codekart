@@ -28,20 +28,29 @@ socket.on('connect', function(){
 */
 
 
+/*
+console.log(
+    C.url.parse('http://www.baidu.com:3456/link?url=ssyF&adf=1234#adf')
+);
+*/
 
 
 /*
+
 C.ajax.send({
     url: '/ajax',
+
     success:function(data){
         alert(data);
     }
 });
 
 
+*/
 
 
 
+/*
 
 
 var socket = new WebSocket('ws://localhost:92/asdfasgadfgadfgs'); //测试地址

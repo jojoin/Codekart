@@ -27,7 +27,7 @@ exports.client_js_depend = {
 
 
     //下面是Codekart框架前端js模块依赖关系 如无必要请勿修改
-    'ajax.ck': ['json.ck'],
+    'ajax.ck': ['json.ck','url.ck'],
     'websocket.ck': ['ajax.ck']
 };
 

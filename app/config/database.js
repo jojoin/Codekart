@@ -5,7 +5,7 @@
  * 源码地址：https://github.com/felixge/node-mysql
  */
 
-module.exports.mysql = {
+exports.mysql = {
     //默认mysql数据库
     default:{
         host:'127.0.0.1',
@@ -39,7 +39,7 @@ module.exports.mysql = {
  * 源码地址：https://github.com/mranney/node_redis
  */
 
-module.exports.redis = {
+exports.redis = {
     //默认 redis 数据库
     default:{
         host:'127.0.0.1',

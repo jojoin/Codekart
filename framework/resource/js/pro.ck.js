@@ -64,6 +64,7 @@ ck.pro = (function(json,cookie){
     PO.gets = GetRequest(location.search,'?');
     PO.hash = GetRequest(location.hash,'#');
     function GetRequest(url_str,cx) {
+        cx = cx || '?';
         var theRequest = []
             , leg = 0;
         if (url_str.indexOf(cx) != -1) {
