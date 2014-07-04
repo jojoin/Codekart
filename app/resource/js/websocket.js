@@ -28,6 +28,10 @@ socket.on('connect', function(){
 */
 
 
+C.ajax.post('/test',{adsf:2134});
+
+
+
 /*
 console.log(
     C.url.parse('http://www.baidu.com:3456/link?url=ssyF&adf=1234#adf')

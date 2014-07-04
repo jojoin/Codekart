@@ -66,14 +66,13 @@ exports.run = function(){
 
 
 /**
- * 判断是否为表单上传请求
+ * 判断是否为文件表单上传请求
  */
 function isForm(req){
     var h = req.headers;
     if(h['content-type']){
         var type = h['content-type'];
-        if(type.indexOf('application/x-www-form-urlencoded')>-1
-            || type.indexOf('multipart/form-data')>-1) {
+        if(type.indexOf('multipart/form-data')>-1) {
             return true;
         }
     }

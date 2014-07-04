@@ -528,29 +528,29 @@
     };
 
     C.ajax = Ajax;
-    C.ajax.get = function(url,get,callback){
+    C.ajax.get = function(url,data,callback){
         C.ajax.send({
             url: url,
             type:'GET',
-            data:get,
-            error:function(err,data){
-                callback(err,null);
+            data:data,
+            error:function(xhr,err){
+                callback?callback(err,null):0;
             },
             success:function(data){
-                callback(null,data);
+                callback?callback(null,data):0;
             }
         });
     };
-    C.ajax.post = function(url,post,callback){
+    C.ajax.post = function(url,data,callback){
         C.ajax.send({
             url: url,
             type:'POST',
-            data:post,
+            data:data,
             error:function(xhr,err){
-                callback(err,null);
+                callback?callback(err,null):0;
             },
             success:function(data){
-                callback(null,data);
+                callback?callback(null,data):0;
             }
         });
     };

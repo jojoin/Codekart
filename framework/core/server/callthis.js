@@ -23,8 +23,8 @@ module.exports = function(request, response){
         render.json(this.request,this.response,data);
     };
     //返回gost内容
-    this.renderApi = function(data, msg, code){
-        render.api(this.request, this.response, data, msg, code);
+    this.renderApi = function(code, msg, data){
+        render.api(this.request, this.response, code, msg, data);
     };
     //返回跳转页面
     this.renderJump =  function(url){

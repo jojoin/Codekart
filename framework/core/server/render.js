@@ -20,20 +20,20 @@ exports.text = function(req, res, context, code, head){
     res.end(context+'');
 };
 //返回gost格式的数据
-exports.api = function(req, res, data, msg, code){
+exports.api = function(req, res, code, msg, data){
     var ob = {
         code:code||200,
         msg:msg||'',
-        data:data||{}
+        data:data||null
     };
-    json(req, res, ob);
+    rejson(req, res, ob);
 };
 
 
 //返回json格式的字符串
-var json = exports.json = function(req, res, jsonOb){
+var rejson = exports.json = function(req, res, jsonOb){
     var jsonStr = json.stringify(jsonOb);
-    res.writeHead(200, {'Content-Type': 'application/json', 'Content-Encoding':'UTF-8'});
+    res.writeHead(200, {'Content-Type': 'text/html', 'Content-Encoding':'UTF-8'});
     res.end(jsonStr);
 };
 
