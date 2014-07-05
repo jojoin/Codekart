@@ -26,17 +26,17 @@ var wrapLeft = '<!'
 
 
 exports.ready = function(stuff,curname,callback){
-    //console.log(theTplCache);
+    //log(theTplCache);
     if(theTplCache[curname] && !config.compiled){ /*有缓存则读取缓存*/
-        //console.log('tpl缓存');
+        //log('tpl缓存');
         return callback(null,theTplCache[curname]);
     }
-    //console.log(stuff.tpl);
+    //log(stuff.tpl);
     var tplAry = {}
         , filecontent = [];
     for(var k in stuff.tpl){
         var one = stuff.tpl[k];
-        //console.log(one)
+        //log(one)
         for(var x in one){
             tplAry[x]=x; //
             filecontent.push(read.resource('tpl/'+one[x]+'.tpl'));
@@ -149,9 +149,9 @@ function merger(tplAry,data){
     if(config.compress){ /* 压缩文件 */
         content = compress(content);
     }
-    //console.log(content);
+    //log(content);
 
-    //console.log('tpl文件'+content);
+    //log('tpl文件'+content);
     return content;
 }
 

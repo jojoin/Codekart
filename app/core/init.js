@@ -4,4 +4,4 @@
  * 当进程为 Master 是 才进行初始化
  */
 
-//console.log('框架初始化 app');
+//log('框架初始化 app');

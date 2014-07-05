@@ -24,28 +24,28 @@ exports.run = function(){
 
     var port = getPort();
 
-    //console.log('ws_port_inc : '+cluster.worker.process.env.ws_port_inc);
+    //log('ws_port_inc : '+cluster.worker.process.env.ws_port_inc);
 
-    //console.log('I am worker #' + cluster.worker.id);
+    //log('I am worker #' + cluster.worker.id);
 
     //加载模块
     if(!ws) ws = require('ws');
 
     var WebSocketServer = ws.Server
         , wss = new WebSocketServer({port: port});
-    //console.log(wss);
+    //log(wss);
     wss.on('connection', function(socket) {
 
-        console.log('connection !!!');
+        log('connection !!!');
 
-        //console.log(socket.upgradeReq.url);
+        //log(socket.upgradeReq.url);
         socket.on('message', function(message) {
-            console.log('received: %s', message);
+            log('received: %s', message);
         });
         socket.send('something');
     });
 
-    console.log('port ['+port+'] running server websocket');
+    log('port ['+port+'] running server websocket');
 };
 
 

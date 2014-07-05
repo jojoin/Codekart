@@ -4,22 +4,41 @@
  */
 
 
-/**
+/** 以下是框架含有日志种类
  'fatal',
  'error',
  'warning',
  'notice',
- 'info',
- 'debug'  // 默认日志类型
- 'time'
-  ...
+ 'info'
  */
-exports.allow = []; //允许显示的日志种类  白名单
-exports.not_allow = []; //不允许显示的日志种类   黑名单 更高优先级
 
 
 /**
- * 是否包裹消息，出现在每一条日志的首尾处
+ * 自定义的日志种类，添加后可以在后面修改配置
+ */
+exports.custom = [];
+
+
+/**
+ * 允许显示的日志种类  白名单 定义后其它的日志
+ */
+//exports.allow = ['fatal','error','warning'];
+exports.allow = [];
+
+
+/**
+ * 不允许显示的日志种类   黑名单 更高优先级
+ * 如果定义了白名单，也会
+ */
+//exports.not_allow = ['notice','info'];
+exports.not_allow = [];
+
+
+/**
+ * 是否包裹消息，出现在每一条日志的首/尾处
+ * ${type} 会被替换为当前日志种类名称
+ * ${time} 会被替换为当前时间
+ * \n 换行
  */
 //exports.wrap_before = '<${type}>';  // ${type}为日志种类名称 ，${time} 为当前时间
 //exports.wrap_before = '<${type} time="${time}">\n';
@@ -29,17 +48,30 @@ exports.wrap_after = '';
 
 
 /**
- * out_file 自定义输出日志到文件
- * 输出到 log/ 目录下 省略 .log 后缀名
+ * file 自定义输出日志到文件
+ * 输出到 app/log/ 目录下 省略 .log 后缀名
  */
-//exports.out_file = 'output';
-exports.out_file = false;
+//exports.file = 'output';
+//exports.file = 'path/output'; //可以自定义路径
+exports.file = false;
+
+
+/**
+ * 按时间分别保存日志文件，需要定义 exports.file 项
+ * year   month   day     hour        day/4        month/10
+ * 按年  按月      按天   按小时    每天4个   每月分为10个文件
+ * 【注意】如果日志的数据量较大，不开启日志分割，那么日志将一直以追加方式写入同一个文件！
+ * 一段时间后，你将会得到一个巨大无比的日志文件！如果你不会经常查看和手动清空日志文件，强烈建议开启此项！
+ */
+//exports.file_split = 'day'; //按天保存
+exports.file_split = false;
+
 
 
 /**
  * 你可以针对不同的日志种类 进行不同的附加(覆盖)配置
  * 支持的自定义配置有 ：
- * wrap_before , wrap_after , out_file
+ * wrap_before , wrap_after , file , file_split
  */
 exports.fatal = {
     //wrap_before: '<${type} time="${time}">'

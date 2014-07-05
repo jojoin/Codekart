@@ -28,10 +28,10 @@ exports.run = function(){
         return false;
     }
 
-    //console.log();
+    //log();
     http.createServer(function(request, response){
-        //console.log(request.url);
-        //console.log('I am worker #' + cluster.worker.id);
+        //log(request.url);
+        //log('I am worker #' + cluster.worker.id);
         request.setEncoding("utf8");
         //是否为 WebSocket 兼容处理请求
         if(request.url.indexOf('/'+define.ws_polling_baseurl+'/')>-1){
@@ -61,7 +61,7 @@ exports.run = function(){
 
     }).listen(port);
 
-    console.log('port ['+port+'] running server http');
+    log('port ['+port+'] running server http');
 };
 
 
@@ -92,7 +92,7 @@ function expandRequest(request){
     request.cookie = {};
     request.headers.cookie && request.headers.cookie.split(';').forEach(function( Cookie ) {
         var parts = Cookie.split('=');
-        //console.log(parts);
+        //log(parts);
         request.cookie[ parts[0].trim() ] = ( parts[1] || '' ).trim();
     });
 }
@@ -105,7 +105,7 @@ function expandRequest(request){
  *  请求服务路由，静态文件服务，数据接口服务，web接口
  */
 function routeRequest(request,response,sort){
-    //console.log(met);
+    //log(met);
     if(sort=='static')
         server_static(request,response);
     else if(sort=='controller')

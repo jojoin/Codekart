@@ -30,7 +30,7 @@ exports.ready = function(viewobj,request,response,callback){
             try{
                 vobj = load.view(stuff.inherit[i]);
             }catch(e){
-                if(config.debug) console.log(e);
+                if(config.debug) log(e);
                 return callback(e);
             }
         }
@@ -45,7 +45,7 @@ exports.ready = function(viewobj,request,response,callback){
                     ready(index,data,jsonData);
                 });
             }catch(e){
-                if(config.debug) console.log(e);
+                if(config.debug) log(e);
                 return callback(e); //调用错误
             }
         }else{
@@ -65,7 +65,7 @@ exports.ready = function(viewobj,request,response,callback){
                 object.extend(jsData,jsonData[i],true);
             }
             peData.global_obj_json_str = json.stringify(jsData);
-            //console.log(reData);
+            //log(reData);
             callback(null,peData);
         }
     }

@@ -23,27 +23,27 @@ var jsFileNameCache = {};
  */
 exports.ready = function(stuff,callback){
     var jsFileName = cpath.static+stuff.client_name_js;
-    //console.log(jsFileName);
+    //log(jsFileName);
     if(jsFileNameCache[jsFileName] && !config.compiled){
-        //console.log('js文件缓存');
+        //log('js文件缓存');
         return callback(null); /*检查读取缓存*/
     }
     fs.exists(jsFileName,function(have){
         if(config.compiled || have==false){ //编译文件
             merger(stuff.js,function(err,js){
                 if(err){
-                    if(config.debug) console.log(err);
+                    if(config.debug) log(err);
                     return callback(err);
                 }
                 mergerTpl(stuff,function(err,pretpl){
-                    //console.log('js文件缓存'+pretpl);
+                    //log('js文件缓存'+pretpl);
                     if(err){
-                        if(config.debug) console.log(err);
+                        if(config.debug) log(err);
                         return callback(err);
                     }
                     fs.writeFile(jsFileName,pretpl+js, function (err) { //创建缓存文件
                         if(err){ //文件写入错误
-                            if(config.debug) console.log(err);
+                            if(config.debug) log(err);
                             return callback(err);
                         }
                         jsFileNameCache[jsFileName] = true; //缓存
@@ -110,7 +110,7 @@ function merger(jsary,callback){
         try{
             filecontent = UglifyJS(filecontent); //压缩js
         }catch(e){
-            if(config.debug) console.log(e);
+            if(config.debug) log(e);
             return callback(e); //压缩错误
         }
     }

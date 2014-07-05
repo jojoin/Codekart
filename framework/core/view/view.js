@@ -24,7 +24,7 @@ exports.render = function(request,response,viewpath){
 
     var viewobj = load.view(viewpath);
 
-    //console.log(viewobj);
+    //log(viewobj);
 
     var stuff = viewobj.stuff
         , viewname = viewpath.replace(/\//g, "_"); //路径斜杠替换成下划线
@@ -40,33 +40,33 @@ exports.render = function(request,response,viewpath){
 
     //编译合并压缩 css 文件
     css.ready(stuff,function(err,data){
-        //console.log('//获得 css 数据');
-        //console.log(data);
+        //log('//获得 css 数据');
+        //log(data);
         data_css = data;
         doRender(err);
     });
 
     //编译合并压缩 js 文件
     js.ready(stuff,function(err,data){
-        //console.log('//获得 js 数据');
-        //console.log(err);
-        //console.log(data);
+        //log('//获得 js 数据');
+        //log(err);
+        //log(data);
         data_js = data;
         doRender(err);
     });
 
     //编译合并压缩 tpl 文件
     tpl.ready(stuff,viewpath,function(err,data){
-        //console.log('//获得 tpl 数据');
-        //console.log(data);
+        //log('//获得 tpl 数据');
+        //log(data);
         data_tpl = data;
         doRender(err);
     });
 
     //获得 tpl 数据
     data.ready(viewobj,request,response,function(err,data){
-        //console.log('//获得 tpl data 数据');
-        //console.log(data);
+        //log('//获得 tpl data 数据');
+        //log(data);
         data_data = data;
         doRender(err);
     });
@@ -76,7 +76,7 @@ exports.render = function(request,response,viewpath){
     function doRender(err){
         //如果解析错误
         if(err){
-            if(config.debug) console.log(err);
+            if(config.debug) log(err);
             request.error_msg = err;
             renderError(request,response);
             return false;
@@ -88,16 +88,16 @@ exports.render = function(request,response,viewpath){
             ||data_js===undefined
             ||data_css===undefined
             ){
-            //if(!data_js) console.log(data_js);
+            //if(!data_js) log(data_js);
             return false;
         }
 
-        //console.log('正式开始解析');
+        //log('正式开始解析');
 
         //正式开始解析
         var html = '';
         try{
-            //console.log(tpl_html);
+            //log(tpl_html);
             //html = tpl_html;
             if(!config.compiled){  //如果非debug模式
                 if(!tmpl_render_cache[viewname]){  //检测是否存在页面解析缓存
@@ -105,12 +105,12 @@ exports.render = function(request,response,viewpath){
                 }
                 html =  tmpl_render_cache[viewname](data_data);
             }else{
-                //console.log(data_data);
+                //log(data_data);
                 html =  tmpl(data_tpl,data_data); //不缓存，每次都从头解析
             }
         }catch(e){
-            if(config.debug) console.log(e);
-            //console.log(e);
+            if(config.debug) log(e);
+            //log(e);
             //模板解析错误，返回错误页面
             request.error_msg = 'Template parsing error : '+e;  //错误消息
             return renderError(request,response,viewname);
@@ -142,7 +142,7 @@ function renderError(request,response,name){
     }else{
         if(config.debug){
             if(request.error_msg)
-                console.log(request.error_msg);
+                log(request.error_msg);
         }
         exports.render(request,response,'error');
     }

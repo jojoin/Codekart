@@ -7,7 +7,7 @@
 var path = require('path');
 
 //向上返回两层，到达框架跟目录
-var b = path.dirname(path.dirname(__dirname)); //codetank文件夹路径
+var b = path.dirname(path.dirname(__dirname)); //框架文件夹绝对路径
 
 //路径配置
 module.exports = {

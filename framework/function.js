@@ -9,9 +9,8 @@ var file = require('./tool/file.js');
 var array = require('./tool/array.js');
 var object = require('./tool/object.js');
 
-
+//成功加载过的模块名缓存
 var model_name_cache = [];
-
 
 
 
@@ -141,40 +140,6 @@ global.load = {
 
 
 
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-/**
- * 继承页面
- */
-global.inheritView = function(parent,stuff){
-    var child = object.clone(load.view(parent).stuff); //拷贝父级页面配置
-    for(var c in child){
-        var cn = child[c];
-        if(stuff[c]){ // 增加stuff数据
-            if(array.isArray(stuff[c])){
-                child[c] = child[c].concat(stuff[c]);
-            }else{
-                child[c].push(stuff[c]);
-            }
-        }
-    }
-    child.inherit.push(parent); //祖先页面名称链
-    return child;
-};
-
-
-//获取当前时间戳 秒数/毫秒
-global.time = function(ms){
-    var d  = new Date().getTime();
-    if(ms) return d;
-    else return parseInt(d/1000);
-};
-
-
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -219,9 +184,8 @@ function proread(dir,filename,opt,callback){
 }
 
 
-
 /**
- * 外部接口
+ * 读取资源
  */
 global.read = {
     ex: proread, //终极
@@ -236,6 +200,65 @@ global.read = {
     }
 };
 
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+/**
+ * 打印日志
+ */
+//var logconf = load.config('log'); //日志配置
+var logob = load.core('log'); //日志模块
+global.log = function(content,opt){
+    if(!opt){ // 没有配置，原生输出
+        return console.log(content);
+    }
+    //日志模块输出
+    logob.out(content,opt);
+};
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/**
+ * 继承页面
+ */
+global.inheritView = function(parent,stuff){
+    var child = object.clone(load.view(parent).stuff); //拷贝父级页面配置
+    for(var c in child){
+        var cn = child[c];
+        if(stuff[c]){ // 增加stuff数据
+            if(array.isArray(stuff[c])){
+                child[c] = child[c].concat(stuff[c]);
+            }else{
+                child[c].push(stuff[c]);
+            }
+        }
+    }
+    child.inherit.push(parent); //祖先页面名称链
+    return child;
+};
+
+
+/**
+ * 获取当前时间戳 秒数/毫秒
+ */
+global.time = function(ms){
+    var d  = new Date().getTime();
+    if(ms) return d;
+    else return parseInt(d/1000);
+};
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 /**

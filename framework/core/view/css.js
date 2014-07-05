@@ -23,14 +23,14 @@ var cssFileNameCache = {};
 exports.ready = function(stuff,callback){
     var cssFileName = cpath.static+stuff.client_name_css;
     if(cssFileNameCache[cssFileName] && !config.compiled){
-        //console.log('css文件缓存');
+        //log('css文件缓存');
         return callback(null,true); /*检查读取缓存*/
     }
     fs.exists(cssFileName,function(have){
         if(config.compiled || have==false){ //编译文件
             merger(stuff,function(err,css){
                 if(err){  //文件写入错误
-                    if(config.debug) console.log(err);
+                    if(config.debug) log(err);
                     return callback(err);
                 }
                 fs.writeFile(cssFileName,css, function (err) { //创建缓存文件
@@ -61,7 +61,7 @@ function merger(stuff,callback){
 
     less.render(filecontent, function (err, css) {//生成css
         if(err){ //编译css错误
-            if(config.debug) console.log(err);
+            if(config.debug) log(err);
             return callback(err);
         }
         if(config.compress){ //压缩css

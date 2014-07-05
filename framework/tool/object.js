@@ -1,5 +1,25 @@
 
 var array  = require('./array');
+var string  = require('./string');
+
+
+
+/**
+ * 判断是否为字符串 数组等等  返回true或false
+ */
+exports.isNumber =  function (source) {
+    return '[object Number]' == Object.prototype.toString.call(source);
+};
+exports.isObject =  function (source) {
+    return '[object Object]' == Object.prototype.toString.call(source);
+};
+exports.isString = string.isString;
+exports.isArray = string.isArray;
+
+
+
+
+
 
 /**
 * 深层合并两个对象，override表示是否覆盖前面的属性值

@@ -41,7 +41,7 @@ module.exports = function(request,response){
     try{
         controllerOb = load.app('controller/'+controller); //加载并调用方法
     }catch (e){
-        if(config.debug) console.log(e);
+        if(config.debug) log(e);
         ok = false; //调用失败
         view.render(request,response,'404');
     }
@@ -56,7 +56,7 @@ module.exports = function(request,response){
     try{
         controllerOb[action].call(conThis); //加载并调用方法
     }catch (e){
-        if(config.debug) console.log(e);
+        if(config.debug) log(e);
         ok = false; //调用失败
         request.error_msg = util.inspect(e);
         //request.error_msg = 'controller ['+controller+'] or action ['+action+'] runtime error !';

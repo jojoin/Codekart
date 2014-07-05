@@ -2,6 +2,16 @@
 var crypto = require('crypto');
 
 
+/**
+ * 判断是否为字符串  返回true或false
+ */
+exports.isString = function (source) {
+    return '[object String]' == Object.prototype.toString.call(source);
+};
+
+
+
+
 /* *
  * 生成MD5值
  * */

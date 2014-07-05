@@ -16,7 +16,7 @@ exports.text = function(req, res, context, code, head){
     }
     //res.writeHead(code, head);
     //响应时间
-    //console.log('请求响应时间：'+(new Date().getTime() - req.time)+' ms');
+    //log('请求响应时间：'+(new Date().getTime() - req.time)+' ms');
     res.end(context+'');
 };
 //返回gost格式的数据

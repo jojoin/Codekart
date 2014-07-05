@@ -23,13 +23,13 @@ exports.run = function(){
             wsPortInc.set(i+1,i);
         }
         cluster.on('fork', function(worker) {
-            //console.log(worker);
-            console.log('worker pid ' + worker.process.pid + ' starting ...');
+            //log(worker);
+            log('worker pid ' + worker.process.pid + ' starting ...');
             //
         });
         cluster.on('exit', function(worker) {
-            console.log('worker pid ' + worker.process.pid + ' died.  the other one is forking ...');
-            //console.log(worker);
+            log('worker pid ' + worker.process.pid + ' died.  the other one is forking ...');
+            //log(worker);
             var wsport = wsPortInc.change(worker.id)
                 , forkdelay = config.forkdelay || 1000;
             setTimeout(function(){
@@ -62,7 +62,7 @@ var wsPortInc = (function(){
         var oldport = Ports['id_'+old_wid];
         Ports['id_'+next_wid] = oldport;
         delete Ports['id_'+old_wid];
-        //console.log(Ports);
+        //log(Ports);
         next_wid++;
         return oldport;
 
