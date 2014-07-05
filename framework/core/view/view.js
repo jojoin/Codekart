@@ -76,6 +76,7 @@ exports.render = function(request,response,viewpath){
     function doRender(err){
         //如果解析错误
         if(err){
+            if(config.debug) console.log(err);
             request.error_msg = err;
             renderError(request,response);
             return false;
@@ -108,6 +109,7 @@ exports.render = function(request,response,viewpath){
                 html =  tmpl(data_tpl,data_data); //不缓存，每次都从头解析
             }
         }catch(e){
+            if(config.debug) console.log(e);
             //console.log(e);
             //模板解析错误，返回错误页面
             request.error_msg = 'Template parsing error : '+e;  //错误消息
@@ -138,6 +140,10 @@ function renderError(request,response,name){
     if(name=='error'){
         response.end('500 system error !');
     }else{
+        if(config.debug){
+            if(request.error_msg)
+                console.log(request.error_msg);
+        }
         exports.render(request,response,'error');
     }
 

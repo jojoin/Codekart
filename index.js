@@ -37,7 +37,9 @@ require('./framework/function.js');
  * config_path=='development'  对应 app/config/development 配置文件目录
  * config_path 下的配置文件会覆盖app/config下的配置
  */
-//load.config_path = 'development';
+//load.config_path = '';
+//load.config_path = 'production';
+//load.config_path = 'test';
 load.config_path = 'development';
 
 
@@ -57,34 +59,6 @@ load.core('!server/route');
  * 启动web服务器
  */
 load.core('!server').run();
-
-
-/*
-
-var cluster = require('cluster');
-if(cluster.isMaster) {
-
-    var util = load.tool('util');
-
-    console.log(util.sortDependence(
-        {
-            _f:['_b','_k'],
-            _b:['_a'],
-            q:['r','_g'],
-            e:['w','t','_f']
-        },
-        ['e','t','*a','*l','q','w','*t','_f']
-    ));
-
-}
-
-
-*/
-
-
-
-
-
 
 
 

@@ -30,6 +30,7 @@ exports.ready = function(viewobj,request,response,callback){
             try{
                 vobj = load.view(stuff.inherit[i]);
             }catch(e){
+                if(config.debug) console.log(e);
                 return callback(e);
             }
         }
@@ -44,6 +45,7 @@ exports.ready = function(viewobj,request,response,callback){
                     ready(index,data,jsonData);
                 });
             }catch(e){
+                if(config.debug) console.log(e);
                 return callback(e); //调用错误
             }
         }else{
@@ -68,31 +70,3 @@ exports.ready = function(viewobj,request,response,callback){
         }
     }
 };
-
-
-function pageDataThis(request,response){
-//返回内容
-    this.request = request;
-    this.response = response;
-    this.render = function(context){
-        var output = context+'';
-        this.response.writeHead(200, { 'Content-Type': 'text/html', 'Content-Encoding':'UTF-8' });
-        this.response.end(output);
-    };
-    this.render302 = function(url){
-        var output = context+'';
-        this.response.writeHead(302, { 'Content-Type': 'text/html', 'Content-Encoding':'UTF-8',
-            Location:url});
-        this.response.end(output);
-    };
-    //返回跳转页面
-    this.renderJump =  function(url){
-        url = url || '/';
-        this.render('<script type="text/javascript">window.location.href="'+url+'"</script>');
-    };
-    //重定向视图
-    this.view =  function(path){
-        view.render(this.request,this.response,path);
-    };
-
-}

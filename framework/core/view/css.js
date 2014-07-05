@@ -30,6 +30,7 @@ exports.ready = function(stuff,callback){
         if(config.compiled || have==false){ //编译文件
             merger(stuff,function(err,css){
                 if(err){  //文件写入错误
+                    if(config.debug) console.log(err);
                     return callback(err);
                 }
                 fs.writeFile(cssFileName,css, function (err) { //创建缓存文件
@@ -58,9 +59,10 @@ function merger(stuff,callback){
         filecontent += read.resource('less/'+stuff.less[i]+'.less');
     }
 
-    less.render(filecontent, function (e, css) {//生成css
-        if(e){ //编译css错误
-            return callback(e);
+    less.render(filecontent, function (err, css) {//生成css
+        if(err){ //编译css错误
+            if(config.debug) console.log(err);
+            return callback(err);
         }
         if(config.compress){ //压缩css
             css = compress(css);

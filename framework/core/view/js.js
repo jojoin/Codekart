@@ -32,15 +32,18 @@ exports.ready = function(stuff,callback){
         if(config.compiled || have==false){ //编译文件
             merger(stuff.js,function(err,js){
                 if(err){
+                    if(config.debug) console.log(err);
                     return callback(err);
                 }
                 mergerTpl(stuff,function(err,pretpl){
                     //console.log('js文件缓存'+pretpl);
                     if(err){
+                        if(config.debug) console.log(err);
                         return callback(err);
                     }
                     fs.writeFile(jsFileName,pretpl+js, function (err) { //创建缓存文件
                         if(err){ //文件写入错误
+                            if(config.debug) console.log(err);
                             return callback(err);
                         }
                         jsFileNameCache[jsFileName] = true; //缓存
@@ -107,44 +110,12 @@ function merger(jsary,callback){
         try{
             filecontent = UglifyJS(filecontent); //压缩js
         }catch(e){
+            if(config.debug) console.log(e);
             return callback(e); //压缩错误
         }
     }
     callback(null,filecontent);
 }
-
-
-
-
-
-
-/**
- * ck JS 库文件依赖关系
- */
-function fixCkJsDeps(jsary){
-    var hasDep = [] //已经添加的依赖
-        , newAry = [];
-    for(var j in jsary){
-        var one = jsary[j];
-
-    }
-
-    function getChain(js){
-        if(cjd[js]){
-
-        }
-
-    }
-
-    return jsary;
-}
-
-
-
-
-
-
-
 
 
 

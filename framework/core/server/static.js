@@ -22,6 +22,7 @@ module.exports = function(req, res){
         //文件存在，读取文件
         fs.readFile(filePath, "binary", function(err, file) {
             if(err) {
+                if(config.debug) console.log(err);
                 res.writeHead(500, {});
                 res.end('500 something wrong !');
                 return;
