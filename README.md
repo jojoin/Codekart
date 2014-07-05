@@ -17,11 +17,11 @@ Codekart
 
 ##安装：
 
-[![NPM](https://nodei.co/npm/codekart.png?downloads=true&start=true)](https://nodei.co/npm/codekart/)
+```
+$ npm install codekart
+```
 
-```
-npm install codekart
-```
+[![NPM](https://nodei.co/npm/codekart.png?downloads=true&start=true)](https://nodei.co/npm/codekart/)
 
 
 ##相关链接：
