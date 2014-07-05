@@ -2,13 +2,13 @@
 Codekart
 ========
 
+**Web application framework for Node.js : [codekart.jojoin.com](http://codekart.jojoin.com/)**
+ 
 [![Build Status](https://secure.travis-ci.org/Automattic/socket.io.png)](http://travis-ci.org/Automattic/socket.io)
 [![NPM version](https://badge.fury.io/js/codekart.svg)](http://badge.fury.io/js/codekart)
 [![Gitter chat](https://badges.gitter.im/yangjiePro/Codekart.png)](https://gitter.im/yangjiePro/Codekart)
 [![Codekart官方群](http://pub.idqqimg.com/wpa/images/group.png)](http://shang.qq.com/wpa/qunwpa?idkey=f1c376034f496a66d144e4cca4ff7beb2e2fd8aed89c5b81b3ba7a435f031e68)
 
-**Web application framework for Node.js : [codekart.jojoin.com](http://codekart.jojoin.com/)**
- 
 
 ![Codetank](http://codekart.jojoin.com/cssimg/codekart/banner.png)
 
