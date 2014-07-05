@@ -6,7 +6,7 @@ Codekart
  
 [![Build Status](https://secure.travis-ci.org/Automattic/socket.io.png)](http://travis-ci.org/Automattic/socket.io)
 [![NPM version](https://badge.fury.io/js/codekart.svg)](http://badge.fury.io/js/codekart)
-[![Gitter chat](https://badges.gitter.im/yangjiePro/Codekart.png)](https://gitter.im/yangjiePro/Codekart)6034f496a66d144e4cca4ff7beb2e2fd8aed89c5b81b3ba7a435f031e68)
+[![Gitter chat](https://badges.gitter.im/yangjiePro/Codekart.png)](https://gitter.im/yangjiePro/Codekart)
 
 
 ![Codetank](http://codekart.jojoin.com/cssimg/codekart/banner.png)
@@ -33,7 +33,7 @@ $ npm install codekart
 [文档托管地址](https://github.com/myworld4059/docs.codekart)
 
 官方QQ群：366311819 (问题解答,bug反馈,功能建议等)
-[![Codekart官方群](http://pub.idqqimg.com/wpa/images/group.png)](http://shang.qq.com/wpa/qunwpa?idkey=f1c37
+[![Codekart官方群](http://pub.idqqimg.com/wpa/images/group.png)](http://shang.qq.com/wpa/qunwpa?idkey=f1c376034f496a66d144e4cca4ff7beb2e2fd8aed89c5b81b3ba7a435f031e68)
 
 本框架来自[君鉴网](http://jojoin.com/)的开发实战积累。
 
