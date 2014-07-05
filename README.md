@@ -24,12 +24,14 @@ npm install codekart
 ```
 
 
-##链接：
+##相关链接：
 
 [Codekart主页](http://codekart.jojoin.com/)
 
-API文档/使用手册：http://docs.codekart.jojoin.com
-此文档程序由codekart框架开发和驱动，托管地址：https://github.com/myworld4059/docs.codekart
+[API文档/使用手册](http://docs.codekart.jojoin.com/)
+
+此文档程序由codekart框架开发和驱动：
+[文档托管地址](https://github.com/myworld4059/docs.codekart)
 
 官方QQ群：366311819 (问题解答,bug反馈,功能建议等)
 
