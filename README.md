@@ -2,13 +2,11 @@
 Codekart
 ========
 
-**Web application framework for Node.js [[HOME]](http://codekart.jojoin.com/)**
-
+**Web application framework for Node.js**[[HOME]](http://codekart.jojoin.com/)
  
 [![Build Status](https://secure.travis-ci.org/Automattic/socket.io.png)](http://travis-ci.org/Automattic/socket.io)
 [![NPM version](https://badge.fury.io/js/codekart.svg)](http://badge.fury.io/js/codekart)
 [![Gitter chat](https://badges.gitter.im/yangjiePro/Codekart.png)](https://gitter.im/yangjiePro/Codekart)
-
 
 ![Codetank](http://codekart.jojoin.com/cssimg/codekart/banner.png)
 
