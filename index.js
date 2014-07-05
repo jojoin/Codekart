@@ -43,7 +43,7 @@ load.config_path = 'development';
 
 
 /**
- * 加载框架初始化操作
+ * 初始化框架
  */
 load.core('!init');
 
