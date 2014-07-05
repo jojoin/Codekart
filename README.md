@@ -26,7 +26,7 @@ npm install codekart
 
 ##链接：
 
-Codekart主页：http://codekart.jojoin.com
+[Codekart主页](http://codekart.jojoin.com/)
 
 API文档/使用手册：http://docs.codekart.jojoin.com
 此文档程序由codekart框架开发和驱动，托管地址：https://github.com/myworld4059/docs.codekart
