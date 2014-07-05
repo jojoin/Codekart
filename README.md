@@ -2,7 +2,9 @@
 Codekart
 ========
 
-**Web application framework for Node.js [☞](http://codekart.jojoin.com/)**
+**Web application framework for Node.js **
+##[☞](http://codekart.jojoin.com/)
+ 
  
 [![Build Status](https://secure.travis-ci.org/Automattic/socket.io.png)](http://travis-ci.org/Automattic/socket.io)
 [![NPM version](https://badge.fury.io/js/codekart.svg)](http://badge.fury.io/js/codekart)
