@@ -79,9 +79,26 @@ exports.stuff = inheritView('html',stuff); //继承至html
  */
 
 exports.data = function(callback){
-    callback({
-        title: 'Codekart'
-    });
+    var that = this
+      , req = that.request //Node原生request对象
+      , req = that.response; //Node原生request对象
+      
+      this.setCookie('user_id', 9999, 3600); //设置cookies
+      
+      
+      //post提交表单数据处理回调
+      this.formdata(function(err, fields, files){
+          // @err 是否出现错误
+          // @fields 表单的普通文本字段数据
+          // @files 表单的文件上传
+          //调用callback返回模板数据
+          callback({
+              title: 'Codekart',
+              postdata: fields['postdata'] //提交的post数据
+          });
+      
+      });
+      
 };
 ```
 
@@ -92,11 +109,11 @@ exports.stuff 对象及为web页面的配置，exports.data函数为页面模板
 
 ##相关链接：
 
-[Codekart主页](http://codekart.jojoin.com/)
+[Codekart主页](http://codekart.jojoin.com/) http://codekart.jojoin.com
 
-[API文档/使用手册](http://docs.codekart.jojoin.com/)
+[API文档/使用手册](http://docs.codekart.jojoin.com/) http://docs.codekart.jojoin.com/
 
-此文档程序由codekart框架开发和驱动：
+此文档程序由Codekart 0.1开发和驱动：
 [文档托管地址](https://github.com/myworld4059/docs.codekart)
 
 官方QQ群：366311819 (问题解答,bug反馈,功能建议等)
