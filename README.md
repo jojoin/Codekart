@@ -83,22 +83,19 @@ exports.data = function(callback){
       , req = that.request //Node原生request对象
       , req = that.response; //Node原生request对象
       
-      this.setCookie('user_id', 9999, 3600); //设置cookies
-      
-      
-      //post提交表单数据处理回调
-      this.formdata(function(err, fields, files){
-          // @err 是否出现错误
-          // @fields 表单的普通文本字段数据
-          // @files 表单的文件上传
-          //调用callback返回模板数据
-          callback({
-              title: 'Codekart',
-              postdata: fields['postdata'] //提交的post数据
-          });
-      
-      });
-      
+    this.setCookie('user_id', 9999, 3600); //设置cookies
+    
+    //post提交表单数据处理回调
+    this.formdata(function(err, fields, files){
+        // @err 是否出现错误
+        // @fields 表单的普通文本字段数据
+        // @files 表单的文件上传
+        //调用callback返回模板数据
+        callback({
+            title: 'Codekart',
+            postdata: fields['postdata'] //提交的post数据
+        });
+    });
 };
 ```
 
