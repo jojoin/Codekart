@@ -26,7 +26,7 @@ $ mv codekart myweb #修改codekart为你的自定义名称
 [![NPM](https://nodei.co/npm/codekart.png?downloads=true&start=true)](https://nodei.co/npm/codekart/)
 
 
-##详细介绍：
+##简介：
 
 ####它已经帮你出色的完成了下面这些事情：
 
@@ -49,21 +49,6 @@ Codekart处理 http 请求的性能接近原生 Node.js 代码: http.createServe
 **丰富的工具箱**
 
 Codekart准备了一系列强大的前后端工具集合，涉及进程通信，数据缓存，文件读取，文件上传，数据采集与处理，流程控制，任务计划等诸多方面。
-
-
-##相关链接：
-
-[Codekart主页](http://codekart.jojoin.com/)
-
-[API文档/使用手册](http://docs.codekart.jojoin.com/)
-
-此文档程序由codekart框架开发和驱动：
-[文档托管地址](https://github.com/myworld4059/docs.codekart)
-
-官方QQ群：366311819 (问题解答,bug反馈,功能建议等)
-[![Codekart官方群](http://pub.idqqimg.com/wpa/images/group.png)](http://shang.qq.com/wpa/qunwpa?idkey=f1c376034f496a66d144e4cca4ff7beb2e2fd8aed89c5b81b3ba7a435f031e68)
-
-本框架来自[君鉴网](http://jojoin.com/)的开发实战积累。
 
 
 ##使用示例：
@@ -104,6 +89,22 @@ exports.stuff 对象及为web页面的配置，exports.data函数为页面模板
 
 其它更多强大的功能，请查阅 [Codekart文档](http://docs.codekart.jojoin.com/)。
 
+
+##相关链接：
+
+[Codekart主页](http://codekart.jojoin.com/)
+
+[API文档/使用手册](http://docs.codekart.jojoin.com/)
+
+此文档程序由codekart框架开发和驱动：
+[文档托管地址](https://github.com/myworld4059/docs.codekart)
+
+官方QQ群：366311819 (问题解答,bug反馈,功能建议等)
+[![Codekart官方群](http://pub.idqqimg.com/wpa/images/group.png)](http://shang.qq.com/wpa/qunwpa?idkey=f1c376034f496a66d144e4cca4ff7beb2e2fd8aed89c5b81b3ba7a435f031e68)
+
+本框架来自[君鉴网](http://jojoin.com/)的开发实战积累。
+
+
 ##其它:
 
 如果要支持本框架的开发，欢迎提交新的代码。
@@ -114,18 +115,17 @@ exports.stuff 对象及为web页面的配置，exports.data函数为页面模板
 
 本框架最初来自 君鉴网(http://jojoin.com) 的开发实战和积累，如今你可以在下面的地址找到它并下载和学习使用：
 
+```
 框架主页：http://codekart.jojoin.com
-
 托管地址：https://github.com/yangjiePro/Codekart
+```
 
 也欢迎你联系本框架的作者，提出建议或者bug，进行技术交流：
 
+```
 作者：杨捷
-
 邮箱：yangjie@jojoin.com
-
 QQ ：446342398
-
 Github ：https://github.com/yangjiePro
-
+```
 
