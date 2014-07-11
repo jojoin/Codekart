@@ -69,7 +69,7 @@ $ npm install codekart
 
 ##使用示例：
 
-使用Codekart，你可以十分方便的进行web页面模块化配置，例如: framework/view/html.js 内容如下：
+使用Codekart，你可以十分方便的进行web页面模块化配置，例如: framework/view/codekart.js 内容如下：
 
 ```javascript
 //web页面顶级页面定义
