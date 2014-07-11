@@ -17,8 +17,10 @@ Codekart
 
 ##安装：
 
-```
+```bash
+$ cd /data/website
 $ npm install codekart
+$ mv codekart myweb //修改
 ```
 
 [![NPM](https://nodei.co/npm/codekart.png?downloads=true&start=true)](https://nodei.co/npm/codekart/)
