@@ -72,40 +72,31 @@ $ npm install codekart
 使用Codekart，你可以十分方便的进行web页面模块化配置，例如: framework/view/codekart.js 内容如下：
 
 ```javascript
-//web页面顶级页面定义
-exports.stuff = {
-    tpl:{html:'html'},  //页面的tpl模板文件列表，保存在 app/resource/tpl 目录下
-    tplpre:[],  //待用的tpl文件列表 会被加入js文件里面待用，保存在 app/resource/tpl 目录下
-                 //保存在app/view/tpl文件夹 格式{note_list:'abc/abc'}
-    less:'html',  //页面的css模板文件列表，保存在 app/resource/less 目录下
-    csslib:[],  //css库文件，在static/csslib目录下
-    js:[
-        'functions',
-        'json',
-        'cookie',
-        'jq-extend',
-        'tmpl',
-        'pro'
-    ], //页面的js模板文件列表，保存在 app/resource/js 目录下
-    jslib: 'jquery-2.0.3.min'  //js库文件列表，在static/jslib目录下
+//web页面定义
+var stuff = {
+    tpl:{body:'codekart'},  //页面的tpl模板文件列表  app/resource/tpl
+    less:'codekart',  //页面的css模板文件列表  app/resource/less
 };
- 
- 
-var website = load.config('website');
- 
+
+//【继承关键代码】
+//继承父级页面 和 必须给本模块加上对外接口，以便其他页面继承
+exports.stuff = inheritView('html',stuff); //继承至html
+
+
+//加载配置文件
+//var website = load.config('website');
+
 /**
- * tpl模板数据获取函数
- * @param callback 返回模板数据
+ * 页面模板数据获取
+ * 可以不定义此函数，程序将跳过本页面的数据获取
+ * @callback 必须调用 ，表示数据获取完成，进行子级页面数据获取，不调用则会一直等待不能进行下一步！！！
+ * 在callback中返回的变量可以在tpl模板中使用，在这里可以进行数据库的查询等等。
+ * 复杂的数据获取和运算，建议放在`app/model`中的模块中进行，在这里可以调用`load.model('model')`加载。
  */
+
 exports.data = function(callback){
-    var that = this
-        , req = this.request;  //原生的request请求对象
     callback({
-        title: website.name,
-        time: req.time,
-        website: website
-    },{
-        website: website
+        title: 'Codekart'
     });
 };
 ```
