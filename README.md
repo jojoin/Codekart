@@ -81,7 +81,7 @@ exports.stuff = inheritView('html',stuff); //继承至html
 exports.data = function(callback){
     var that = this
       , req = that.request //Node原生request对象
-      , req = that.response; //Node原生request对象
+      , req = that.response; //Node原生response对象
       
     this.setCookie('user_id', 9999, 3600); //设置cookies
     
