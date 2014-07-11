@@ -106,14 +106,15 @@ exports.stuff 对象及为web页面的配置，exports.data函数为页面模板
 
 ##相关链接：
 
-[Codekart主页](http://codekart.jojoin.com/) http://codekart.jojoin.com
+[Codekart主页](http://codekart.jojoin.com/)
 
-[API文档/使用手册](http://docs.codekart.jojoin.com/) http://docs.codekart.jojoin.com/
+[API文档/使用手册](http://docs.codekart.jojoin.com/)
 
 此文档程序由Codekart 0.1开发和驱动：
 [文档托管地址](https://github.com/myworld4059/docs.codekart)
 
 官方QQ群：366311819 (问题解答,bug反馈,功能建议等)
+
 [![Codekart官方群](http://pub.idqqimg.com/wpa/images/group.png)](http://shang.qq.com/wpa/qunwpa?idkey=f1c376034f496a66d144e4cca4ff7beb2e2fd8aed89c5b81b3ba7a435f031e68)
 
 本框架来自[君鉴网](http://jojoin.com/)的开发实战积累。
