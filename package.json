@@ -1,22 +1,23 @@
 {
   "name": "codekart",
-  "version": "0.2.0",
+  "version": "0.2.3",
   "description": "Web application framework for Node.js",
+  "homepage": "https://codekart.jojoin.com/",
   "main": "index.js",
+  "engines": {
+    "node": ">=0.10.0"
+  },
   "dependencies": {
-    "node-static":">=0.7.3",
-    "formidable":">=1.0.15"
+    "node-static": ">=0.7.4",
+    "formidable": ">=1.0.15"
   },
   "devDependencies": {},
-  "scripts": {
-    "start": "node index.js"
-  },
-  "engines": {
-    "node": "*"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/yangjiePro/Codekart.git"
+  },
+  "scripts": {
+    "start": "node index.js"
   },
   "keywords": [
   	"codekart",

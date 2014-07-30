@@ -1,14 +1,12 @@
-support
-test
-examples
-
 npm-debug.log
+node_modules
+
 .gitignore
 .htaccess
 _note/
 .idea/
 
-text.js
+test.js
 
 #static/js
 #static/jslib
@@ -19,5 +17,4 @@ text.js
 static/psd
 data/
 log/
-node_modules/
 
