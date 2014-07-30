@@ -38,7 +38,7 @@ exports.run = function(){
 
         log('connection !!!');
 
-        //log(socket.upgradeReq.url);
+        // log(socket.upgradeReq.url);
         socket.on('message', function(message) {
             log('received: %s', message);
         });

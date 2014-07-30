@@ -4,10 +4,10 @@
 
 var fs = require('fs');
 var path = require('path');
-var c_path = require('./config/path.js');
-var file = require('./tool/file.js');
-var array = require('./tool/array.js');
-var object = require('./tool/object.js');
+var c_path = require('./config/path');
+var file = require('./tool/file');
+var array = require('./tool/array');
+var object = require('./tool/object');
 
 //成功加载过的模块名缓存
 var model_name_cache = [];
@@ -69,7 +69,7 @@ function proload(base,name,ext,opt){
     ];
 
     //自定义配置文件路径
-    var c_p = global.load.config_path;
+    var c_p = ENVIRONMENT;
     if(!isi&&base=='config'&&c_p){
         p0 = c_path.app+'/config/'+c_p;
         //path_ary.unshift(p0+ext);
@@ -119,8 +119,6 @@ global.load = {
     view: function(name,ext){
         return proload('view',name,ext,{noerror:true});
     },
-    /* 配置文件路径 */
-    config_path : '',
     /* 加载配置文件 */
     config: function(name,ext){
         if(!name) name = 'config'; //默认文件

@@ -15,8 +15,8 @@ var config = load.config();
 object.extend(define,config);
 
 
-// master 进程才进行初始化
-if(cluster.isWorker) return false;
+// master 进程初始化工作
+if(cluster.isMaster){
 
 
 //开始初始化
@@ -47,7 +47,7 @@ fs.readFile(init_file+'tpl', 'utf8',function(err, data){
 });
 
 
-
+}
 
 
 
@@ -55,11 +55,15 @@ fs.readFile(init_file+'tpl', 'utf8',function(err, data){
  * 开始 app init 初始化
  */
 var initpath = path.app+'/core/init.js';
+require(initpath);
+
+/*
 file.validPath([initpath],function(p){
     if(p){
         require(initpath);
     }
 });
+*/
 
 
 

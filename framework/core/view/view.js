@@ -1,15 +1,15 @@
 
 //html文档模板
 
-var array  = load.tool('array');
-var file  = load.tool('file');
-var json = load.tool("json");
-var tmpl = load.tool("tmpl");
-var render = load.core("server/render");
-var css  = load.core('view/css');
-var tpl  = load.core('view/tpl');
-var js  = load.core('view/js');
-var data  = load.core('view/data');
+var array  = load.tool('!array');
+var file  = load.tool('!file');
+var json = load.tool("!json");
+var tmpl = load.tool("!tmpl");
+var render = load.core("!server/render");
+var css  = load.core('!view/css');
+var tpl  = load.core('!view/tpl');
+var js  = load.core('!view/js');
+var data  = load.core('!view/data');
 var config =  load.config();
 
 var tmpl_render_cache = {}; //页面解析缓存
@@ -38,6 +38,16 @@ exports.render = function(request,response,viewpath){
         , data_tpl
         , data_data;
 
+
+    //获得 tpl 数据
+    data.ready(viewobj,request,response,function(err,data){
+        //log('//获得 tpl data 数据');
+        //log(data);
+        data_data = data;
+        doRender(err);
+    });
+
+
     //编译合并压缩 css 文件
     css.ready(stuff,function(err,data){
         //log('//获得 css 数据');
@@ -63,17 +73,20 @@ exports.render = function(request,response,viewpath){
         doRender(err);
     });
 
-    //获得 tpl 数据
-    data.ready(viewobj,request,response,function(err,data){
-        //log('//获得 tpl data 数据');
-        //log(data);
-        data_data = data;
-        doRender(err);
-    });
-
 
     //数据准备完毕  开始正式输出
+    var breakRen = false; // 是否终止输出
     function doRender(err){
+        //如果终止输出
+        if(breakRen) return;
+
+        //在 data() 函数内调用 callback(false) 中断执行
+        if(data_data==false){
+            breakRen = true;
+            return;
+        }
+
+
         //如果解析错误
         if(err){
             if(config.debug) log(err);
@@ -81,6 +94,8 @@ exports.render = function(request,response,viewpath){
             renderError(request,response);
             return false;
         }
+
+
 
         //验证数据是否准备完毕
         if(data_data===undefined

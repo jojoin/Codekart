@@ -21,7 +21,7 @@ if(cluster.isWorker) {
 
     //设置
     exports.set = function(key, value, time){
-        process_message.send_to_master(msg_+'set',{
+        process_message.send2master(msg_+'set',{
             key: key,
             value: value,
             time: time
@@ -32,7 +32,7 @@ if(cluster.isWorker) {
     exports.get = function(key, callback){
         if(!arrive_callback[key]){ //已经发送了读取操作
             arrive_callback[key] = [];
-            process_message.send_to_master(msg_+'get',{
+            process_message.send2master(msg_+'get',{
                 key: key
             });
         }
@@ -41,14 +41,14 @@ if(cluster.isWorker) {
 
     //删除
     exports.del = function(key) {
-        process_message.send_to_master(msg_+'del',{
+        process_message.send2master(msg_+'del',{
             key: key
         });
     };
 
     //清空
     exports.clear = function() {
-        process_message.send_to_master(msg_+'clear',{});
+        process_message.send2master(msg_+'clear',{});
     };
 
     //读取的数据到达了
@@ -83,7 +83,7 @@ process_message.on(msg_+'get',function(data){
     //读取数据
     data.data = exports.get(data.key);
     //发送给客户端
-    process_message.send_to_worker(data.worker_id,msg_+'arrive',data);
+    process_message.send2worker(data.worker_id,msg_+'arrive',data);
 });
 
 process_message.on(msg_+'del',function(data){

@@ -24,22 +24,22 @@ exports.run = function(){
         }
         cluster.on('fork', function(worker) {
             //log(worker);
-            log('worker pid ' + worker.process.pid + ' starting ...');
+            log('worker id '+worker.id+' pid ' + worker.process.pid + ' starting ...');
             //
         });
         cluster.on('exit', function(worker) {
-            log('worker pid ' + worker.process.pid + ' died.  the other one is forking ...');
+            log('worker pid ' + worker.process.pid + ' died.');
             //log(worker);
             var wsport = wsPortInc.change(worker.id)
                 , forkdelay = config.forkdelay || 1000;
-            setTimeout(function(){
+            setTimeout(function(){ //延迟fork子进程
                 cluster.fork({ws_port_inc:wsport});
             },forkdelay);
         });
     } else {
         // 当为Worker 进程时  启动服务器
         server_http.run();
-        server_websocket.run();
+        //server_websocket.run();
     }
 };
 

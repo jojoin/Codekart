@@ -23,23 +23,23 @@
  */
 
 
+/**
+ * 环境配置 配置文件路径
+ * ENVIRONMENT 对应 app/config 下相应的配置文件目录
+ * ENVIRONMENT=='development'  对应 app/config/development 配置文件目录
+ * ENVIRONMENT 下的配置文件会覆盖app/config下的配置
+ * ENVIRONMENT 为全局变量 配置文件下使用
+ */
+//global.ENVIRONMENT = '';
+//global.ENVIRONMENT = 'production';
+//global.ENVIRONMENT = 'test';
+global.ENVIRONMENT = 'development';
+
 
 /**
- * 加载全局函数
+ * 加载全局函数/对象
  */
 require('./framework/function.js');
-
-
-/**
- * 配置文件路径
- * config_path 对应 app/config 下相应的配置文件目录
- * config_path=='development'  对应 app/config/development 配置文件目录
- * config_path 下的配置文件会覆盖app/config下的配置
- */
-//load.config_path = '';
-//load.config_path = 'production';
-//load.config_path = 'test';
-load.config_path = 'development';
 
 
 /**

@@ -1,5 +1,7 @@
-
-window.cookie = (function(){
+/**
+ * cookies 处理
+ */
+C.cookie = (function(){
 
     var CK = {};
 

@@ -7,7 +7,7 @@
     on:"event_path"  // 通信分类
     worker_pid: 234 //发送方worker进程pid
     worker_id: 2 //发送方worker id
-    send_to_worker:2 //是否转发给其他工作进程
+    send2worker:2 //是否转发给其他工作进程
 
 }
  */
@@ -26,7 +26,7 @@ var cluster = require('cluster')
 
 
 // 事件到达  转发处理
-function eventOn(path,data){
+function messageOn(path,data){
     if(path in onFunc){ // 事件已经 on 注册
         for(var i in onFunc[path]){ // 挨个调用处理程序
             onFunc[path](data);
@@ -40,13 +40,13 @@ function eventOn(path,data){
 if(cluster.isMaster) {
 
     // 发送给 Master 进程
-    exports.send_to_master = function(path,data){
+    exports.send2master = function(path,data){
         data.on = path;
-        eventOn(path,data);
+        messageOn(path,data);
     };
 
     // 发送给 Worker 进程
-    exports.send_to_worker = function(worker_id,path,data){
+    exports.send2worker = function(worker_id,path,data){
         data = data || {};
         data.on = path;
         if(worker_id>0){
@@ -60,13 +60,13 @@ if(cluster.isMaster) {
 
     //接收来自 Worker 的消息
     process.on('message', function(msg) {
-        if(msg.send_to_worker>=0){ //消息转发
-            return exports.send_to_worker(msg.send_to_worker,msg.on,msg);
+        if(msg.send2worker>=0){ //消息转发
+            return exports.send2worker(msg.send2worker,msg.on,msg);
         }
-        eventOn(msg.on,msg);
+        messageOn(msg.on,msg);
     });
 
-    // 监听处理 socket 数据
+    // 注册数据处理函数 监听来自worker 的数据
     exports.on = function(path,callback){
         if(!onFunc[path]){
             onFunc[path] = [];
@@ -75,24 +75,23 @@ if(cluster.isMaster) {
     };
 
 
-
-
 //工作进程 Worker
 }else{
 
+
     // 发送给 Worker 进程
-    exports.send_to_worker = function(worker_id,path,data){
+    exports.send2worker = function(worker_id,path,data){
         data.on = path;
         if(worker_id==cluster.worker.id){
-            eventOn(path,data);
+            messageOn(path,data);
         }else{ //发送给其他worker进程  由master 转发
-            data.send_to_worker = worker_id;
-            exports.send_to_master(path,data);
+            data.send2worker = worker_id;
+            exports.send2master(path,data);
         }
     };
 
     // 发送给 Master 进程
-    exports.send_to_master = function(path,data){
+    exports.send2master = function(path,data){
         data = data || {};
         data.on = path;
         data.worker_pid = cluster.worker.process.pid;
@@ -102,8 +101,16 @@ if(cluster.isMaster) {
 
     //接收来自 Master 的消息
     process.on('message', function(msg) {
-        eventOn(msg.on,msg);
+        messageOn(msg.on,msg);
     });
+
+    // 注册数据处理函数 监听来自master 的数据
+    exports.on = function(path,callback){
+        if(!onFunc[path]){
+            onFunc[path] = [];
+        }
+        onFunc[path].push(callback);
+    };
 
 
 }

@@ -31,3 +31,48 @@ exports.data = function(callback){
     });
 };
 */
+
+
+/*
+
+ //调用链测试代码
+
+
+
+ exports.data = function(callback,predata){
+
+    setTimeout(function(){
+        log('data - base');
+        callback({
+            title: 'Codekart'
+        });
+    },3000);
+    //log(predata);
+
+};
+
+exports.predata = function(callback){
+
+    setTimeout(function(){
+        log('predata - base');
+        callback({
+            title: 'Codekart'
+        });
+    },3000);
+};
+
+
+exports.aftdata = function(callback){
+
+    setTimeout(function(){
+        log('aftdata - base');
+        callback({
+            title: 'Codekart'
+        });
+    },3000)
+
+
+};
+
+
+ */

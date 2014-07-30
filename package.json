@@ -1,13 +1,11 @@
 {
   "name": "codekart",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "description": "Web application framework for Node.js",
   "main": "index.js",
   "dependencies": {
-    "mysql":"2.0.0-rc1",
-    "redis":"0.10.0",
-    "ws":"0.4.31",
-    "formidable":"1.0.15"
+    "node-static":">=0.7.3",
+    "formidable":">=1.0.15"
   },
   "devDependencies": {},
   "scripts": {
@@ -22,6 +20,7 @@
   },
   "keywords": [
   	"codekart",
+    "application",
     "framework",
     "MVC",
   	"sinatra",

@@ -7,9 +7,7 @@ var array = load.tool('!array');
 var config =  load.config();
 var cpath =  load.config('!path');
 
-var imgPath = '/img/'; //图片文件路径
-var cssImgPath = '/cssimg/'; //css图片文件路径
-var webFontPath = '/webfont/'; //自定义字体文件路径
+var css_replace =  load.config('define').css_parse_replace;
 
 /*css缓存文件是否存在的缓存*/
 var cssFileNameCache = {};
@@ -64,7 +62,7 @@ function merger(stuff,callback){
             if(config.debug) log(err);
             return callback(err);
         }
-        if(config.compress){ //压缩css
+        if(config.compress.css){ //压缩css
             css = compress(css);
         }
         callback(null,pretreatment(css)); //预编译
@@ -73,9 +71,13 @@ function merger(stuff,callback){
 
 //预编译css
 function pretreatment(css){
-    return css.replace(/<%img%>/g, imgPath) //替换图片文件路径
-        .replace(/<%cssimg%>/g, cssImgPath) //替换css图片文件路径
-        .replace(/<%webfont%>/g, webFontPath); //自定义字体
+    if(css_replace){
+        for(var c in css_replace){
+            var rex = new RegExp(c,'gi');
+            css = css.replace(rex, css_replace[c]);
+        }
+    }
+    return css;
 }
 
 //压缩css

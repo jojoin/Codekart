@@ -1,7 +1,7 @@
 
 //返回数据统一处理器
 
-var json = load.tool('json');
+var json = load.tool('!json');
 
 exports.text = function(req, res, context, code, head){
     //code = code || 200;

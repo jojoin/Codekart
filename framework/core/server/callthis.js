@@ -1,7 +1,7 @@
 
 var view = load.core('!view/view');
 var render = load.core('!server/render');
-var json = load.tool('json');
+var json = load.tool('!json');
 
 var formidable;
 var form;

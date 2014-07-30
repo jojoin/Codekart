@@ -7,7 +7,7 @@
 // JavaScript Document 时间日期处理
 
 
-datime = (function(){
+C.datime = (function(){
 
     var DT = {};
 

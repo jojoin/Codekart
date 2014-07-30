@@ -72,7 +72,7 @@ function mergerTpl(stuff,callback){
             if(tpl===null){
                 return callback("can't read resource : "+path)
             }
-            pre_tpl[x] = compress(' '+tpl);
+            pre_tpl[x] = compress(''+tpl);
         }
     }
 
@@ -106,7 +106,7 @@ function merger(jsary,callback){
     for(var i=0;i<leg;i++){ //文件名数组
         filecontent += read.resource('js/'+jslist[i]+'.js');
     }
-    if(config.compress){
+    if(config.compress.js){
         try{
             filecontent = UglifyJS(filecontent); //压缩js
         }catch(e){

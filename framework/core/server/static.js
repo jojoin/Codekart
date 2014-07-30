@@ -4,14 +4,54 @@
 var path = require('path');
 var fs = require('fs');
 var url = require('url');
+var nodeStatic;
+var staticServer;
+var staticPathServer = [];
 var config =  load.config();
 var cpath =  load.config('!path');
 
 //读取并返回静态文件
-module.exports = function(req, res){
+module.exports = function(request, response){
+    if(!nodeStatic){
+        nodeStatic = require('node-static');
+        staticServer = new nodeStatic.Server(
+                cpath.static+'/',{serverInfo:'Codekart', cache: config.expires });
+    }
+
+    var route = request.route
+        , path = route ? route.path : null;
+    if(route && !staticPathServer[path]){ //请用户配置指定的静态文件服务器
+        var expires = route.expires || config.expires
+            , root = route.root || cpath.static+'/';
+        staticPathServer[path] = new nodeStatic.Server(
+            root,{ serverInfo:'Codekart', cache: expires });
+    }
+
+
     //解析文件路径
-    var pathname = url.parse(req.url,true).pathname
-        , filePath = path.join(cpath.static+'/', pathname);
+   // var pathname = url.parse(request.url,true).pathname
+   //     , filePath = path.join(cpath.static+'/', pathname);
+
+    request.addListener('end', function () {
+        // Serve files!
+        if(route){ //路由的静态文件
+            staticPathServer[path].serve(request, response);
+        }else{
+            staticServer.serve(request, response);
+        }
+    }).resume();
+
+    return;
+
+
+
+
+
+
+
+
+
+
     //查看文件是否存在
     fs.exists(filePath, function(exists) {
         if(!exists) {

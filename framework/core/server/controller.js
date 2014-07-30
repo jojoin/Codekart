@@ -4,10 +4,10 @@
 
 var path = require('path');
 var util = require('util');
-var route = load.core('server/route');
-var view = load.core('view/view');
-var callthis = load.core('server/callthis');
-var json = load.tool('json');
+var route = load.core('!server/route');
+var view = load.core('!view/view');
+var callthis = load.core('!server/callthis');
+var json = load.tool('!json');
 var config = load.config();
 
 module.exports = function(request,response){
@@ -33,7 +33,6 @@ module.exports = function(request,response){
 
     //控制器本地服务对象
     var conThis = new callthis(request, response)
-        , ok = true
         , controllerOb;
 
 
@@ -42,11 +41,8 @@ module.exports = function(request,response){
         controllerOb = load.app('controller/'+controller); //加载并调用方法
     }catch (e){
         if(config.debug) log(e);
-        ok = false; //调用失败
-        view.render(request,response,'404');
+        return view.render(request,response,'404');
     }
-
-    if(!ok) return;
 
     if(typeof controllerOb[action]!='function'){
         return view.render(request,response,'404');

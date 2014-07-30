@@ -5,8 +5,8 @@
 
 var url = require('url');
 var path = require('path');
-var object = load.tool('object');
-var file = load.tool('file');
+var object = load.tool('!object');
+var file = load.tool('!file');
 var config =  load.config();
 var route =  load.config('route');
 

@@ -2,6 +2,7 @@ support
 test
 examples
 
+npm-debug.log
 .gitignore
 .htaccess
 _note/

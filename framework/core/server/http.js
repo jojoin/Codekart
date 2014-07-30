@@ -11,9 +11,11 @@ var server_controller = load.core('!server/controller');
 var server_view = load.core('!server/view');
 var websocket = load.core('!server/websocket');
 var route = load.core('!server/route');
-var define = load.config('define');
+var define = load.config('define')
+    , static_url_path = define.static_url_path || [];
 var config = load.config();
 var array = load.tool('!array');
+var buffer = load.tool('!buffer');
 
 
 /**
@@ -30,6 +32,7 @@ exports.run = function(){
 
     //log();
     http.createServer(function(request, response){
+
         //log(request.url);
         //log('I am worker #' + cluster.worker.id);
         request.setEncoding("utf8");
@@ -49,13 +52,14 @@ exports.run = function(){
         if(method=='get' || isForm(request)){
             return routeRequest(request,response,sort);
         }
-        var postData = '';
+        // Buffer处理
+        var bfhelper = new buffer.BufferHelper();
         request.on('data',function(chunk){
-            postData += chunk;
+            bfhelper.concat(chunk);
         });
         request.on('end', function(){
             //处理post数据
-            request.post = querystring.parse(postData);
+            request.post = querystring.parse(bfhelper.toBuffer().toString());
             routeRequest(request,response,sort);
         });
 
@@ -123,6 +127,17 @@ function routeRequest(request,response,sort){
 function getRequestSort(request,exp){
 
     var pathname = request.url.pathname;
+
+    //判断是否指定为静态处理
+    for(var p in static_url_path){
+        var one = static_url_path[p];
+        if(pathname.indexOf('/'+p+'/')==0){
+            //log('指定为静态处理');
+            request.route = one;
+            request.route.path = p;
+            return 'static';
+        }
+    }
 
     //是否为注册的controller请求
     var isCtrl = route.match(pathname,'controller');

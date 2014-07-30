@@ -19,14 +19,13 @@ window.tmpl = function (str, data) {
         + str.replace(/\\/g, "\\\\")
         .replace(/'/g, "")  //添加这一行防止单括号错误
         .replace(/[\r\t\n]/g, " ")
-        .split("[#").join("\t")
-        .replace(/((^|#])[^\t]*)'/g, "$1\r")
-        .replace(/\t=(.*?)#]/g, "',$1,'")
+        .split("[:").join("\t")
+        .replace(/((^|:])[^\t]*)'/g, "$1\r")
+        .replace(/\t=(.*?):]/g, "',$1,'")
         .split("\t").join("');")
-        .split("#]").join($ + ".push('")
+        .split(":]").join($ + ".push('")
         .split("\r").join("\\'")
         + "');return " + $;
-
 
     //如果未定义data则返回编译好的函数，使用时直接传入数据即可，
     //省去每次解析成函数的时间

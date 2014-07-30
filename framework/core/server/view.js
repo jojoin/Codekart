@@ -3,8 +3,8 @@
  *
  */
 
-var route = load.core('server/route');
-var view = load.core('view/view');
+//var route = load.core('!server/route');
+var view = load.core('!view/view');
 
 module.exports = function(request,response){
 

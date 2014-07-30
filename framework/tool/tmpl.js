@@ -19,11 +19,11 @@ module.exports = function (str, data) {
         + str.replace(/\\/g, "\\\\")
         .replace(/'/g, "")  //添加这一行防止单括号错误
         .replace(/[\r\t\n]/g, " ")
-        .split("[#").join("\t")
-        .replace(/((^|#])[^\t]*)'/g, "$1\r")
-        .replace(/\t=(.*?)#]/g, "',$1,'")
+        .split("[:").join("\t")
+        .replace(/((^|:])[^\t]*)'/g, "$1\r")
+        .replace(/\t=(.*?):]/g, "',$1,'")
         .split("\t").join("');")
-        .split("#]").join($ + ".push('")
+        .split(":]").join($ + ".push('")
         .split("\r").join("\\'")
         + "');return " + $;
 

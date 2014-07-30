@@ -19,6 +19,12 @@
 </div>
 
 <br>
+<div class="wrap">
+  <a href="http://docs.codekart.jojoin.com/p/start"><div class="wrapbtn getstart">开启 Codekart 之旅!</div></a>
+</div>
+
+
+<br>
 
 <div class="wrap intro">
   <p>
@@ -34,7 +40,7 @@
   <a href="https://github.com/yangjiePro/Codekart/archive/master.zip">
     <img src="/cssimg/codekart/icon_down.png"/>
     <b>下载Codekart</b>
-    <p>最新版本 0.1.5</p>
+    <p>最新版本 0.2.1</p>
   </a>
   <a href="http://docs.codekart.jojoin.com/">
     <img src="/cssimg/codekart/icon_docs.png"/>
@@ -54,26 +60,22 @@
   <ul class="ready">
     <li><h4>它已经帮你出色的完成了下面这些事情：</h4></li>
     <li><h3>优雅的框架思维</h3></li>
-    <li>如果你需要简约与便捷，需要一目了然理所当然的舒适感，如果你已经厌倦了那些傻大笨粗，或者蹩脚的框架，那么 Codekart 将是最好的选择。</li>
+    <li>如果你需要一个真正的<b>框架</b>，而不是一个模块/中间件/工具箱，如果你需要简约与便捷，需要一目了然、理所当然的舒适感，那么 Codekart 将是最好的选择。</li>
     <li><h3>高性能 HTTP 服务器</h3></li>
     <li>Codekart处理 http 请求的性能接近原生 Node.js 代码: http.createServer()， 原因是框架只是对此函数做了简单的封装，其性能的损耗仅仅只有一个 url 正则匹配运算，路由请求处理程序。</li>
     <li><h3>便捷的静态文件服务器</h3></li>
-    <li>把文件放入/static目录下，启动Codekart，url 访问，搞定！</li>
+    <li>把文件放入 static/ 目录下，启动Codekart，url 访问，搞定！</li>
     <li><h3>web 页面模块化支持</h3></li>
     <li>实际上，这是Codekart最出色的部分！它是前后端一体化的，可以像写配置文件一样编写web页面， 框架自动完成 js、css 、tpl 文件的模块化加载、合并、压缩， 并在html里引用，自动完成 html 模板的解析，并且支持页面继承和多态，一切就是那么简单轻松！</li>
+<!--
     <li><h3>WebSocket 实时应用</h3></li>
     <li>提供统一 API 接口，兼容非原生支持 WebSocket 的浏览器，服务端自动路由处理程序。</li>
+-->
     <li><h3>丰富的工具箱</h3></li>
     <li>Codekart准备了一系列强大的前后端工具集合，涉及进程通信，数据缓存，文件读取，文件上传，数据采集与处理，流程控制，任务计划等诸多方面。</li>
   </ul>
 
 </div>
-
-<br>
-<div class="wrap">
-  <a href="http://docs.codekart.jojoin.com/p/start"><div class="getstart">开启 Codekart !</div></a>
-</div>
-
 
 
 <br>

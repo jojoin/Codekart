@@ -94,42 +94,6 @@ function addReferenceFile(stuff,filecontent){
 }
 
 
-//扩展js和css文件的引用
-function addReferenceFile_old(stuff,tplAry){
-    //添加js和css引用
-    tplAry['src_style'] = '';
-    tplAry['src_script'] = '';
-    var one = '';
-    //css
-    if(array.isArray(stuff.csslib)){
-        for(var css in stuff.csslib){
-            one = stuff.csslib[css];
-            if(one.indexOf('http')!==0){ //判断是否为外部css库
-                one = '/csslib/'+one+'.css';  //本地
-            }
-            tplAry['src_style'] += '<link rel="stylesheet" type="text/css" href="'+one+'" />';
-        }
-    }else{
-        tplAry['src_style'] += '<link rel="stylesheet" type="text/css" href="'+stuff.csslib+'" />';
-    }
-    tplAry['src_style'] = '<link rel="stylesheet" type="text/css" href="'+stuff.client_name_css+'" />';
-    //js
-    if(array.isArray(stuff.jslib)){
-        for(var js in stuff.jslib){
-            one = stuff.jslib[js];
-            if(one.indexOf('http')!==0){ //判断是否为外部js库
-                one = '/jslib/'+one+'.js'; //本地
-            }
-            tplAry['src_script'] += '<script type="text/javascript" src="'+one+'"></script>';
-        }
-    }else{
-        tplAry['src_script'] += '<script type="text/javascript" src="'+stuff.jslib+'"></script>';
-    }
-    tplAry['src_script'] += '<script type="text/javascript" src="'+stuff.client_name_js+'" ></script>';
-}
-
-
-
 //正则替换合并
 function merger(tplAry,data){
     var content = ''
@@ -146,7 +110,7 @@ function merger(tplAry,data){
         }
         n++;
     }
-    if(config.compress){ /* 压缩文件 */
+    if(config.compress.tpl){ /* 压缩文件 */
         content = compress(content);
     }
     //log(content);
