@@ -20,7 +20,7 @@
 
 <br>
 <div class="wrap">
-  <a href="http://docs.codekart.jojoin.com/p/start"><div class="wrapbtn getstart">开启 Codekart 之旅!</div></a>
+  <a href="http://docs.codekart.jojoin.com/"><div class="wrapbtn getstart">开启 Codekart 之旅!</div></a>
 </div>
 
 
