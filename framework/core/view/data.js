@@ -63,6 +63,9 @@ exports.ready = function(viewobj,request,response,callback){
      * @param sync  是否线性调用
      */
     function callFunc(funcs,sync,back){
+        if(!funcs||funcs.length<=0){
+            return back(); //完成调用  回调
+        }
 
         if(sync){ //如果是线性执行
             var leg = funcs.length
