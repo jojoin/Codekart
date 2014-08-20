@@ -32,20 +32,20 @@ exports.ready = function(stuff,curname,callback){
         return callback(null,theTplCache[curname]);
     }
     //log(stuff.tpl);
-    var tplAry = {}
+    var posAry = []
         , filecontent = [];
     for(var k in stuff.tpl){
         var one = stuff.tpl[k];
         //log(one)
         for(var x in one){
-            tplAry[x]=x; //
+            posAry.push(x); //
             filecontent.push(read.resource('tpl/'+one[x]+'.tpl'));
             break; //仅第一个属性
         }
     }
     //log(filecontent);
     //组合tpl
-    var content = merger(tplAry,filecontent);
+    var content = merger(posAry,filecontent);
     //添加css和js引用文件
     content = addReferenceFile(stuff,content);
     //缓存模板内容
@@ -96,21 +96,22 @@ function addReferenceFile(stuff,filecontent){
 
 
 //正则替换合并
-function merger(tplAry,data){
+function merger(posAry,tplAry){
     //log(data);
     var content = ''
-        , n = 0
-        , leg = data.length;
-    for(var k in tplAry){
-        var data_n = data[n];
-        data_n = data_n?data_n:''; //当页面没有引入模板时
-        var one = n<leg?data_n:tplAry[k]; //src_style,src_script
-        if(n==0){ /*html根节点*/
-            content += one;
+        , n = 0;
+    for(var p in posAry){
+        var pos =  posAry[p]
+            , tpl = tplAry[n];
+        tpl = tpl?tpl+'':''; //当页面没有引入模板时
+        //log(pos);
+        //log(tpl);
+        if(n==0){ /*起始，根模板*/
+            content += tpl;
         }else{
-            var Tstr = wrapLeft+k+wrapRight
+            var Tstr = wrapLeft+pos+wrapRight
                 , rex = new RegExp(Tstr);
-            content = content.replace(rex,one+Tstr);
+            content = content.replace(rex,tpl+Tstr);
         }
         n++;
     }
@@ -118,7 +119,6 @@ function merger(tplAry,data){
         content = compress(content);
     }
     //log(content);
-
     //log('tpl文件'+content);
     return content;
 }
