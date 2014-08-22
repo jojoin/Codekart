@@ -2,7 +2,7 @@
 
 //github: https://github.com/yangjiePro/tmpl.js
 
-window.tmpl = function (str, data) {
+C.tmpl = function (str, data) {
     var $ = '$' + (+ new Date)
         , fn = function (data) {
         var i, variable = [$], value = [[]];
