@@ -1,6 +1,6 @@
 
 
-//github: https://github.com/myworld4059/tmpl.js
+//github: https://github.com/yangjiePro/tmpl.js
 
 window.tmpl = function (str, data) {
     var $ = '$' + (+ new Date)
@@ -17,14 +17,15 @@ window.tmpl = function (str, data) {
     //将模板解析成函数
     fn.$ = fn.$ || $ + ".push('"
         + str.replace(/\\/g, "\\\\")
-        .replace(/'/g, "")  //添加这一行防止单括号错误
-        .replace(/[\r\t\n]/g, " ")
-        .split("[:").join("\t")
-        .replace(/((^|:])[^\t]*)'/g, "$1\r")
-        .replace(/\t=(.*?):]/g, "',$1,'")
-        .split("\t").join("');")
-        .split(":]").join($ + ".push('")
-        .split("\r").join("\\'")
+            .replace(/'/g, "\\'")  //防止单括号错误
+            .replace(/[\r\t\n]/g, " ")
+            .split("[:").join("\t")
+            .replace(/((^|:])[^\t]*)'/g, "$1\r")
+            .replace(/\t=([^\?]*?):]/g, "',$1,'")
+            .replace(/\t=([^\?]*?)\?(.*?):]/g, "',this.$1||'$2','")   //  [:=data?:]  [:=data?任何内容:]
+            .split("\t").join("');")
+            .split(":]").join($ + ".push('")
+            .split("\r").join("\\'")
         + "');return " + $;
 
     //如果未定义data则返回编译好的函数，使用时直接传入数据即可，
