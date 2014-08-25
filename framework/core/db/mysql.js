@@ -342,7 +342,7 @@ function callQuery(must){
         for(var m in must){
             if(!this[m]){
                 if(callback){
-                    callback('[Error: "'+m+'" is necessary when updating !]',null)
+                    callback('[Error: query param "this.'+m+'" is necessary !]',null);
                 }
                 return this;
             }
