@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "node-static": ">=0.7.4",
-    "formidable": ">=1.0.15"
+    "formidable": ">=1.0.15",
+    "mysql":">=2.4.3"
   },
   "devDependencies": {},
   "repository": {
