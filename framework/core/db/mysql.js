@@ -69,7 +69,8 @@ exports.query = function(query,callback){
 /**
  * mysql数据查询
  */
-exports.selectObject = function(table,columns){
+//exports.selectObject = function(table,columns){
+exports.Select = function(table,columns){
     this._columns = [];
     this._where = {};
     this._table = '';
@@ -86,12 +87,22 @@ exports.selectObject = function(table,columns){
         this._table = table;
     }
     if(columns){
-        this._columns = columns;
+        this.columns(columns);
     }
 
     //设置查询字段
-    this.columns = function(item){
-        this._columns = item;
+    //noesc  放弃对 columns 调用mysql.escapeId()
+    this.columns = function(item,noesc){
+        if(!item){
+            return this;
+        }
+        if(noesc || checkNoescCol(item)){
+            this._sql.replace(/SELECT\s(.+)\sFROM/,'SELECT '+item+' FROM');
+            this._columns = '';
+        }else{
+            this._columns = item;
+        }
+        return this;
     };
 
     //添加 where 语句
@@ -123,11 +134,11 @@ exports.selectObject = function(table,columns){
 
     //生成 SQL 语句
     this.createSQL = function(){
-        
-        if(typeof this._columns=='string'){
+
+        if(this._columns && typeof this._columns=='string'){
             this._columns = this._columns.split(',');
         }
-        if(this._columns.length>0){
+        if(this._columns && this._columns.length>0){
             this._sql = this._sql.replace('*','??');
             this._param.push(this._columns);
         }
@@ -164,7 +175,7 @@ exports.selectObject = function(table,columns){
 /**
  * mysql 数据插入
  */
-exports.insertObject = function(table,data){
+exports.Insert = function(table,data){
     this._table = '';
     this._data = null;
     //格式化数据
@@ -194,7 +205,7 @@ exports.insertObject = function(table,data){
 /**
  * mysql 数据更新
  */
-exports.updateObject = function(table,data){
+exports.Update = function(table,data){
     this._table = '';
     this._data = null;
     this._where = {};
@@ -233,7 +244,7 @@ exports.updateObject = function(table,data){
 /**
  * mysql 数据删除
  */
-exports.deleteObject = function(table){
+exports.Delete = function(table){
     this._table = '';
     this._where = {};
     this._limit = '';
@@ -355,6 +366,16 @@ function callQuery(must) {
 }
 
 
+/**
+ * 判断 columns 是否不转义
+ * @param col
+ */
+function checkNoescCol(col){
+
+    //TODO:
+
+    return false;
+}
 
 
 
