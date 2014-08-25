@@ -78,7 +78,7 @@ exports.selectObject = function(table,columns){
     this._limit = '';
     this._addition = ''; //追加到SQL语句后面的内容
     //格式化数据
-    this._sql = 'SELECT ?? FROM ??';
+    this._sql = 'SELECT * FROM ??';
     this._param = [];
 
     //构造参数
@@ -91,10 +91,7 @@ exports.selectObject = function(table,columns){
 
     //设置查询字段
     this.columns = function(item){
-        if(item===null){ //清除之前的
-            return this._columns = [];
-        }
-        this._columns.push(item);
+        this._columns = item;
     };
 
     //添加 where 语句
@@ -124,13 +121,16 @@ exports.selectObject = function(table,columns){
     //建立查询
     callQuery.call(this,['_table']);
 
-
     //生成 SQL 语句
     this.createSQL = function(){
-        if(!this._columns){
-            this._columns = '*';
+        
+        if(typeof this._columns=='string'){
+            this._columns = this._columns.split(',');
         }
-        this._param.push(this._columns);
+        if(this._columns.length>0){
+            this._sql = this._sql.replace('*','??');
+            this._param.push(this._columns);
+        }
         this._param.push(this._table);
 
         //组装 where 语句
@@ -292,8 +292,6 @@ exports.deleteObject = function(table){
 
 /**
  * 组装 where 语句
- * @param param
- * @param where
  */
 function callAssembleWhere(){
     var wh = [];
@@ -336,21 +334,24 @@ function callAddWhere(){
 /**
  *
  */
-function callQuery(must){
+function callQuery(must) {
     //执行查询
-    this.query = function(callback){
-        for(var m in must){
-            if(!this[m]){
-                if(callback){
-                    callback('[Error: query param "this.'+m+'" is necessary !]',null);
+    this.must_cols = must;
+    this.query = function (callback) {
+        //log(this.must_cols);
+        for (var m in this.must_cols) {
+            var col =  this.must_cols[m];
+            if(!this[col]){
+                if (callback) {
+                    callback('[Error: query param "this.' + col + '" is necessary !]', null);
                 }
                 return this;
             }
         }
-        var query = this.createSQL();
-        return exports.query(query,callback);
+        var sql = this.createSQL();
+        log(sql);
+        return exports.query(sql, callback);
     };
-
 }
 
 
