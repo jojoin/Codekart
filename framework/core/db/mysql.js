@@ -71,17 +71,19 @@ exports.query = function(query,callback){
  */
 //exports.selectObject = function(table,columns){
 exports.Select = function(table,columns){
-    this._columns = [];
-    this._where = {};
-    this._table = '';
-    this._order = '';
-    this._group = '';
-    this._limit = '';
-    this._addition = ''; //追加到SQL语句后面的内容
-    //格式化数据
-    this.sql = '';
+
     this._sql = 'SELECT * FROM ??';
-    this._param = [];
+
+    var com = ['columns','table','where','order','group','limit','addition'];
+
+    //添加组装语句
+    callAppendParam.call(this,com);
+
+    //生成 SQL 语句
+    callCreateSQL.call(this,com);
+
+    //建立查询
+    callQuery.call(this,['table']);
 
     //构造参数
     if(table){
@@ -91,83 +93,6 @@ exports.Select = function(table,columns){
         this.columns(columns);
     }
 
-    //设置查询字段
-    //noesc  放弃对 columns 调用mysql.escapeId()
-    this.columns = function(item,noesc){
-        if(!item){
-            return this;
-        }
-        if(noesc || checkNoescCol(item)){
-            this._sql.replace(/SELECT\s(.+)\sFROM/,'SELECT '+item+' FROM');
-            this._columns = '';
-        }else{
-            this._columns = item;
-        }
-        return this;
-    };
-
-    //添加 where 语句
-    callAddWhere.call(this);
-
-    this.table = function(item){
-        this._table = item;
-        return this;
-    };
-    this.order = function(item){
-        this._order = item;
-        return this;
-    };
-    this.group = function(item){
-        this._group = item;
-        return this;
-    };
-    this.limit = function(item){
-        this._limit = item;
-        return this;
-    };
-    this.addition = function(item){
-        this._addition = item;
-        return this;
-    };
-
-    //建立查询
-    callQuery.call(this,['_table']);
-
-    //生成 SQL 语句
-    this.createSQL = function(){
-        if(this.sql){
-            return this.sql; //避免重复创建
-        }
-        if(this._columns && typeof this._columns=='string'){
-            this._columns = this._columns.split(',');
-        }
-        if(this._columns && this._columns.length>0){
-            this._sql = this._sql.replace('*','??');
-            this._param.push(this._columns);
-        }
-        this._param.push(this._table);
-
-        //组装 where 语句
-        callAssembleWhere.call(this);
-
-        if(this._order){
-            this._sql += ' ORDER BY '+this._order;
-        }
-        if(this._group){
-            this._sql += ' GROUP BY '+this._group;
-        }
-        if(this._limit){
-            this._sql += ' LIMIT '+this._limit;
-        }
-        if(this._addition){
-            this._sql += ' '+this._addition;
-        }
-
-        //log(this._param);
-        //log(this._sql);
-        //生成 SQL 语句
-        return this.sql = mysql.format(this._sql, this._param);
-    }
 
 };
 
@@ -176,11 +101,19 @@ exports.Select = function(table,columns){
  * mysql 数据插入
  */
 exports.Insert = function(table,data){
-    this._table = '';
-    this._data = null;
     //格式化数据
-    this.sql = '';
     this._sql = 'INSERT INTO ? SET ?';
+
+    var com = ['table','data'];
+
+    //添加组装语句
+    callAppendParam.call(this,com);
+
+    //生成 SQL 语句
+    callCreateSQL.call(this,com);
+
+    //建立查询
+    callQuery.call(this,['table','data']);
 
     //构造参数
     if(table){
@@ -188,19 +121,6 @@ exports.Insert = function(table,data){
     }
     if(data){
         this._data = data;
-    }
-
-    //建立查询
-    callQuery.call(this,['_table','_data']);
-
-
-    //生成 SQL 语句
-    this.createSQL = function(){
-        if(this.sql){
-            return this.sql; //避免重复创建
-        }
-        //生成 SQL 语句
-        return this.sql = mysql.format(this._sql, [this._table,this._data]);
     }
 
 };
@@ -210,13 +130,18 @@ exports.Insert = function(table,data){
  * mysql 数据更新
  */
 exports.Update = function(table,data){
-    this._table = '';
-    this._data = null;
-    this._where = {};
-    //格式化数据
-    this.sql = '';
     this._sql = 'UPDATE ? SET ?';
-    this._param = [];
+
+    var com = ['table','data','where','limit'];
+
+    //添加组装语句
+    callAppendParam.call(this,com);
+
+    //生成 SQL 语句
+    callCreateSQL.call(this,com);
+
+    //建立查询
+    callQuery.call(this,['table','data']);
 
     //构造参数
     if(table){
@@ -226,27 +151,6 @@ exports.Update = function(table,data){
         this._data = data;
     }
 
-    callAddWhere.call(this);
-
-
-    //建立查询
-    callQuery.call(this,['_table','_data']);
-
-
-    //生成 SQL 语句
-    this.createSQL = function(){
-        if(this.sql){
-            return this.sql; //避免重复创建
-        }
-
-        this._param.push(this._table);
-        this._param.push(this._data);
-        //组装where语句
-        callAssembleWhere.call(this);
-        //生成 SQL 语句
-        return this.sql = mysql.format(this._sql, this._param);
-    }
-
 };
 
 
@@ -254,65 +158,80 @@ exports.Update = function(table,data){
  * mysql 数据删除
  */
 exports.Delete = function(table){
-    this._table = '';
-    this._where = {};
-    this._limit = '';
-    this._addition = ''; //追加到SQL语句后面的内容
-    //格式化数据
-    this.sql = '';
     this._sql = 'DELETE FROM ?';
-    this._param = [];
+
+    var com = ['table','where','limit'];
+
+    //添加组装语句
+    callAppendParam.call(this,com);
+
+    //生成 SQL 语句
+    callCreateSQL.call(this,com);
+
+    //建立查询
+    callQuery.call(this,['table']);
 
     //构造参数
     if(table){
         this._table = table;
     }
-
-    //添加 where 语句
-    callAddWhere.call(this);
-
-    this.limit = function(item){
-        this._limit = item;
-        return this;
-    };
-    this.addition = function(item){
-        this._addition = item;
-        return this;
-    };
-
-    //建立查询
-    callQuery.call(this,['_table']);
-
-    //生成 SQL 语句
-    this.createSQL = function(){
-
-        if(this.sql){
-            return this.sql; //避免重复创建
-        }
-
-        this._param.push(this._table);
-
-        //组装where语句
-        callAssembleWhere.call(this);
-
-        if(this._limit){
-            this._sql += ' LIMIT '+this._limit;
-        }
-        if(this._addition){
-            this._sql += ' '+this._addition;
-        }
-
-        //生成 SQL 语句
-        return this.sql = mysql.format(this._sql, this._param);
-    }
-
 };
 
 
+/**
+ * 组装 参数 语句
+ */
+function callAssembleParam(para){
+    if(!para){
+        return this;
+    }
+    if(typeof para=='object'){
+        for(var p in para){
+            callAssembleParam.call(this,para[p]);
+        }
+        return;
+    }
+    if(para=='columns'){
+        if(this._columns && typeof this._columns=='string'){
+            this._columns = this._columns.split(',');
+        }
+        if(this._columns && this._columns.length>0){
+            this._sql = this._sql.replace('*','??');
+            this._param.push(this._columns);
+        }
+    }
+    if(para=='table'){
+        this._param.push(this._table);
+    }
+    if(para=='data'){
+        this._param.push(this._data);
+    }
+    if(para=='where'){
+        //组装where语句
+        callAssembleWhere.call(this);
+    }
+    if(para=='order'){
+        if (this._order) {
+            this._sql += ' ORDER BY ' + this._order;
+        }
+    }
+    if(para=='group'){
+        if (this._group) {
+            this._sql += ' GROUP BY ' + this._group;
+        }
+    }
+    if(para=='limit'){
+        if(this._limit){
+            this._sql += ' LIMIT '+this._limit;
+        }
+    }
+    if(para=='addition'){
+        if(this._addition){
+            this._sql += ' '+this._addition;
+        }
+    }
 
-
-
-
+}
 
 
 /**
@@ -336,9 +255,90 @@ function callAssembleWhere(){
 
 
 /**
+ * 条件语句
+ */
+function callAppendParam(para){
+    //开始添加
+    if(!para){
+        return this;
+    }
+    if(typeof para=='object'){
+        //必备参数
+        this.sql = '';
+        this._param = [];
+        for(var p in para){
+            callAppendParam.call(this,para[p]);
+        }
+        return;
+    }
+    if(para=='columns'){
+        //设置查询字段
+        //noesc  放弃对 columns 调用mysql.escapeId()
+        this.columns = function(item,noesc){
+            if(!item){
+                return this;
+            }
+            if(noesc || checkNoescCol(item)){
+                this._sql = this._sql.replace(/SELECT\s(.+)\sFROM/,'SELECT '+item+' FROM');
+                this._columns = '';
+            }else{
+                this._columns = item;
+            }
+            return this;
+        };
+    }
+    if(para=='table'){
+        this._table = '';
+        this.table = function(item){
+            this._table = item;
+            return this;
+        };
+    }
+    if(para=='data'){
+        //组装where语句
+        callAppendData.call(this);
+    }
+    if(para=='where'){
+        //组装where语句
+        callAppendWhere.call(this);
+    }
+    if(para=='order'){
+        this._order = '';
+        this.order = function(item){
+            this._order = item;
+            return this;
+        };
+    }
+    if(para=='group'){
+        this._group = '';
+        this.group = function(item){
+            this._group = item;
+            return this;
+        };
+    }
+    if(para=='limit'){
+        this._limit = '';
+        this.limit = function(item){
+            this._limit = item;
+            return this;
+        };
+    }
+    if(para=='addition'){
+        this._addition = '';
+        this.addition = function(item){
+            this._addition = item;
+            return this;
+        };
+    }
+
+}
+
+
+/**
  * 添加 where 语句
  */
-function callAddWhere(){
+function callAppendWhere(){
+    this._where = {};
     this.where = function(name,value){
         if(name===null){ //清除之前的
             return this._where = {};
@@ -357,6 +357,28 @@ function callAddWhere(){
 
 
 /**
+ * 添加 where 语句
+ */
+function callAppendData(){
+    this._data = {};
+    this.data = function(name,value){
+        if(name===null){ //清除之前的
+            return this._data = {};
+        }
+        if(typeof name=='string'){
+            this._data[name] = value;
+        }
+        if(typeof name=='object'){
+            for(var n in name){
+                this.data(n,name[n]);
+            }
+        }
+        return this;
+    };
+}
+
+
+/**
  *
  */
 function callQuery(must) {
@@ -366,9 +388,9 @@ function callQuery(must) {
         //log(this.must_cols);
         for (var m in this.must_cols) {
             var col =  this.must_cols[m];
-            if(!this[col]){
+            if(!this['_'+col]){
                 if (callback) {
-                    callback('[Error: query param "this.' + col + '" is necessary !]', null);
+                    callback('[Error: query param "this._' + col + '" is necessary !]', null);
                 }
                 return this;
             }
@@ -377,6 +399,27 @@ function callQuery(must) {
         log(sql);
         return exports.query(sql, callback);
     };
+}
+
+
+/**
+ *
+ */
+function callCreateSQL(com){
+
+    //生成 SQL 语句
+    this.createSQL = function(){
+
+        if(this.sql){
+            return this.sql; //避免重复创建
+        }
+
+        //组装 SQL
+        callAssembleParam.call(this,com);
+
+        //生成 SQL 语句
+        return this.sql = mysql.format(this._sql, this._param);
+    }
 }
 
 
