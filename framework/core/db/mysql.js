@@ -79,6 +79,7 @@ exports.Select = function(table,columns){
     this._limit = '';
     this._addition = ''; //追加到SQL语句后面的内容
     //格式化数据
+    this.sql = '';
     this._sql = 'SELECT * FROM ??';
     this._param = [];
 
@@ -134,7 +135,9 @@ exports.Select = function(table,columns){
 
     //生成 SQL 语句
     this.createSQL = function(){
-
+        if(this.sql){
+            return this.sql; //避免重复创建
+        }
         if(this._columns && typeof this._columns=='string'){
             this._columns = this._columns.split(',');
         }
@@ -148,16 +151,13 @@ exports.Select = function(table,columns){
         callAssembleWhere.call(this);
 
         if(this._order){
-            this._sql += ' ORDER BY ?';
-            this._param.push(this._order);
+            this._sql += ' ORDER BY '+this._order;
         }
         if(this._group){
-            this._sql += ' GROUP BY ?';
-            this._param.push(this._group);
+            this._sql += ' GROUP BY '+this._group;
         }
         if(this._limit){
-            this._sql += ' LIMIT ?';
-            this._param.push(this._limit);
+            this._sql += ' LIMIT '+this._limit;
         }
         if(this._addition){
             this._sql += ' '+this._addition;
@@ -166,7 +166,7 @@ exports.Select = function(table,columns){
         //log(this._param);
         //log(this._sql);
         //生成 SQL 语句
-        return mysql.format(this._sql, this._param);
+        return this.sql = mysql.format(this._sql, this._param);
     }
 
 };
@@ -179,6 +179,7 @@ exports.Insert = function(table,data){
     this._table = '';
     this._data = null;
     //格式化数据
+    this.sql = '';
     this._sql = 'INSERT INTO ? SET ?';
 
     //构造参数
@@ -195,8 +196,11 @@ exports.Insert = function(table,data){
 
     //生成 SQL 语句
     this.createSQL = function(){
+        if(this.sql){
+            return this.sql; //避免重复创建
+        }
         //生成 SQL 语句
-        return mysql.format(this._sql, [this._table,this._data]);
+        return this.sql = mysql.format(this._sql, [this._table,this._data]);
     }
 
 };
@@ -210,6 +214,7 @@ exports.Update = function(table,data){
     this._data = null;
     this._where = {};
     //格式化数据
+    this.sql = '';
     this._sql = 'UPDATE ? SET ?';
     this._param = [];
 
@@ -230,12 +235,16 @@ exports.Update = function(table,data){
 
     //生成 SQL 语句
     this.createSQL = function(){
+        if(this.sql){
+            return this.sql; //避免重复创建
+        }
+
         this._param.push(this._table);
         this._param.push(this._data);
         //组装where语句
         callAssembleWhere.call(this);
         //生成 SQL 语句
-        return mysql.format(this._sql, this._param);
+        return this.sql = mysql.format(this._sql, this._param);
     }
 
 };
@@ -250,6 +259,7 @@ exports.Delete = function(table){
     this._limit = '';
     this._addition = ''; //追加到SQL语句后面的内容
     //格式化数据
+    this.sql = '';
     this._sql = 'DELETE FROM ?';
     this._param = [];
 
@@ -275,21 +285,25 @@ exports.Delete = function(table){
 
     //生成 SQL 语句
     this.createSQL = function(){
+
+        if(this.sql){
+            return this.sql; //避免重复创建
+        }
+
         this._param.push(this._table);
 
         //组装where语句
         callAssembleWhere.call(this);
 
         if(this._limit){
-            this._sql += ' LIMIT ?';
-            this._param.push(this._limit);
+            this._sql += ' LIMIT '+this._limit;
         }
         if(this._addition){
             this._sql += ' '+this._addition;
         }
 
         //生成 SQL 语句
-        return mysql.format(this._sql, this._param);
+        return this.sql = mysql.format(this._sql, this._param);
     }
 
 };
@@ -371,9 +385,12 @@ function callQuery(must) {
  * @param col
  */
 function checkNoescCol(col){
-
-    //TODO:
-
+    var it = ['*','(',' as '];
+    for(var i in it){
+        if(col.toLowerCase().indexOf(it[i])>-1){
+            return true;
+        }
+    }
     return false;
 }
 
