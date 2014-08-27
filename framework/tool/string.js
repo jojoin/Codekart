@@ -38,7 +38,7 @@ exports.isEmail = function(mail){
 //26+26+10=62-1=61，字符串加密
 var keycode = 'MnbHYcv52ur3AZak106xGBhVgJUsjd4Fq987LRytTEoDCpOPNwzXSWmfIKieQ';
 var keyxchar = 'l';
-exports.encryption = function(str){
+exports.encrypt = function(str){
     var leg = str.length
         ,xAry = keycode.split('')
         ,fixStr = [];
@@ -62,8 +62,10 @@ exports.encryption = function(str){
     //console.log(fixStr.join(keyxchar));
     return fixStr.join(keyxchar);
 };
+
+
 //解密
-exports.decryption = function(instr){
+exports.decrypt = function(instr){
     var strary = instr.split(keyxchar)
         ,leg = strary.length
         ,str = '';
@@ -81,4 +83,6 @@ exports.decryption = function(instr){
         str += String.fromCharCode(strMx);
     }
     return str;
+};
+
 };
