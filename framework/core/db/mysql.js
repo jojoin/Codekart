@@ -13,7 +13,7 @@ var conf = load.config('database').mysql;
 if(!conf){
     var cfg = 'app/config/';
     if(ENVIRONMENT){
-        cfg += ENVIRONMENT+'/'
+        cfg += ENVIRONMENT+'/';
     }
     cfg += 'database.js';
     log('Error: Have no mysql configs in the "'+cfg+'" !');
@@ -196,7 +196,7 @@ function callAssembleParam(para){
             this._columns = this._columns.split(',');
         }
         if(this._columns && this._columns.length>0){
-            this._sql = this._sql.replace('*','??');
+            this.sql = this.sql.replace('*','??');
             this._param.push(this._columns);
         }
     }
@@ -212,22 +212,22 @@ function callAssembleParam(para){
     }
     if(para=='order'){
         if (this._order) {
-            this._sql += ' ORDER BY ' + this._order;
+            this.sql += ' ORDER BY ' + this._order;
         }
     }
     if(para=='group'){
         if (this._group) {
-            this._sql += ' GROUP BY ' + this._group;
+            this.sql += ' GROUP BY ' + this._group;
         }
     }
     if(para=='limit'){
         if(this._limit){
-            this._sql += ' LIMIT '+this._limit;
+            this.sql += ' LIMIT '+this._limit;
         }
     }
     if(para=='addition'){
         if(this._addition){
-            this._sql += ' '+this._addition;
+            this.sql += ' '+this._addition;
         }
     }
 
@@ -249,7 +249,7 @@ function callAssembleWhere(){
         this._param.push(this._where[w]);
     }
     if(wh.length>0){
-        this._sql += ' WHERE '+wh.join(' AND ');
+        this.sql += ' WHERE '+wh.join(' AND ');
     }
 }
 
@@ -274,6 +274,7 @@ function callAppendParam(para){
     if(para=='columns'){
         //设置查询字段
         //noesc  放弃对 columns 调用mysql.escapeId()
+        this._columns = [];
         this.columns = function(item,noesc){
             if(!item){
                 return this;
@@ -396,7 +397,7 @@ function callQuery(must) {
             }
         }
         var sql = this.createSQL();
-        log(sql);
+        //log(sql);
         return exports.query(sql, callback);
     };
 }
@@ -410,17 +411,32 @@ function callCreateSQL(com){
     //生成 SQL 语句
     this.createSQL = function(){
 
-        if(this.sql){
-            return this.sql; //避免重复创建
-        }
+        //复位
+        this.sql = this._sql;
+        this._param = [];
 
         //组装 SQL
         callAssembleParam.call(this,com);
 
         //生成 SQL 语句
-        return this.sql = mysql.format(this._sql, this._param);
+        //log(this.sql);
+        //log(this._param);
+        return mysql.format(this.sql, this._param);
     }
 }
+
+
+
+
+/**
+ * 判断 columns 是否不转义
+ * @param sqlstr
+ */
+function mysqlFormat(sqlstr,param){
+
+
+}
+
 
 
 /**
