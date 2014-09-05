@@ -33,10 +33,9 @@ module.exports = function(request, response){
         else this.render('must have url get parameter: [back_url]');
     };
     this.render302 = function(url){
-        var output = context+'';
         this.response.writeHead(302, { 'Content-Type': 'text/html', 'Content-Encoding':'UTF-8',
             Location:url});
-        this.response.end(output);
+        this.response.end();
     };
     //重定向视图处理程序
     this.view =  function(path){
@@ -86,8 +85,9 @@ module.exports = function(request, response){
      *  设置request.delCookie('name');
      *  name    cookie名称
      */
-    this.delCookie = function (name) {
-        this.setCookie(name,' ',-999);
+    this.delCookie = function (name,path) {
+        path = path || '/';
+        this.setCookie(name,'',-9999,path);
         return true;
     };
 
