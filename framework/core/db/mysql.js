@@ -47,7 +47,7 @@ exports.server = function(current){
  * @param query : SQL 语句
  * @param callback : 请求回调
  */
-exports.query = function(query,callback){
+var sql_query = exports.query = function(query,callback){
     poolCluster.getConnection(currentConf, function (err, connection){
         if(err){
             if(config.debug){
@@ -93,7 +93,7 @@ exports.Select = function(table,columns){
         this.columns(columns);
     }
 
-
+    return this;
 };
 
 
@@ -123,6 +123,7 @@ exports.Insert = function(table,data){
         this._data = data;
     }
 
+    return this;
 };
 
 
@@ -151,6 +152,7 @@ exports.Update = function(table,data){
         this._data = data;
     }
 
+    return this;
 };
 
 
@@ -175,6 +177,8 @@ exports.Delete = function(table){
     if(table){
         this._table = table;
     }
+
+    return this;
 };
 
 
@@ -398,7 +402,7 @@ function callQuery(must) {
         }
         var sql = this.createSQL();
         //log(sql);
-        return exports.query(sql, callback);
+        return sql_query(sql, callback);
     };
 }
 
