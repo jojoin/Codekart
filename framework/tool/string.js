@@ -85,4 +85,3 @@ exports.decrypt = function(instr){
     return str;
 };
 
-};
