@@ -1,143 +1,168 @@
 
-var view = load.core('!view/view');
-var render = load.core('!server/render');
-var json = load.tool('!json');
+//服务器模块
 
-var formidable;
-var form;
+var fs = require('fs');
+var http = require('http');
+var url = require('url');
+var path = require('path');
+var querystring = require('querystring');
+var server_static = load.core('!server/static');
+var server_controller = load.core('!server/controller');
+var server_view = load.core('!server/view');
+var websocket = load.core('!server/websocket');
+var route = load.core('!server/route');
+var define = load.config('define')
+    , static_url_path = define.static_url_path || [];
+var config = load.config();
+var array = load.tool('!array');
+var buffer = load.tool('!buffer');
+
+
+/**
+ * 创建http服务器
+ */
+exports.run = function(){
+
+
+    var port = config.port.http;
+
+    if(port<=0){ //端口小于等于零  则不开启http
+        return false;
+    }
+
+    //log();
+    http.createServer(function(request, response){
+        // log(request.url);
+        // log('I am worker #' + cluster.worker.id);
+        // request.setEncoding("utf8");
+        // 是否为 WebSocket 兼容处理请求
+        // if(request.url.indexOf('/'+define.ws_polling_baseurl+'/')>-1){
+        //     return websocket.polling(request, response);
+        // }
+        //解析url
+        request.url = url.parse(request.url,true);
+        //请求类型
+        var method = request.method.toLowerCase()
+            , sort = getRequestSort(request, true);
+        if(sort!='static'){  //静态文件请求，不做request扩展处理
+            expandRequest(request);
+        }
+        //判断是否为get或二进制/文件post请求，直接响应
+        if(method=='get' || isForm(request)){
+            return routeRequest(request,response,sort);
+        }
+        // Buffer处理
+        var bfhelper = new buffer.BufferHelper();
+        request.on('data',function(chunk){
+            bfhelper.concat(chunk);
+        });
+        request.on('end', function(){
+            //处理post数据
+            request.post = querystring.parse(bfhelper.toBuffer().toString());
+            routeRequest(request,response,sort);
+        });
+
+    }).listen(port);
+
+    log('port ['+port+'] running server http');
+};
+
+
+/**
+ * 判断是否为文件表单上传请求
+ */
+function isForm(req){
+    var h = req.headers;
+    if(h['content-type']){
+        var type = h['content-type'];
+        if(type.indexOf('multipart/form-data')>-1) {
+            return true;
+        }
+    }
+}
+
 
 
 
 /**
- * this本地对象
+ * 扩展 request 对象
  */
-module.exports = function(request, response){
-    this.request = request;
-    this.response = response;
-    //返回内容
-    this.render = function(context,code,head){
-        render.text(this.request,this.response,context,code,head);
-    };
-    //返回json格式内容
-    this.renderJson =  function(data){
-        render.json(this.request,this.response,data);
-    };
-    //返回gost内容
-    this.renderApi = function(code, msg, data){
-        render.api(this.request, this.response, code, msg, data);
-    };
-    //返回跳转页面
-    this.renderJump =  function(url){
-        url = url || this.request.url.query.back_url  || false;
-        if(url) this.render('<script type="text/javascript">window.location.href="'+url+'"</script>');
-        else this.render('must have url get parameter: [back_url]');
-    };
-    this.render302 = function(url){
-        this.response.writeHead(302, { 'Content-Type': 'text/html', 'Content-Encoding':'UTF-8',
-            Location:url});
-        this.response.end();
-    };
-    //重定向视图处理程序
-    this.view =  function(path){
-        view.render(this.request,this.response,path);
-    };
+function expandRequest(request){
+    request.time_ms = new Date().getTime(); //请求进入时间 ms 毫秒
+    request.time = parseInt(request.time_ms/1000); //请求进入时间戳
+    request.get = request.url.query;
+    //处理cookie参数
+    request.cookie = {};
+    request.headers.cookie && request.headers.cookie.split(';').forEach(function( Cookie ) {
+        var parts = Cookie.split('=');
+        //log(parts);
+        request.cookie[ parts[0].trim() ] = ( parts[1] || '' ).trim();
+    });
+}
 
-    /*
-     *  说明：设置COOKIE
-     *  设置set_cookie('name', 'initnode', 30, '/');
-     *  name    cookie名称
-     *  value   cookie值
-     *  expires 有效期时间，秒计算
-     *  path    有效目录
-     *  domain  域名
-     */
-    this.cookieArr = []; //cookie数组
-    this.setCookie = function (name, value, expires, path, domain) {
-        var cookieStr = '';
-        cookieStr = name + '=' + value + ';';
-        if (expires != undefined) {
-            expires = parseInt(expires);
-            var today = new Date();
-            var time = today.getTime() + expires * 1000;
-            var new_date = new Date(time);
-            var expiresDate = new_date.toGMTString(); //转换成GMT 格式。
-            cookieStr += 'expires=' +  expiresDate + ';';
+
+
+
+/**
+ *  路由处理服务器
+ *  请求服务路由，静态文件服务，数据接口服务，web接口
+ */
+function routeRequest(request,response,sort){
+    //log(met);
+    if(sort=='static')
+        server_static(request,response);
+    else if(sort=='controller')
+        server_controller(request,response);
+    else if(sort=='view')
+        server_view(request,response);
+}
+
+
+
+/**
+ * 获取或者验证请求类型，静态、数据服务、二进制数据提交
+ * exp 表示是否扩展request
+ */
+function getRequestSort(request,exp){
+
+    var pathname = request.url.pathname;
+
+    //判断是否指定为静态处理
+    for(var p in static_url_path){
+        var one = static_url_path[p];
+        if(pathname.indexOf('/'+p+'/')==0){
+            //log('指定为静态处理');
+            request.route = one;
+            request.route.path = p;
+            return 'static';
         }
-        //console.log('目录');
-        //目录
-        if (path != undefined) {
-            cookieStr += 'path=' +  path + ';';
-        }
-        //console.log('域名');
-        //域名
-        if (domain != undefined) {
-            cookieStr += 'domain=' +  domain + ';';
-        }
-        this.cookieArr.push(cookieStr);
-        //console.log('push');
-        //自动设置
-        this.response.setHeader("Set-Cookie", this.cookieArr);
-        return true;
-    };
-
-    /*
-     *  说明：删除COOKIE
-     *  设置request.delCookie('name');
-     *  name    cookie名称
-     */
-    this.delCookie = function (name,path) {
-        path = path || '/';
-        this.setCookie(name,'',-9999,path);
-        return true;
-    };
-
-    /*
-     *  !!!弃用!!!
-     *  说明：header头部发送cookie设置信息
-     */
-    this.flushCookie = function () {
-        //console.log('setHeader');
-        //console.log(this.cookieArr);
-        this.response.setHeader("Set-Cookie", this.cookieArr);
-    };
-
-    /**
-     * 处理表单数据
-     */
-    this.formdata = function (callback) {
-        if(!formidable){ //加载模块
-            formidable = require('formidable');
-            //开始处理表单
-            form = new formidable.IncomingForm();
-        }
-
-        form.parse(this.request,callback);
-        /*
-        form.parse(this.request, function(err, fields, files) {
-            //res.writeHead(200, {'content-type': 'text/plain'});
-            //res.write('received upload:\n\n');
-            //res.end(util.inspect({fields: fields, files: files}));
-        });
-        */
-        /*
-         {   fields: { title: 'something' },
-             files:
-                 { upload:
-                     { domain: null,
-                     _events: {},
-                     _maxListeners: 10,
-                     size: 307905,
-                     path: 'C:\\Users\\DELL\\AppData\\Local\\Temp\\46212f78b8ce64721d57b83111d3e829',
-                     name: '1.jpg',
-                     type: 'image/jpeg',
-                     hash: null,
-                     lastModifiedDate: Fri Jul 04 2014 15:51:32 GMT+0800 (...),
-                     _writeStream: [Object] } }
-         }
-        */
-
     }
 
+    //是否为注册的controller请求
+    var isCtrl = route.match(pathname,'controller');
+    if(isCtrl){
+        if(exp){//扩展request
+            request.url.param = isCtrl.param;
+            request.route = isCtrl.route;
+        }
+        return 'controller';
+    }
 
-};
+    //是否为页面请求
+    var isView = route.match(pathname,'view');
+    if(isView){
+        if(exp){//扩展request
+            request.url.param = isView.param;
+            request.route = isView.route;
+        }
+        return 'view';
+    }
+
+    //是否为静态文件请求
+    var type = path.extname(pathname).replace('.','');  //获取文件扩展名
+    if(type) return 'static'; //静态文件服务
+
+
+    return 'controller'; //默认交由controller处理
+}
 
