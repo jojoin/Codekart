@@ -52,13 +52,16 @@ exports.run = function(){
             return routeRequest(request,response,sort);
         }
         // Buffer处理
-        var bfhelper = new buffer.BufferHelper();
+        // var bfhelper = new buffer.BufferHelper();
+        var datastr = '';
         request.on('data',function(chunk){
-            bfhelper.concat(chunk);
+            //bfhelper.concat(chunk);
+            datastr += chunk;
         });
         request.on('end', function(){
             //处理post数据
-            request.post = querystring.parse(bfhelper.toBuffer().toString());
+            // request.post = querystring.parse(bfhelper.toBuffer().toString());
+            request.post = querystring.parse(datastr);
             routeRequest(request,response,sort);
         });
 
