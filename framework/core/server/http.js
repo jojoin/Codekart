@@ -32,14 +32,13 @@ exports.run = function(){
 
     //log();
     http.createServer(function(request, response){
-
-        //log(request.url);
-        //log('I am worker #' + cluster.worker.id);
-        request.setEncoding("utf8");
-        //是否为 WebSocket 兼容处理请求
-        if(request.url.indexOf('/'+define.ws_polling_baseurl+'/')>-1){
-            return websocket.polling(request, response);
-        }
+        // log(request.url);
+        // log('I am worker #' + cluster.worker.id);
+        // request.setEncoding("utf8");
+        // 是否为 WebSocket 兼容处理请求
+        // if(request.url.indexOf('/'+define.ws_polling_baseurl+'/')>-1){
+        //     return websocket.polling(request, response);
+        // }
         //解析url
         request.url = url.parse(request.url,true);
         //请求类型
