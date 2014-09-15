@@ -47,7 +47,49 @@ fs.readFile(init_file+'tpl', 'utf8',function(err, data){
 });
 
 
+
+
+
+
+/**
+ * 检查目录是否存在   不存在则创建
+ */
+var mustpath = [
+    'static',
+    'static/img',
+    'static/cssimg',
+    'static/js',
+    'static/css',
+    'static/jslib',
+    'static/csslib'
+];
+for(var p in mustpath){
+    var mp = path.base+'/'+mustpath[p];
+    if(!fs.existsSync(mp)){
+        if(config.debug){
+            log('检测目录不存在，创建：'+mp);
+        }
+        fs.mkdirSync(mp);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/****************  end master init ****************/
+}
+
+
+
 
 
 
