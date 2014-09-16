@@ -154,3 +154,30 @@ var mkdirs = exports.mkdirs = function(dirpath, mode, callback) {
         }
     });
 };
+
+
+
+/**
+ * 保存文件（异步）
+ * 自动创建上层目录
+ */
+exports.rename = function(origin, target, callback){
+    callback = callback || function(){}
+    // 检测源文件是否存在
+    fs.exists(dirpath, function(exists){
+        if(!exists)
+            return callback('"'+origin+'"" is not exists !');
+        //创建上层目录
+        var dir = path.dirname(target);
+        mkdirs(dir,null,function(err){
+            if(err) //目录创建失败
+                return callback(err);
+            fs.rename(origin, target, function(err){
+                if(err) // 文件移动失败
+                    return callback(err);
+                callback(null,target);
+            });
+        });
+    });
+
+};
