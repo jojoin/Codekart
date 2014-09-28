@@ -7,6 +7,7 @@ var util = require('util');
 var route = load.core('!server/route');
 var view = load.core('!view/view');
 var callthis = load.core('!server/callthis');
+var conThis = new callthis();
 var json = load.tool('!json');
 var config = load.config();
 
@@ -31,9 +32,11 @@ module.exports = function(request,response){
         action = path.basename(pathname);
     }
 
+    //初始化本地对象
+    conThis.__init(request,response);
+
     //控制器本地服务对象
-    var conThis = new callthis(request, response)
-        , controllerOb;
+    var controllerOb;
 
 
     //尝试加载控制器
