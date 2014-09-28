@@ -15,8 +15,26 @@ if(app_this.__framework){
  */
 module.exports = function(request, response){
 
-    this.request = request;
-    this.response = response;
+    /**
+     * 更新对象！
+     */
+    this.__init = function(request, response){
+        //环境变量
+        this.request = request;
+        this.response = response;
+        //cookie数组
+        this.cookieArr = [];
+        //执行扩展的 this 对象数据更新
+        if(this._init){
+            this._init(request, response);
+        }
+    }
+
+    // 执行更新
+    if(request && response){
+        this.init(request, response);
+    }
+
      
     /**
      * 框架核心功能
