@@ -1,6 +1,7 @@
 
 
 var callthis = load.core('!server/callthis');
+var conThis = new callthis();
 var object = load.tool('!object');
 var json = load.tool('!json');
 var config =  load.config();
@@ -99,8 +100,10 @@ exports.ready = function(viewobj,request,response,callback){
     // 执行一次函数调用
     function callOne(func,back){
         try{
-            var This = new callthis(request,response);
-            func.call(This,function(data){
+            //初始化 this 对象
+            conThis.__init(request,response);
+
+            func.call(conThis,function(data){
                 if(data==false){
                     callback(null,false); //中断data获取函数
                 }else{
