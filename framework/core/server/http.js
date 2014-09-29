@@ -39,6 +39,8 @@ exports.run = function(){
         // if(request.url.indexOf('/'+define.ws_polling_baseurl+'/')>-1){
         //     return websocket.polling(request, response);
         // }
+        
+        // log(request.headers['content-type']);
         //解析url
         request.url = url.parse(request.url,true);
         //请求类型
@@ -47,23 +49,32 @@ exports.run = function(){
         if(sort!='static'){  //静态文件请求，不做request扩展处理
             expandRequest(request);
         }
+
         //判断是否为get或二进制/文件post请求，直接响应
-        if(method=='get' || isForm(request)){
+        if(method=='get' || isMultipart(request)){
+            //multipart/form-data
+            return routeRequest(request,response,sort);
+
+        }else if(isFormUrlencoded(request)){
+            //application/x-www-form-urlencoded
+            var datastr = '';
+            request.on('data',function(chunk){
+                //bfhelper.concat(chunk);
+                datastr += chunk;
+                //log(chunk+'');
+            });
+            request.on('end', function(){
+                //处理post数据
+                // request.post = querystring.parse(bfhelper.toBuffer().toString());
+                // 解析 post 参数
+                request.post = querystring.parse(datastr);
+                routeRequest(request,response,sort);
+            });
+        }else{
+            //默认处理方式
             return routeRequest(request,response,sort);
         }
-        // Buffer处理
-        // var bfhelper = new buffer.BufferHelper();
-        var datastr = '';
-        request.on('data',function(chunk){
-            //bfhelper.concat(chunk);
-            datastr += chunk;
-        });
-        request.on('end', function(){
-            //处理post数据
-            // request.post = querystring.parse(bfhelper.toBuffer().toString());
-            request.post = querystring.parse(datastr);
-            routeRequest(request,response,sort);
-        });
+
 
     }).listen(port);
 
@@ -74,11 +85,25 @@ exports.run = function(){
 /**
  * 判断是否为文件表单上传请求
  */
-function isForm(req){
+function isMultipart(req){
     var h = req.headers;
     if(h['content-type']){
         var type = h['content-type'];
         if(type.indexOf('multipart/form-data')>-1) {
+            return true;
+        }
+    }
+}
+
+
+/**
+ * 判断是否为文件表单上传请求
+ */
+function isFormUrlencoded(req){
+    var h = req.headers;
+    if(h['content-type']){
+        var type = h['content-type'];
+        if(type.indexOf('application/x-www-form-urlencoded')>-1) {
             return true;
         }
     }
