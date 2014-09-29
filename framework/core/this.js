@@ -131,6 +131,49 @@ exports.flushCookie = function () {
 
 
 /**
+ * 从 url post get 三个位置获取参数
+ */
+exports.param = function(name, defaultValue){
+  var param = this.request.url.param || {};
+  var post  = this.request.post || {};
+  var get   = this.request.get || {};
+  if(undefined != param[name]) return param[name];
+  if(undefined != post[name]) return post[name];
+  if(undefined != get[name]) return get[name];
+  return defaultValue;
+};
+
+
+
+
+/**
+ * 从 url post get 三个位置依次检查参数
+ */
+exports.checkParam = function(must, other){
+    var param = {};
+    //必须参数
+    if(must){
+        for(var m in must){
+            var p = this.param(must[m]);
+            if(p===undefined){
+                return false; //验证失败
+            }
+            param[m] = p;
+        }
+    }
+    //其他参数
+    if(other){
+        for(var o in other){
+            param[o] = this.param(o, other[o]);
+        }
+    }
+    //返回参数
+    return param;
+}
+
+
+
+/**
  * 处理表单数据
  */
 exports.formdata = function (callback) {
