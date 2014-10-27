@@ -145,7 +145,7 @@ var mkdirsSync = exports.mkdirsSync = function(dirpath, mode) {
 var mkdirs = exports.mkdirs = function(dirpath, mode, callback) {
     fs.exists(dirpath, function(exists) {
         if(exists) {
-                callback(dirpath);
+                callback(null); //文件夹已存在
         } else {
                 //尝试创建父目录，然后再创建当前目录
                 mkdirs(path.dirname(dirpath), mode, function(){
