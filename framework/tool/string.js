@@ -3,22 +3,28 @@ var crypto = require('crypto');
 
 
 /**
+ * 补足字符串
+ */
+exports.untrim = function(stuff, num, fill, side){
+    fill = fill || ' ';
+    side = side || 'left';
+    //位数足够 无需补足
+    stuff = typeof stuff=='string' ? stuff : stuff+'';
+    num = stuff.length - num;
+    if(num<=0){
+        return stuff;
+    }
+    fill = new Array(num).join(fill);
+
+    return side=='left' ? fill+stuff : stuff+fill;
+};
+
+
+/**
  * 判断是否为字符串  返回true或false
  */
 exports.isString = function (source) {
     return '[object String]' == Object.prototype.toString.call(source);
-};
-
-
-
-
-/* *
- * 生成MD5值
- * */
-exports.md5 = function(str){
-    var hash = crypto.createHash('md5');
-    hash.update(str);
-    return hash.digest('hex');
 };
 
 
@@ -28,6 +34,16 @@ exports.md5 = function(str){
 exports.isEmail = function(mail){
     var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     return !!filter.test(mail);
+};
+
+
+/* *
+ * 生成MD5值
+ * */
+exports.md5 = function(str){
+    var hash = crypto.createHash('md5');
+    hash.update(str);
+    return hash.digest('hex');
 };
 
 
