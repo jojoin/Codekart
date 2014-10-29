@@ -31,12 +31,14 @@ exports.InvalidAttr = function(obj, attrs, strict){
         attrs = [attrs];
     }
     for(var a in attrs){
-        if(strong ? !obj[attrs[a]] : obj[attrs[a]]===undefined){
+        if(strict ? !obj[attrs[a]] : obj[attrs[a]]===undefined){
             return attrs[a]; //无效的属性
         }
     }
     return null;
 };
+
+
 
 
 
