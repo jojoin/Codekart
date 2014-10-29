@@ -19,6 +19,26 @@ exports.isArray = string.isArray;
 
 
 
+/**
+ * 检查对象属性值，返回不存在的，或不满足要求的
+ * @param strong 是否将 null '' 0 false 等都视为无效
+ * */
+exports.InvalidAttr = function(obj, attrs, strong){
+    if(typeof obj!=='object'){
+        return true;
+    }
+    if(typeof attrs=='string'){
+        attrs = [attrs];
+    }
+    for(var a in attrs){
+        if(strong ? !obj[attrs[a]] : obj[attrs[a]]===undefined){
+            return attrs[a]; //无效的属性
+        }
+    }
+};
+
+
+
 
 
 /**
