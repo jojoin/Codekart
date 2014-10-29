@@ -157,12 +157,22 @@ function proread(dir,filename,opt,callback){
         p2 = p; //交换顺序
         filename = filename.substr(1); //去除!符号
     }
-    p1 += filename;
-    p2 += filename;
+    // 读取配置文件则加上环境变量
+    var vpath = []
+      , env = ENVIRONMENT ? ENVIRONMENT+'/' : '';
+    if(dir=='config' && env){
+        vpath.push(p1+filename);
+        vpath.push(p1+env+filename);
+        vpath.push(p2+filename);
+        vpath.push(p2+env+filename);
+    }else{
+        vpath.push(p1+filename);
+        vpath.push(p2+filename);
+    }
     if(callback&&typeof callback=='function'){ //异步读取加载
-        file.validPath([p1,p2],function(pathone){
+        file.validPath(vpath,function(pathone){
             if(!pathone){
-                var err =  'File does not exist: resource/'+filename;
+                var err =  'File does not exist: '+vpath[0];
                 callback(err,null);
             }else{
                 fs.readFile(pathone, 'utf8',function(err, data){
@@ -171,9 +181,9 @@ function proread(dir,filename,opt,callback){
             }
         });
     }else{ //同步加载读取
-        var pathone = file.validPath([p1,p2]);
+        var pathone = file.validPath(vpath);
         if(!pathone){
-            var err =  'File does not exist: resource/'+filename;
+            var err =  'File does not exist: '+vpath[0];
             return null; //不存在文件
         }
         return fs.readFileSync(pathone);
