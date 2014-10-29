@@ -10,7 +10,7 @@ var array = require('./tool/array');
 var object = require('./tool/object');
 
 //成功加载过的模块名缓存
-var model_name_cache = [];
+var model_name_cache = {};
 
 
 
@@ -36,8 +36,9 @@ function proload(base,name,ext,opt){
     var bname = base+'/'+name;
     //console.log(bname);
     //检查缓存，加载过路径则马上返回
-    var cache = array.matchItem(model_name_cache,'name',bname);
-    if(cache&&cache.path) return require(cache.path);
+
+    var cache = model_name_cache[bname];//array.matchItem(model_name_cache,'name',bname);
+    if(cache) return require(cache);
 
     //没有缓存加载新库
     var p0 = ''
@@ -81,7 +82,7 @@ function proload(base,name,ext,opt){
     var pathone = file.validPath(path_ary);
     //console.log(pathone);
     if(pathone){
-        model_name_cache.push({name:bname,path:pathone});
+        model_name_cache[bname] = pathone;
         return require(pathone);
     }else{
         if(opt&&opt.noerror){ //返回错误，而不是中断执行
