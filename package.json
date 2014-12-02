@@ -1,6 +1,6 @@
-{
+﻿{
   "name": "codekart",
-  "version": "0.2.3",
+  "version": "0.2.5",
   "description": "Web application framework for Node.js",
   "homepage": "https://codekart.jojoin.com/",
   "main": "index.js",
