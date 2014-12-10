@@ -26,10 +26,14 @@ exports.ready = function(stuff,callback){
     //log(jsFileName);
     if(jsFileNameCache[jsFileName] && !config.compiled){
         //log('js文件缓存');
-        return callback(null); /*检查读取缓存*/
+        return callback(null, true); /*检查读取缓存*/
     }
     fs.exists(jsFileName,function(have){
-        if(config.compiled || have==false){ //编译文件
+        if(have){
+            jsFileNameCache[jsFileName] = true; //缓存
+           return  callback(null, true);//处理完毕
+        }
+        if(config.compiled){ //编译文件
             merger(stuff.js,function(err,js){
                 if(err){
                     if(config.debug) log(err);
@@ -51,8 +55,6 @@ exports.ready = function(stuff,callback){
                     });
                 });
             });
-        }else{
-            callback(null,true);//处理完毕
         }
     });
 

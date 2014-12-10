@@ -68,7 +68,7 @@ exports.render = function(request,response,viewpath){
     //编译合并压缩 tpl 文件
     tpl.ready(stuff,viewpath,function(err,data){
         //log('//获得 tpl 数据');
-        //log(data);
+        //if(data) log(true);
         data_tpl = data;
         doRender(err);
     });
@@ -86,7 +86,6 @@ exports.render = function(request,response,viewpath){
             return;
         }
 
-
         //如果解析错误
         if(err){
             if(config.debug) log(err);
@@ -94,8 +93,6 @@ exports.render = function(request,response,viewpath){
             renderError(request,response);
             return false;
         }
-
-
 
         //验证数据是否准备完毕
         if(data_data===undefined
@@ -105,6 +102,8 @@ exports.render = function(request,response,viewpath){
             ){
             //if(!data_js) log(data_js);
             return false;
+        }else{
+            //log('!!!!!!!!!!!!!!!!!');
         }
 
         //log('正式开始解析');
