@@ -106,6 +106,7 @@ exports.render = function(request,response,viewpath){
             //log('!!!!!!!!!!!!!!!!!');
         }
 
+
         //log('正式开始解析');
 
         //正式开始解析

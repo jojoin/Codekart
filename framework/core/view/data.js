@@ -102,12 +102,11 @@ exports.ready = function(viewobj,request,response,callback){
         try{
             //初始化 this 对象
             conThis.__init(request,response);
-
             func.call(conThis,function(data){
-                if(data==false){
+                if(data===false){
                     callback(null,false); //中断data获取函数
                 }else{
-                    object.extend(DATA,data,true);
+                    object.extend(DATA, data, true);
                     back(data);
                 }
             },DATA);
@@ -118,9 +117,6 @@ exports.ready = function(viewobj,request,response,callback){
     }
 
 };
-
-
-
 
 
 

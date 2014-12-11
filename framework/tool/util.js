@@ -10,7 +10,7 @@ var object = require('./object');
 /**
  * 将数字id转化为字符串
  */
-exports.intzip = function(a, bit){
+var intzip = exports.intzip = function(a, bit){
     bit = bit || 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890';
     if(typeof a=='number'){
         if(a==0) return bit.charAt(0);

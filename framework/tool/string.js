@@ -37,6 +37,8 @@ exports.isEmail = function(mail){
 };
 
 
+
+
 /* *
  * 生成MD5值
  * */
@@ -45,7 +47,6 @@ exports.md5 = function(str){
     hash.update(str);
     return hash.digest('hex');
 };
-
 
 
 /* *
@@ -82,6 +83,7 @@ exports.encrypt = function(str){
 
 //解密
 exports.decrypt = function(instr){
+    if(!instr) return null;
     var strary = instr.split(keyxchar)
         ,leg = strary.length
         ,str = '';
