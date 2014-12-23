@@ -1,5 +1,5 @@
 /**
-* color 颜色处理
+* api 接口请求
 */
 C.api = function(url,get,post,callback,errorback){
 
@@ -36,9 +36,4 @@ C.api = function(url,get,post,callback,errorback){
             errorback?errorback(JsonOb):0; //错误处理
         }
     }
-
-
-
-
-
 };

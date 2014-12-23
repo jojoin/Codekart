@@ -10,11 +10,11 @@ var string  = require('./string');
 exports.isNumber =  function (source) {
     return '[object Number]' == Object.prototype.toString.call(source);
 };
-exports.isObject =  function (source) {
+var isObject = exports.isObject =  function (source) {
     return '[object Object]' == Object.prototype.toString.call(source);
 };
 exports.isString = string.isString;
-exports.isArray = string.isArray;
+var isArray = exports.isArray = array.isArray;
 
 
 
@@ -44,15 +44,21 @@ exports.InvalidAttr = function(obj, attrs, strict){
 /**
 * 深层合并两个对象，override表示是否覆盖前面的属性值
 * */
-exports.extend = function(tObj, sObj, override){
-    if(!tObj || !sObj || typeof sObj!=='object') return;
-    if(typeof sObj!=='object') tObj = {};
-    for(var i in sObj){
-        if(typeof sObj[i] !== "object"){
-            if(override || !tObj[i]) tObj[i] = sObj[i];
+exports.extend = function(tar, get, override){
+    if(!tar || !get || typeof get!=='object')
+        return;
+    if(typeof get!=='object')
+        tar = {};
+    for(var i in get){
+        if(isObject(get[i])){
+            tar[i] = tar[i] || {};
+            exports.extend(tar[i],get[i],override);
+        }else if(isArray(get[i])){
+            if(override || !tar[i])
+                tar[i] = get[i];
         }else{
-            tObj[i] = tObj[i] || {};
-            exports.extend(tObj[i],sObj[i],override);
+            if(override || !tar[i])
+                tar[i] = get[i];
         }
     }
 };
