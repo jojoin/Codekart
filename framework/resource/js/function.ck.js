@@ -52,52 +52,47 @@ function aryUnique(ary)
 }
 
 
-
-
-
-function  ScollPostion() {//滚动条位置
-    var t, l, w, h, cw, ch;
-    var documentElement = document.documentElement;
-    var documentBody = document.body;
-    if (documentElement && documentElement.scrollTop) {
-        t = documentElement.scrollTop;
-        l = documentElement.scrollLeft;
-        w = documentElement.scrollWidth;
-        h = documentElement.scrollHeight;
-    } else if (documentBody) {
-        t = documentBody.scrollTop;
-        l = documentBody.scrollLeft;
-        w = documentBody.scrollWidth;
-        h = documentBody.scrollHeight;
-    }
-
-    var innerWidth = window.innerWidth;
-    var innerHeight = window.innerHeight;
-    var doClientWidth = documentBody.clientWidth;
-    var doClientHeight = documentBody.clientHeight;
-    var enClientWidth = documentElement.clientWidth;
-    var enClientHeight = documentElement.clientHeight;
-
-    //获取窗口宽度
-    if (innerWidth)
-        cw = innerWidth;
-    else if ((documentBody) && (doClientWidth))
-        cw = doClientWidth;
-    //获取窗口高度
-    if (innerHeight)
-        ch = innerHeight;
-    else if ((documentBody) && (doClientHeight))
-        ch = doClientHeight;
-
-    //通过深入Document内部对body进行检测，获取窗口大小
-    if (documentElement  && enClientHeight &&
-        enClientWidth)
-    {
-        ch = enClientHeight;
-        cw = enClientWidth;
-    }
-
-
-    return { top:t, left:l, width:w, height:h, clientWidth:cw ,clientHeight:ch };
+// 解析URL：http://james.padolsey.com/javascript/parsing-urls-with-the-dom/
+// This function creates a new anchor element and uses location
+// properties (inherent) to get the desired URL data. Some String
+// operations are used (to normalize results across browsers).
+/*
+var myURL = parseURL('http://abc.com:8080/dir/index.html?id=255&m=hello#top');
+myURL.file;     // = 'index.html'
+myURL.hash;     // = 'top'
+myURL.host;     // = 'abc.com'
+myURL.query;    // = '?id=255&m=hello'
+myURL.param;   // = { id: 255, m: hello }
+myURL.path;     // = '/dir/index.html'
+myURL.segment; // = ['dir', 'index.html']
+myURL.port;     // = '8080'
+myURL.protocol; // = 'http'
+myURL.url;   // = 'http://abc.com:8080/dir/index.html?id=255&m=hello#top'
+*/
+function parseURL(url) {
+    var a =  document.createElement('a');
+    a.href = url;
+    return {
+        url: url,
+        protocol: a.protocol.replace(':',''),
+        host: a.hostname,
+        port: a.port,
+        query: a.search,
+        param: (function(){
+            var ret = {},
+                seg = a.search.replace(/^\?/,'').split('&'),
+                len = seg.length, i = 0, s;
+            for (;i<len;i++) {
+                if (!seg[i]) { continue; }
+                s = seg[i].split('=');
+                ret[s[0]] = s[1];
+            }
+            return ret;
+        })(),
+        file: (a.pathname.match(/\/([^\/?#]+)$/i) || [,''])[1],
+        hash: a.hash.replace('#',''),
+        path: a.pathname.replace(/^([^\/])/,'/$1'),
+        relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [,''])[1],
+        segment: a.pathname.replace(/^\//,'').split('/')
+    };
 }
-

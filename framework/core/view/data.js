@@ -93,13 +93,23 @@ exports.ready = function(viewobj,request,response,callback){
 
         }
 
-
     }
 
 
     // 执行一次函数调用
     function callOne(func,back){
+        // 调试模式抛出错误
+        if(config.debug){
+            return run();
+        }
+        // 异常处理
         try{
+            run();
+        }catch(err){
+            callback(err); //错误回调
+        }
+        //执行
+        function run(){
             //初始化 this 对象
             conThis.__init(request,response);
             func.call(conThis,function(data){
@@ -110,10 +120,8 @@ exports.ready = function(viewobj,request,response,callback){
                     back(data);
                 }
             },DATA);
-        }catch(err){
-            if (config.debug) log(err);
-            callback(err); //错误回调
         }
+
     }
 
 };

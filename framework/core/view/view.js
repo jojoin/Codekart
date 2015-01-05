@@ -12,7 +12,7 @@ var js  = load.core('!view/js');
 var data  = load.core('!view/data');
 var config =  load.config();
 
-var tmpl_render_cache = {}; //页面解析缓存
+var tppl_render_cache = {}; //页面解析缓存
 
 
 
@@ -115,11 +115,11 @@ exports.render = function(request,response,viewpath){
             //log(tpl_html);
             //html = tpl_html;
             if(!config.compiled){  //如果非debug模式
-                if(!tmpl_render_cache[viewname]){  //检测是否存在页面解析缓存
+                if(!tppl_render_cache[viewname]){  //检测是否存在页面解析缓存
                     //tmpl_render_cache[viewname] = tmpl(data_tpl); //没有则设置缓存
-                    tmpl_render_cache[viewname] = tppl(data_tpl); //没有则设置缓存
+                    tppl_render_cache[viewname] = tppl(data_tpl); //没有则设置缓存
                 }
-                html =  tmpl_render_cache[viewname](data_data);
+                html =  tppl_render_cache[viewname](data_data);
             }else{
                 //log(data_data);
                 //html =  tmpl(data_tpl,data_data); //不缓存，每次都从头解析
@@ -132,6 +132,7 @@ exports.render = function(request,response,viewpath){
             request.error_msg = 'Template parsing error : '+e;  //错误消息
             return renderError(request,response,viewname);
         }
+
         //正式返回客户端
         if(html){
             render.text(request, response, html);

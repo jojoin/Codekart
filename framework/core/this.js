@@ -107,8 +107,22 @@ exports.setCookie = function (name, value, expires, path, domain) {
 
 
 /**
+ * 说明：取得COOKIE
+ * 设置getCookie('name');
+ *  name  cookie名称
+ */
+exports.getCookie = function (name) {
+    if(!this.request || !this.request.cookie){
+        return;
+    }
+    return this.request.cookie[name];
+};
+
+
+
+/**
  * 说明：删除COOKIE
- * 设置request.delCookie('name');
+ * delCookie('name');
  *  name  cookie名称
  */
 exports.delCookie = function (name,path) {
@@ -148,6 +162,8 @@ exports.param = function(name, defaultValue){
 
 /**
  * 从 url post get 三个位置依次检查参数
+ * @must 必须参数 数组
+ * @other 其他参数 字典 带默认值
  */
 exports.checkParam = function(must, other){
     var param = {};
@@ -158,7 +174,7 @@ exports.checkParam = function(must, other){
             if(p===undefined){
                 return false; //验证失败
             }
-            param[m] = p;
+            param[must[m]] = p;
         }
     }
     //其他参数
@@ -169,7 +185,7 @@ exports.checkParam = function(must, other){
     }
     //返回参数
     return param;
-}
+};
 
 
 

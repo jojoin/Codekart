@@ -35,9 +35,16 @@ module.exports = function(request,response){
     //初始化本地对象
     conThis.__init(request,response);
 
+    //如果为调试模式，直接调用，出错则抛出
+    if(config.debug){
+        load.app('controller/'+controller)[action].call(conThis);
+        return;
+    }
+
+    // 非调试模式 异常处理
+
     //控制器本地服务对象
     var controllerOb;
-
 
     //尝试加载控制器
     try{
@@ -55,7 +62,6 @@ module.exports = function(request,response){
     try{
         controllerOb[action].call(conThis); //加载并调用方法
     }catch (e){
-        if(config.debug) log(e);
         ok = false; //调用失败
         request.error_msg = util.inspect(e);
         //request.error_msg = 'controller ['+controller+'] or action ['+action+'] runtime error !';

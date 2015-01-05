@@ -37,13 +37,21 @@ exports.ready = function(stuff,curname,callback){
     for(var k in stuff.tpl){
         var one = stuff.tpl[k];
         //log(one)
-        for(var x in one){
-            posAry.push(x); //
-            filecontent.push(read.resource('tpl/'+one[x]+'.tpl'));
-            break; //仅第一个属性
+        for(var id in one){
+            var tpl = one[id];
+            //log(tpl)
+            if(!array.isArray(tpl)){
+                tpl = [tpl]; //数组循环，插入多个
+            }
+            for(var t in tpl){
+                posAry.push(id);
+                filecontent.push(read.resource('tpl/'+tpl[t]+'.tpl'));
+            }
+
+            //break; //仅第一个属性
         }
     }
-    //log(filecontent);
+    //log(posAry);
     //组合tpl
     var content = merger(posAry,filecontent);
     //添加css和js引用文件
@@ -128,8 +136,8 @@ function merger(posAry,tplAry){
 function compress(tpl){
     return tpl.replace(/\n/g, "") //压缩换行
         .replace(/\s+/g, " ") //压缩空格
-        .replace(/\s*<\s*/g, "<") //去掉< >// 括号两旁的空格
-        .replace(/\s*>\s*/g, ">") //去掉< >// 括号两旁的空格
+        //.replace(/\s*<\s*/g, "<") //去掉< >// 括号两旁的空格
+        //.replace(/\s*>\s*/g, ">") //去掉< >// 括号两旁的空格
         .replace(/<\!--(\n|.)*?-->/g, ""); //去掉<!---   --->注释;
 }
 
