@@ -116,13 +116,11 @@ exports.render = function(request,response,viewpath){
             //html = tpl_html;
             if(!config.compiled){  //如果非debug模式
                 if(!tppl_render_cache[viewname]){  //检测是否存在页面解析缓存
-                    //tmpl_render_cache[viewname] = tmpl(data_tpl); //没有则设置缓存
                     tppl_render_cache[viewname] = tppl(data_tpl); //没有则设置缓存
                 }
                 html =  tppl_render_cache[viewname](data_data);
             }else{
                 //log(data_data);
-                //html =  tmpl(data_tpl,data_data); //不缓存，每次都从头解析
                 html =  tppl(data_tpl,data_data); //不缓存，每次都从头解析
             }
         }catch(e){

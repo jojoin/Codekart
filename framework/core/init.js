@@ -4,7 +4,7 @@
 
 var cluster = require('cluster');
 var fs = require('fs');
-var tmpl = load.tool('!tmpl');
+var tppl = load.tool('!tppl');
 var file = load.tool('!file');
 var object = load.tool('!object');
 var path = load.config('!path');
@@ -22,7 +22,7 @@ if(cluster.isMaster){
 //开始初始化
 
 /**
- * 由 framework/resource/js/init.ck.tpl 模板 tmpl解析
+ * 由 framework/resource/js/init.ck.tpl 模板 tppl 解析
  * 生成 framework/resource/js/init.ck.js 配置文件
  */
 var init_file = path.framework+'/resource/js/init.ck.';
@@ -33,7 +33,7 @@ fs.readFile(init_file+'tpl', 'utf8',function(err, data){
     }
     var jsstr;
     try{
-        jsstr =  tmpl(data,define); //生成正式js文件
+        jsstr =  tppl(data, define); //生成正式js文件
     }catch(e){
         if(config.debug) log(e);
         return
