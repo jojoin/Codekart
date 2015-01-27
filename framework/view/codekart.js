@@ -34,19 +34,20 @@ exports.data = function(callback, data){
 
 /**
  * 预备数据获取
- */
+ *
 exports.predata = function(callback, data){
     callback({});
 };
+*/
 
 
 /**
  * 数据获取后续工作
- */
+ *
 exports.aftdata = function(callback, data){
     callback({});
 };
-
+*/
 
 
 

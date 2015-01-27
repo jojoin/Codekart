@@ -4,7 +4,7 @@
   <p>
     Sorry, the page not found<br/>
     [: if(this.error_msg){ :]
-    <span class="msg">[:=error_msg:]</span>
+    <span class="msg">[=:error_msg:]</span>
     [: } :]
     <br/>
     © Codekart <br/>

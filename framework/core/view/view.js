@@ -108,29 +108,38 @@ exports.render = function(request,response,viewpath){
 
 
         //log('正式开始解析');
-
         //正式开始解析
         var html = '';
-        try{
-            //log(tpl_html);
-            //html = tpl_html;
-            if(!config.compiled){  //如果非debug模式
-                if(!tppl_render_cache[viewname]){  //检测是否存在页面解析缓存
-                    tppl_render_cache[viewname] = tppl(data_tpl); //没有则设置缓存
-                }
-                html =  tppl_render_cache[viewname](data_data);
-            }else{
-                //log(data_data);
-                html =  tppl(data_tpl,data_data); //不缓存，每次都从头解析
-            }
-        }catch(e){
-            if(config.debug) log(e);
-            //log(e);
-            //模板解析错误，返回错误页面
-            request.error_msg = 'Template parsing error : '+e;  //错误消息
-            return renderError(request,response,viewname);
-        }
 
+        if(config.debug){
+
+            html =  tppl(data_tpl, data_data); //不缓存，每次都从头解析
+
+        }else{
+
+            try{
+                //log(tpl_html);
+                //html = tpl_html;
+                if(!config.compiled){  //如果非debug模式
+                    if(!tppl_render_cache[viewname]){  //检测是否存在页面解析缓存
+                        tppl_render_cache[viewname] = tppl(data_tpl); //没有则设置缓存
+                    }
+                    html =  tppl_render_cache[viewname](data_data);
+                }else{
+                    //log(data_data);
+                    html =  tppl(data_tpl, data_data); //不缓存，每次都从头解析
+                }
+            }catch(e){
+                if(config.debug) log(e);
+                //log(e);
+                //模板解析错误，返回错误页面
+                request.error_msg = 'Template parsing error : '+e;  //错误消息
+                return renderError(request,response,viewname);
+            }
+
+
+        }
+        
         //正式返回客户端
         if(html){
             render.text(request, response, html);

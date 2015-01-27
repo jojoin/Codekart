@@ -16,11 +16,11 @@ function tppl(tpl, data, fast){
         }
     };
     if(!fn.$){
-        fn.$ = 'var $="";';
-        var tpls = tpl.replace(/[\r\t\n]/g, " ").split('[:')
+        fn.$ = 'var $="";';  //    tar      if(ok){:]yang[=:abc:]jie    }:]get
+        var tpls = tpl.replace(/[\n\r]/g, "").split('[:')
             , i = 0
         while(i<tpls.length){
-            var p = tpls[i];
+            var p = tpls[i]
             if(i){
                 var x = p.indexOf(':]');
                 fn.$ += p.substr(0, x);
